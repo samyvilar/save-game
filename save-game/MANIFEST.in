@@ -1,0 +1,3 @@
+include savegame/config/deployment.ini_tmpl
+recursive-include savegame/public *
+recursive-include savegame/templates *
