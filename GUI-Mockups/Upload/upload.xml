@@ -1,0 +1,91 @@
+<mockup version="1.0" skin="sketch" measuredW="941" measuredH="425" mockupW="450" mockupH="425">
+  <controls>
+    <control controlID="28" controlTypeID="com.balsamiq.mockups::BrowserWindow" x="491" y="25" w="-1" h="-1" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>A%20Web%20Page%0Ahttp%3A//save-game.com</text>
+      </controlProperties>
+    </control>
+    <control controlID="30" controlTypeID="com.balsamiq.mockups::SubTitle" x="512" y="103" w="-1" h="-1" measuredW="132" measuredH="40" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Save%20Game</text>
+      </controlProperties>
+    </control>
+    <control controlID="31" controlTypeID="com.balsamiq.mockups::Label" x="584" y="133" w="-1" h="-1" measuredW="165" measuredH="25" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>10066329</color>
+        <text>A%20save%20data%20cloud%20service</text>
+      </controlProperties>
+    </control>
+    <control controlID="38" controlTypeID="com.balsamiq.mockups::Label" x="666" y="0" w="-1" h="-1" measuredW="92" measuredH="25" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Settings%20Page</text>
+      </controlProperties>
+    </control>
+    <control controlID="39" controlTypeID="com.balsamiq.mockups::LinkBar" x="679" y="119" w="-1" h="-1" measuredW="255" measuredH="19" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>9</size>
+        <text>Search%2C%20Account%20Settings%2C%20Upload%2C%20Sign%20Off</text>
+      </controlProperties>
+    </control>
+    <control controlID="40" controlTypeID="com.balsamiq.mockups::Label" x="742" y="100" w="-1" h="-1" measuredW="47" measuredH="19" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>9</size>
+        <text>Welcome%2C</text>
+      </controlProperties>
+    </control>
+    <control controlID="41" controlTypeID="com.balsamiq.mockups::Label" x="789" y="99" w="-1" h="-1" measuredW="27" measuredH="19" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>13369344</color>
+        <size>9</size>
+        <text>Eudis</text>
+      </controlProperties>
+    </control>
+    <control controlID="43" controlTypeID="com.balsamiq.mockups::List" x="524" y="165" w="203" h="79" measuredW="100" measuredH="126" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <hasHeader>true</hasHeader>
+        <selectedIndex>-1</selectedIndex>
+        <size>9</size>
+        <text>Your%20Save%20Uploads%0A-%20CODKrazy%20%28Uploaded%202/2/09%29%0A-%20Item%20Three%20%28Uploaded%203/2/08%29</text>
+      </controlProperties>
+    </control>
+    <control controlID="44" controlTypeID="com.balsamiq.mockups::Link" x="691" y="193" w="-1" h="-1" measuredW="32" measuredH="18" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>8</size>
+        <text>Delete</text>
+      </controlProperties>
+    </control>
+    <control controlID="45" controlTypeID="com.balsamiq.mockups::Link" x="691" y="211" w="-1" h="-1" measuredW="32" measuredH="18" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>8</size>
+        <text>Delete</text>
+      </controlProperties>
+    </control>
+    <control controlID="46" controlTypeID="com.balsamiq.mockups::Button" x="868" y="201" w="-1" h="-1" measuredW="68" measuredH="28" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Browse</text>
+      </controlProperties>
+    </control>
+    <control controlID="47" controlTypeID="com.balsamiq.mockups::TextInput" x="752" y="199" w="116" h="-1" measuredW="64" measuredH="29" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Filepath</text>
+      </controlProperties>
+    </control>
+    <control controlID="48" controlTypeID="com.balsamiq.mockups::Label" x="599" y="259" w="-1" h="-1" measuredW="239" measuredH="25" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%28Note%3A%20Must%20be%20a%20file%2C%20not%20directory%29</text>
+      </controlProperties>
+    </control>
+    <control controlID="49" controlTypeID="com.balsamiq.mockups::Canvas" x="557" y="297" w="342" h="65" measuredW="100" measuredH="70" zOrder="13" locked="false" isInGroup="-1"/>
+    <control controlID="50" controlTypeID="com.balsamiq.mockups::Label" x="644" y="316" w="-1" h="-1" measuredW="169" measuredH="25" zOrder="14" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>10066329</color>
+        <text>Drag%20and%20Drop%20Files%20Here</text>
+      </controlProperties>
+    </control>
+    <control controlID="51" controlTypeID="com.balsamiq.mockups::Button" x="666" y="362" w="-1" h="-1" measuredW="103" measuredH="28" zOrder="15" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Upload%20Files%21</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
