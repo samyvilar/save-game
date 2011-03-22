@@ -1,0 +1,68 @@
+<mockup version="1.0" skin="sketch" measuredW="947" measuredH="426" mockupW="450" mockupH="426">
+  <controls>
+    <control controlID="138" controlTypeID="com.balsamiq.mockups::BrowserWindow" x="497" y="26" w="-1" h="-1" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>A%20Web%20Page%0Ahttp%3A//save-game.com</text>
+      </controlProperties>
+    </control>
+    <control controlID="139" controlTypeID="com.balsamiq.mockups::SubTitle" x="512" y="103" w="-1" h="-1" measuredW="132" measuredH="40" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Save%20Game</text>
+      </controlProperties>
+    </control>
+    <control controlID="140" controlTypeID="com.balsamiq.mockups::Label" x="584" y="133" w="-1" h="-1" measuredW="165" measuredH="25" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>10066329</color>
+        <text>A%20save%20data%20cloud%20service</text>
+      </controlProperties>
+    </control>
+    <control controlID="141" controlTypeID="com.balsamiq.mockups::MultilineButton" x="538" y="156" w="364" h="188" measuredW="33" measuredH="35" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="142" controlTypeID="com.balsamiq.mockups::Label" x="666" y="0" w="-1" h="-1" measuredW="114" measuredH="25" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Registration%20Page</text>
+      </controlProperties>
+    </control>
+    <control controlID="143" controlTypeID="com.balsamiq.mockups::TextInput" x="606" y="189" w="-1" h="-1" measuredW="77" measuredH="29" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Some%20text</text>
+      </controlProperties>
+    </control>
+    <control controlID="144" controlTypeID="com.balsamiq.mockups::TextInput" x="764" y="190" w="-1" h="-1" measuredW="77" measuredH="29" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Some%20text</text>
+      </controlProperties>
+    </control>
+    <control controlID="145" controlTypeID="com.balsamiq.mockups::TextInput" x="764" y="228" w="76" h="-1" measuredW="77" measuredH="29" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Some%20text</text>
+      </controlProperties>
+    </control>
+    <control controlID="146" controlTypeID="com.balsamiq.mockups::Label" x="569" y="190" w="-1" h="-1" measuredW="37" measuredH="25" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>13576743</color>
+        <text>Email</text>
+      </controlProperties>
+    </control>
+    <control controlID="147" controlTypeID="com.balsamiq.mockups::Label" x="695" y="190" w="-1" h="-1" measuredW="60" measuredH="25" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>13576743</color>
+        <text>Password</text>
+      </controlProperties>
+    </control>
+    <control controlID="148" controlTypeID="com.balsamiq.mockups::Label" x="695" y="229" w="-1" h="-1" measuredW="64" measuredH="25" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>13576743</color>
+        <text>Re-Enter</text>
+      </controlProperties>
+    </control>
+    <control controlID="149" controlTypeID="com.balsamiq.mockups::Button" x="825" y="344" w="-1" h="-1" measuredW="77" measuredH="28" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Register</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
