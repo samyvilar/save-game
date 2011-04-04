@@ -1,0 +1,7 @@
+Added url pattern for settings page.
+
+Added admin app into django.  Show make things a bit easier to manage
+on the database side of things.
+
+Created a basic django app called 'savegame'
+
