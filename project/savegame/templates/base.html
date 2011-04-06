@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<html lang='en'>
+    <head>
+        <title>{% block title %} Base HTML {% endblock %} </title>
+        <meta http-equiv='Content-Type' content='text/html;charset=UTF-8' />
+    </head>
+
+    <body>
+        <div id='container'>
+            <div id='header'>
+                
+            </div>
+            
+            <div id='content'>
+                {% block content %} Default Base {% endblock %}
+                <a href="/static/base.html">H</a>
+            </div>
+
+            <div id='footer'>
+            </div>
+        </div>
+    </body>
+
+</html>
