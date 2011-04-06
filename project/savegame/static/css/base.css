@@ -1,0 +1,5 @@
+/*  Base CSS, part of base Django Template */
+
+html, body {
+    width: 100%;
+}
