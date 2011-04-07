@@ -13,7 +13,7 @@ ADMINS = (
 MANAGERS = ADMINS
 
 # Added by Eudis.  make this point to the sqlite3 database in your repo
-DBHOME = '/home/prototype/repos/hg/save-game/project/savegame.db'
+DBHOME = 'savegame.db'
 
 DATABASES = {
     'default': {
