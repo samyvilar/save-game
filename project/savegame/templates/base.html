@@ -3,22 +3,70 @@
 <html lang='en'>
     <head>
         <title>{% block title %} Base HTML {% endblock %} </title>
-        <link rel='stylesheet' href="{{ STATIC_URL }}css/base.css" type='text/css' />
+        {% load static %}
+        {% get_static_prefix as STATIC_PREFIX %}
+        <link rel='stylesheet' href="{{ STATIC_PREFIX }}css/base.css" type='text/css' />
+        <link rel='stylesheet' href="{{ STATIC_PREFIX }}css/custom-theme/jquery-ui-1.8.11.custom.css" type='text/css' />
+        <script src="{{ STATIC_PREFIX }}js/jquery-1.5.1.min.js"></script>
+        <script src="{{ STATIC_PREFIX }}js/jquery-ui-1.8.11.custom.min.js"></script>
+
+        {% block css  %} {% endblock %}
+        {% block js %} {% endblock %}
         <meta http-equiv='Content-Type' content='text/html;charset=UTF-8' />
     </head>
 
     <body>
         <div id='container'>
             <div id='header'>
+              {% block logo %}
+
+              <div style='width:100%; float:left'>
+                <div id='logo'>
+                        <div style='width: 100%'>
+                            Save Game
+                        </div> 
+                        <div style='width: 100%; color: rgb(190,190,190);'>
+                            
+                        </div>
+                </div>
+                {% block nav %}
+                <div id='nav'>
+                  <div style='width: 100%; float: left; text-align: center;'>
+                    <!-- This part needs to dynamically be loaded with the right username -->
+                    Welcome, <span style='color: red'>Eudis</span>
+                    
+                  </div>
+                  <div> &nbsp;
+                  </div>
+                  <div style='width: 100%; float: left;'>
+                    <a href='#'>Search</a> &nbsp; &nbsp; | &nbsp; &nbsp;
+                    <a href='#'>Account Settings</a> &nbsp; &nbsp; | &nbsp; &nbsp;
+                    <a href='#'>Upload</a> &nbsp; &nbsp; | &nbsp; &nbsp;
+                    <a href='#'>Sign Off</a>
+                  </div>
+                </div>
+                {% endblock %}
+
+              </div>
+              <div id='subtitle'>
+                    A save data cloud service
+              </div>
+              {% endblock %}
+              
+
                 
             </div>
             
             <div id='content'>
+                
                 {% block content %} Default Base {% endblock %}
-                <a href="/static/base.html">H</a>
+                
             </div>
 
             <div id='footer'>
+                {% block footer %} 
+                    Copyright &copy; 2011 <br /> Eudis Duran, Akshai Sarma, Samy Vilar, Townes Wang
+                {% endblock %}
             </div>
         </div>
     </body>

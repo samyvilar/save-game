@@ -2,6 +2,52 @@
 
 
 {% block title %} Settings Page {% endblock %}
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+{% block css %} <link rel='stylesheet' href="{{ STATIC_PREFIX }}css/settings.css" type='text/css' /> {% endblock %}
+{% block js %} <script src="{{ STATIC_PREFIX }}js/settings.js"></script> {% endblock %}
 
-{% block content %} Content {% endblock %}
+{% block content %} 
+    <div id='left_side'>
+        <div style='width: 100%; float: left;'>
+            <img src='{{ STATIC_PREFIX}}images/no_profile.jpg' alt='Select an Icon' width='65%' height='15%'/>
+        </div>
+        <div style='width: 100%; float: left;'>
+            <br />
+            <br />  
+            <br />
+            Profile Pic <br />
+            <br />
+            <input id='browse' type='submit' value='Browse' />
+        </div>
+    </div>
+
+    <div id='right_side' class='ui-widget-content ui-corner-all'>
+        <div>
+            <h3>Settings</h3>
+            <hr />
+        </div>
+        <div>
+            <br />
+            <br />
+            <input type='text' size='15' /> &nbsp; &nbsp; Change Name
+            <br />
+            <br />
+            <input type='text' size='15' /> &nbsp; &nbsp;Change Password
+            <br />
+            <br />
+            <input type='text' size='15'/> &nbsp; &nbsp; Re-Type Password
+            <br />
+            <br />
+            <br />
+            <input type='checkbox' size='15' /> &nbsp; &nbsp; Public Saves
+            <br />
+            <br />
+        </div>
+        <div style='text-align: right'>
+            <input id='save' type='submit' value='Save' />
+        </div>
+    </div>
+
+{% endblock %}
 
