@@ -13,9 +13,10 @@ urlpatterns = patterns('',
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'settings/', 'savegame.views.settings'),
+    url(r'signIn/', 'savegame.views.signIn'),
+    url(r'signOut/', 'savegame.views.signOut'),
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls))
 )
 
 #urlpatterns += staticfiles_urlpatterns()
-

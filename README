@@ -1,4 +1,5 @@
-Testing that anything I do shows up in Agilo.
-I changed something, look!
+Assuming that the development server is running at "http://127.0.0.1:8000/", the following are the links to all meaningful pages:
 
--Townes
+http://127.0.0.1:8000/settings/
+http://127.0.0.1:8000/signIn/
+http://127.0.0.1:8000/signOut/
