@@ -1,9 +1,0 @@
-Added url pattern for settings page.
-
-Created a default view for our project.  I needed to do this in order
-to make the base template work and also my settings page.
-Added admin app into django.  Show make things a bit easier to manage
-on the database side of things.
-
-Created a basic django app called 'savegame'
-

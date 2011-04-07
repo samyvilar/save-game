@@ -3,7 +3,6 @@
 
 #left_side {
     text-align: center;
-    
     width: 20%;
     float:left;
     font-size: 20px;
@@ -11,12 +10,10 @@
 }
 
 #right_side {
-    
     border: 1px solid gray;
     padding: 1% 5% 1% 5%;
-    margin-right: 10%;
+    margin-right: 10%; 
     font-size: 18px;
     width: 55%;
     float: left;    
-    
 }
