@@ -7,9 +7,9 @@
             <text>Field%20Name%2C%20Type%2C%20Key%0Aid%2C%20UNSIGNED%20INT%2C%20PRIMAY%20KEY%0Atitle%2C%20STRING%2C%0Ayear%2C%20UNSIGNED%20INT%0Acompany%2C%20String%0Aplatform%2C%20String</text>
           </controlProperties>
         </control>
-        <control controlID="5" controlTypeID="com.balsamiq.mockups::DataGrid" x="407" y="27" w="355" h="205" measuredW="297" measuredH="206" zOrder="1" locked="false" isInGroup="15">
+        <control controlID="5" controlTypeID="com.balsamiq.mockups::DataGrid" x="407" y="27" w="355" h="262" measuredW="297" measuredH="266" zOrder="1" locked="false" isInGroup="15">
           <controlProperties>
-            <text>Field%20Name%2C%20Type%2C%20Key%0Aid%2C%20UNSIGNED%20INT%2C%20PRIMARY%20KEY%0Afile%2C%20STRING%0Adate%2C%20DATETIME%2C%0Agame%2C%20UNSIGNED%20INT%2C%20FOREIGN%20KEY%0Auser%2C%20UNSIGNED%20INT%2C%20FOREIGN%20KEY%0Aprivate%2C%20BOOLEAN</text>
+            <text>Field%20Name%2C%20Type%2C%20Key%0Aid%2C%20UNSIGNED%20INT%2C%20PRIMARY%20KEY%0Afile%2C%20STRING%0Adate%2C%20DATETIME%2C%0Agame%2C%20UNSIGNED%20INT%2C%20FOREIGN%20KEY%0Auser%2C%20UNSIGNED%20INT%2C%20FOREIGN%20KEY%0Aupvotes%2C%20INT%0Adownvotes%2C%20INT%0Aprivate%2C%20BOOLEAN</text>
           </controlProperties>
         </control>
         <control controlID="7" controlTypeID="com.balsamiq.mockups::TextInput" x="855" y="96" w="288" h="-1" measuredW="51" measuredH="27" zOrder="2" locked="false" isInGroup="15">
@@ -73,7 +73,7 @@
         <text>Akshai</text>
       </controlProperties>
     </control>
-    <control controlID="19" controlTypeID="com.balsamiq.mockups::TextArea" x="480" y="263" w="355" h="22" measuredW="200" measuredH="140" zOrder="4" locked="false" isInGroup="-1">
+    <control controlID="19" controlTypeID="com.balsamiq.mockups::TextArea" x="480" y="321" w="355" h="22" measuredW="200" measuredH="140" zOrder="4" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Samy</text>
       </controlProperties>

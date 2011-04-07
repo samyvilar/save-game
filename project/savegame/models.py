@@ -22,11 +22,14 @@ class Game(models.Model):
 
 
 class SavedGame(models.Model):
-    file    = models.FileField(upload_to = "saved_games")
-    date    = models.DateField("Date")
-    game    = models.ForeignKey(Game, verbose_name = "Game")
-    user    = models.ForeignKey(User, verbose_name = "User")
-    private = models.BooleanField("Private")
+    file        = models.FileField(upload_to = "saved_games")
+    date        = models.DateField("Date")
+    game        = models.ForeignKey(Game, verbose_name = "Game")
+    user        = models.ForeignKey(User, verbose_name = "User")
+    downvotes   = model.IntegerField("Down Votes")
+    upvotes     = models.IntegerField("Up Votes")
+    private     = models.BooleanField("Private")
+
 
 class Comment(models.Model):
     title       = models.CharField("Title", max_length = max_length)
