@@ -7,6 +7,24 @@
     <link rel='stylesheet' href="{{ STATIC_PREFIX }}css/signIn.css" type='text/css'/>
 {% endblock %}
 
+{% block js %}
+    <script src="{{ STATIC_PREFIX }}js/signIn.js"></script>
+{% endblock %}
+
 {% block content %}
-    You're at the sign in page.
+    <div id="signInBlock">
+        <form action="" id="signInForm">
+            <fieldset>
+                <legend>Credentials Entry</legend>
+                <label for="username">Username:</label>
+                <input id="username" type="text" placeholder="Username is CaSe-SeNsItIvE." required autofocus>
+                <br><br>
+                <label for="password">Password:</label>
+                <input id="password" type="password" placeholder="Password is also CaSe-SeNsItIvE." required>
+            </fieldset>
+            <fieldset>
+                <button id="signInSubmit" type="submit">Sign In</button>
+            </fieldset>
+        </form>
+    </div>
 {% endblock %}
