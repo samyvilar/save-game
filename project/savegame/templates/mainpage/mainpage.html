@@ -12,9 +12,9 @@
 
     <div id='search_bar_container'>
         <form id = 'search_form' method = 'POST' action = "/resultspage"> {% csrf_token %}
-        	<input id = 'search_bar' type = 'text' value = 'Search' onFocus = 'value=""'
-        		   onBlur="if (value== '') {value='Search'}" >
-            <input id='search' type='image' src = '{{ STATIC_PREFIX}}/images/grey_triangle.png'/>
+        	<input id = 'search_bar' type = 'text' value = 'Search' 
+onFocus = 'value=""' onBlur="if (value== '') {value='Search'}"/ >
+            <input id='search' type='image' value =  'Go!'/>
         </form>
     </div>
     <br/>

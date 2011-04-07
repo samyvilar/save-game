@@ -10,7 +10,7 @@ urlpatterns = patterns('',
     url(r'^$', 'savegame.views.mainpage', name='mainpage'),
     
     # Temporary url for seeing logged in page. To be removed.
-    url(r'^main/$', 'savegame.views.mainpageauth', name='mainpageauth'),
+    url(r'^main/', 'savegame.views.mainpageauth', name='mainpageauth'),
     
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
