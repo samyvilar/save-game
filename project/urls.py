@@ -6,13 +6,18 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'project.views.home', name='home'),
-    url(r'^$', 'savegame.views.index'),
-    #  url(r'/account/settings', 'project.views.settings', name='settings')
+	# Akshai's main page
+    url(r'^$', 'savegame.views.mainpage', name='mainpage'),
+    
+    # Temporary url for seeing logged in page. To be removed.
+    url(r'^main/$', 'savegame.views.mainpageauth', name='mainpageauth'),
+    
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    
+    # Eudis's settings page
     url(r'settings/', 'savegame.views.settings'),
+    
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls))
 )

@@ -1,0 +1,53 @@
+/* CSS file for main page */
+
+#search_bar_container 
+{
+	margin: 0 auto;
+	width: 400px;
+}
+
+#search_bar
+{
+	background: #A9A9A9;
+	width: 300px;
+	height: 35px;
+	padding-left: 10px;
+	font-size: 25px;
+	font-style: oblique;
+	font-weight: 100;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	float: left;
+}
+
+#search
+{
+	vertical-align: top;
+	margin: 0;
+	padding: 0px;
+	width: 40px;
+	height: 40px;
+	float: left;
+}
+
+#latest_ten 
+{
+	padding: 0px 10px;
+	border-style: solid;
+	border-color: #0F0F0F;
+	width: 40%;
+	margin:75px auto;
+}
+#latest_ten h2
+{
+	position: relative;
+	top:-30px;
+	background: #FFFFFF;
+	width: 26%;
+}
+
+#latest_ten_cont
+{
+	position: relative;
+	top: -30px;
+}
