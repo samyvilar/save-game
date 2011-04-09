@@ -1,0 +1,61 @@
+/* CSS file for main page */
+
+#mainpage_container 
+{
+	margin: 0 auto;
+	width: 500px;
+	height: 300px;
+}
+
+#search_bar
+
+{
+	width: 82%;
+	height: 15%;
+	padding-left: 10px;
+	font-size: 25px;
+	font-weight: 100;
+	color: grey;
+	border: 1px solid black;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	float: left;
+}
+
+#search
+{
+	width: 10%;
+	height: 7%;
+	font-size: 14px;
+	margin-left: 5%;
+	float: left;
+}
+
+#latest_ten 
+{
+	clear: both;
+	margin-top: 15%;
+	padding: 0px 10px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #0F0F0F;
+	width: 75%;
+	height: 80%;
+}
+
+#latest_ten h2 
+{
+	position: relative;
+	top: -12%;
+	width: 35%;
+	padding-left: 3%;
+	background: #FFFFFF;
+}
+
+#latest_ten_cont 
+{
+	position: relative;
+	top: -12%;
+}
+

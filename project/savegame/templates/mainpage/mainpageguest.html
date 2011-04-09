@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+
+{% block title %} Save Game {% endblock %}
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+{% block css %} <link rel='stylesheet' href="{{ STATIC_PREFIX }}css/mainpage.css" type='text/css' /> {% endblock %}
+{% block js %} <script src="{{ STATIC_PREFIX }}js/mainpage.js"></script> {% endblock %}
+
+<!--Overriding Nav for Guest Page --!>
+{% block nav %}
+	<div id='nav'>
+        <div style='width: 100%; float: right;'>
+            <a href='#'>Login</a> &nbsp; | &nbsp;
+            <a href='#'>Sign Up</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %} 
+
+   <div id='mainpage_container'>
+        <form id = 'search_form' method = 'POST' action = "/resultspage"> {% csrf_token %}
+        	<input id = 'search_bar' type = 'text' value = 'Search' onFocus = 'value=""' 
+				onBlur= "if (value == ''){value='Search'}"/>
+            <input id = 'search' type = 'submit' value = 'Go!'/>
+        </form>
+    	<br/>
+    	<div id='latest_ten'>
+    		<h2>Latest Uploads</h2>
+    		<div id = 'latest_ten_cont'>
+				{% if latest_ten %}
+					<ol>
+					{% for upload in latest_ten %}
+						<li>&nbsp;{{upload.filename}}&nbsp;&nbsp;&nbsp;{{upload.gamename}}</li>
+					{% endfor %}
+					</ol>
+				{% else %}
+					<p>Nothing was uploaded so far</p>
+				{% endif %}
+			</div>
+    	</div>
+    </div>
+{% endblock %}
+

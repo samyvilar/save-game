@@ -4,7 +4,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 # Added by Eudis.  This points to the folder that contains 'save-game' repo
-TEMPLATE_BASE = '/home/prototype/repos/hg/'
+TEMPLATE_BASE = '/Users/Admin/Desktop/Repo/'
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -12,8 +12,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-# Added by Eudis.  make this point to the sqlite3 database in your repo
-DBHOME = '/home/prototype/repos/hg/save-game/project/savegame.db'
+DBHOME = '/Users/Admin/Desktop/Repo/save-game/project/savegame.db'
 
 DATABASES = {
     'default': {
@@ -151,3 +150,4 @@ LOGGING = {
         },
     }
 }
+
