@@ -38,3 +38,9 @@ def signOut(request):
     signOutTemplate = loader.get_template('account/signOut.html')
     signOutContext = Context({})
     return HttpResponse(signOutTemplate.render(signOutContext))
+
+
+def gamepage(request):
+    t = loader.get_template('gamepage/index.html')
+    c = Context({})
+    return HttpResponse(t.render(c))

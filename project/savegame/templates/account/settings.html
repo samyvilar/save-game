@@ -1,11 +1,17 @@
 {% extends "base.html" %}
 
 
-{% block title %} Settings Page {% endblock %}
+{% block title %} 
+    Settings Page 
+{% endblock %}
 {% load static %}
 {% get_static_prefix as STATIC_PREFIX %}
-{% block css %} <link rel='stylesheet' href="{{ STATIC_PREFIX }}css/settings.css" type='text/css' /> {% endblock %}
-{% block js %} <script src="{{ STATIC_PREFIX }}js/settings.js"></script> {% endblock %}
+{% block css %} 
+    <link rel='stylesheet' href="{{ STATIC_PREFIX }}css/settings.css" type='text/css' /> 
+{% endblock %}
+{% block js %} 
+    <script src="{{ STATIC_PREFIX }}js/settings.js"></script> 
+{% endblock %}
 
 {% block content %} 
     <div id='left_side'>

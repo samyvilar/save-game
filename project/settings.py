@@ -4,16 +4,26 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 # Added by Eudis.  This points to the folder that contains 'save-game' repo
+
+# Akshai
 #TEMPLATE_BASE = '/Users/Admin/Desktop/Repo/'
+
+# Eudis
 TEMPLATE_BASE = '/home/prototype/repos/hg/'
+
+
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
 MANAGERS = ADMINS
 
+# Akshai
 #DBHOME = '/Users/Admin/Desktop/Repo/save-game/project/savegame.db'
+
+# Eudis
 DBHOME = '/home/prototype/repos/hg/save-game/project/savegame.db'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
