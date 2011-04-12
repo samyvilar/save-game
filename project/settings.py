@@ -23,7 +23,7 @@ MANAGERS = ADMINS
 
 # Eudis
 DBHOME = '/home/prototype/repos/hg/save-game/project/savegame.db' # How come you can set this up by reference
-=======
+
 # Added by Eudis.  make this point to the sqlite3 database in your repo
 DBHOME = 'savegame.db'
 
