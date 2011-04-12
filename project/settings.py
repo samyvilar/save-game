@@ -19,10 +19,10 @@ ADMINS = (
 MANAGERS = ADMINS
 
 # Akshai
-#DBHOME = '/Users/Admin/Desktop/Repo/save-game/project/savegame.db'
+#DBHOME = '/Users/Admin/Desktop/Repo/save-game/project/savegame.db' 
 
 # Eudis
-DBHOME = '/home/prototype/repos/hg/save-game/project/savegame.db'
+DBHOME = '/home/prototype/repos/hg/save-game/project/savegame.db' # How come you can set this up by reference
 
 DATABASES = {
     'default': {
