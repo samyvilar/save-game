@@ -61,15 +61,13 @@ html, body {
     padding: 10px;
     padding-bottom: 60px; /* Must be as high as footer */
     float: left;
-   
 }
 
 #footer {
     text-align: center;
     position: absolute;
     bottom: 0;
-    width: 97%;
+    width: 90%;
     height: 60px;
-    float: left;
-   
+    float: left; 
 }
