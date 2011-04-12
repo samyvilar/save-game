@@ -26,7 +26,7 @@ class SavedGame(models.Model):
     date        = models.DateField("Date")
     game        = models.ForeignKey(Game, verbose_name = "Game")
     user        = models.ForeignKey(User, verbose_name = "User")
-    downvotes   = model.IntegerField("Down Votes")
+    downvotes   = models.IntegerField("Down Votes")
     upvotes     = models.IntegerField("Up Votes")
     private     = models.BooleanField("Private")
 
