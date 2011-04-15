@@ -65,7 +65,12 @@
             </div>
 
             <div id='footer'>
-                {% block footer %} 
+                {% block footer %}      
+                    {% block h_footer %}
+                    {% endblock %}
+                    <br />
+                    <br />
+                    <br />
                     Copyright &copy; 2011 <br /> Eudis Duran, Akshai Sarma, Samy Vilar, Townes Wang
                 {% endblock %}
             </div>
