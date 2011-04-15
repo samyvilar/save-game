@@ -1,5 +1,6 @@
 from django.template import Context, RequestContext, loader
 from django.http import HttpResponse
+from savegame.models import User
 #from savegame.models import savefiles
 
 def mainpage(request):
@@ -15,14 +16,10 @@ def mainpage(request):
 	c = RequestContext(request, {})
 	return HttpResponse(t.render(c))
 
-#TEMPORARY VIEW to just see the logged in version of the page. mainpage func should work 
-#correctly once log in system is in place.
-def mainpageauth(request):
-	t = loader.get_template('mainpage/mainpage.html')
-	c = RequestContext(request, {})
+def regpage(request):
+	t = loader.get_template('account/regpage.html')
+	c = Context({})
 	return HttpResponse(t.render(c))
-#END TEMPORARY VIEW
-
 
 def settings(request):
     t = loader.get_template('account/settings.html')
