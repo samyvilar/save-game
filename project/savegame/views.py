@@ -44,3 +44,11 @@ def gamepage(request):
     t = loader.get_template('gamepage/index.html')
     c = Context({})
     return HttpResponse(t.render(c))
+
+
+def results(request):
+    c = Context({})
+    t = loader.get_template('results/index.html')
+    return HttpResponse(t.render(c))
+
+

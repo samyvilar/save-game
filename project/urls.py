@@ -21,6 +21,7 @@ urlpatterns = patterns('',
     url(r'signIn/', 'savegame.views.signIn'),
     url(r'signOut/', 'savegame.views.signOut'),
     url(r'gamepage/', 'savegame.views.gamepage'),
+    url(r'results/', 'savegame.views.results'),
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls))
