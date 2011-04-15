@@ -7,6 +7,24 @@
 {% block css %} <link rel='stylesheet' href="{{ STATIC_PREFIX }}css/mainpage.css" type='text/css' /> {% endblock %}
 {% block js %} <script src="{{ STATIC_PREFIX }}js/mainpage.js"></script> {% endblock %}
 
+{% block nav %}
+                <div id='nav'>
+                  <div style='width: 100%; float: left; text-align: center;'>
+                    <!-- This part needs to dynamically be loaded with the right username -->
+                    Welcome, <span style='color: red'>Eudis</span>
+                    
+                  </div>
+                  <div> &nbsp;
+                  </div>
+                  <div style='width: 100%; float: left;'>
+                    <a href='/'>Search</a> &nbsp; &nbsp; | &nbsp; &nbsp;
+                    <a href='/settings/'>Account Settings</a> &nbsp; &nbsp; | &nbsp; &nbsp;
+                    <a href='/upload/'>Upload</a> &nbsp; &nbsp; | &nbsp; &nbsp;
+                    <a href='/signOut/'>Sign Off</a>
+                  </div>
+                </div>
+{% endblock %}
+
 {% block content %} 
 
     <div id='mainpage_container'>
