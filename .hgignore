@@ -3,6 +3,4 @@ syntax: glob
 *.pyc
 *.swp
 *.org
-project/*
-project/savegame/*
 *.orig
