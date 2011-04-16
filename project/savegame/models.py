@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
 
 max_length = 512
 
@@ -13,6 +14,18 @@ PLATFORM_CHOICES = (
         ("GameCube", "GameCube"),
         ("Nintendo 64", "Nintendo 64")
     )
+
+
+class UserProfile(models.Model):
+    user = models.ForeignKey(User)
+    
+
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+       profile, created = UserProfile.objects.get_or_create(user=instance)
+
+post_save.connect(create_user_profile, sender = User)
+
 
 class Game(models.Model):
     title    = models.CharField("Title", max_length = max_length)

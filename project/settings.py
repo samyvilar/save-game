@@ -18,6 +18,9 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+# Samy, extend user object with new UserProfile model
+AUTH_PROFILE_MODULE = 'savegame.UserProfile'
+
 # Akshai
 #DBHOME = '/Users/Admin/Desktop/Repo/save-game/project/savegame.db'
 

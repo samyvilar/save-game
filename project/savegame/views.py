@@ -6,6 +6,10 @@ from django.contrib.auth import authenticate, login, logout
 # Additional imports
 from savegameforms import RegForm
 
+from savegame.models import *
+
+from django.shortcuts import render_to_response
+
 def mainpage(request):
     #Will try to use Django forms later. Search redirects to /resultspage
     #May need to handle CSRF cookies later
@@ -106,6 +110,12 @@ def gamepage(request):
     c = Context({})
     return HttpResponse(t.render(c))
 
+
+def uploadsavegame(request):
+    #user = User.
+    uploadgames = SavedGame.objects.all()
+    
+    return render_to_response('gamepage/uploadsavedgame.html', {}, context_instance=RequestContext(request))
 
 def results(request):
     c = Context({})

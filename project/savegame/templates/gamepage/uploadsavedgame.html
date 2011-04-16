@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %} Upload Saved Game {% endblock %}
+
+{% block css %}
+    {% load static %}
+    {% get_static_prefix as STATIC_PREFIX %}
+    <link rel='stylesheet' href='{{ STATIC_PREFIX }}css/uploadsavegame.css' type='text/css' />
+{% endblock %}
+
+
+{% block content %}
+
+<div class ="grid">
+    <div class ="list_title">
+        Your Saved Games<br />
+        <div class ="list_header">Title</div><div class ="list_header">Date</div><div class ="list_header">Action</div>
+    </div>
+   
+
+    <ul>
+        {% for uploadgame in uploadgames %}
+            <li>{{ uploadgame.title }}</li>
+        {% endfor %}
+    </ul>
+    <ul>
+        {% for uploadgame in uploadgames %}
+            <li>{{ uploadgame.uploaddate }}</li>
+        {% endfor %}
+    </ul>
+    <ul>
+        {% for uploadgame in uploadgames %}
+            <li><a href="delete/?uploadgame={{ uploadgame.id }}">Delete</a></li>
+        {% endfor %}
+    </ul>
+    
+</div>
+
+<form action = "">
+    Upload a saved game
+    <input type="file" name="savegamefile" size="40">
+    <input type="submit" name="Upload">
+
+</form>
+
+<div id="container">
+  <div id="row">
+
+  	<div id="left">
+  		<h4>Left Col</h4>
+  		<p>...</p>
+  	</div>
+
+  	<div id="middle">
+  		<h4>Middle Col</h4>
+  		<p>...</p>
+  	</div>
+
+  	<div id="right">
+    	<h4>Right Col</h4>
+    	<p>...</p>
+  	</div>
+
+	</div>
+</div>
+
+
+{% endblock %}
