@@ -2,7 +2,7 @@ from django.template import Context, RequestContext, loader
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 # Additional imports
 from savegameforms import RegForm
 
@@ -95,6 +95,7 @@ def signIn(request):
 
 
 def signOut(request):
+    logout(request)
     signOutTemplate = loader.get_template('account/signOut.html')
     signOutContext = Context({})
     return HttpResponse(signOutTemplate.render(signOutContext))
