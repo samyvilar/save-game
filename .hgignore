@@ -3,5 +3,5 @@ syntax: glob
 *.pyc
 *.swp
 *.org
-project/*
-project/savegame/*
+project/*.pyc
+project/savegame/*.pyc

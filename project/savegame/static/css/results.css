@@ -1,0 +1,47 @@
+#top {
+    width: 100%;
+    float: left;
+}
+
+#table {
+    margin: auto;
+    width: 100%;
+    float: left;
+}
+
+#title {
+    height: 30px;
+    font-size:19px;
+    padding-bottom: 1%;
+    background: gray;
+    float: left;
+    font-weight: bold;
+    width: 100%;
+    margin: auto;
+}
+.one {
+    width: 24.7%;
+    float: left;
+}
+
+.gray {
+    background: rgb(210,210,210);
+    font-size: 19px;
+    margin: auto;
+    width: 100%;
+    float: left;
+    
+}
+
+.white {
+    font-size: 19px;
+    margin: auto;
+    width: 100%;
+    float: left;
+}
+
+.t_c {
+     float: left; 
+     width: 24.7%;
+     text-align: center;
+}
