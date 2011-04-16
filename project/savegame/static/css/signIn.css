@@ -4,7 +4,7 @@
 }
 
 form#signInForm {
-    background: #9cbc2c;
+    border: 1px solid gray;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
@@ -38,7 +38,7 @@ form#signInForm label {
 
 form#signInForm input {
     background: #ffffff;
-    border: none;
+    border: 1px solid gray;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     -khtml-border-radius: 3px;
@@ -54,13 +54,13 @@ form#signInForm input:focus {
 }
 
 form#signInForm button {
-    background: #384313;
+    background: rgb(230,230,230);
     border: none;
     -moz-border-radius: 20px;
     -webkit-border-radius: 20px;
     -khtml-border-radius: 20px;
     border-radius: 20px;
-    color: #ffffff;
+    color: black;
     display: block;
     font: 18px Georgia, "Times New Roman", Times, serif;
     letter-spacing: 1px;
@@ -71,6 +71,6 @@ form#signInForm button {
 }
 
 form#signInForm button:hover {
-    background: #1e2506;
+    background: rgb(210,210,210);
     cursor: pointer;
 }

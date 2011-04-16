@@ -2,9 +2,10 @@
 
 #mainpage_container 
 {
-	margin: 0 auto;
-	width: 500px;
+	margin: auto;
+	width: 70%;
 	height: 300px;
+
 }
 
 #search_bar
@@ -26,7 +27,6 @@
 #search
 {
 	width: 10%;
-	height: 7%;
 	font-size: 14px;
 	margin-left: 5%;
 	float: left;
@@ -36,27 +36,20 @@
 {
 	clear: both;
 	margin: auto;
-	margin-top: 15%;
+	margin-top: 7%; 
 	padding: 0px 10px;
-	border-style: solid;
-	border-width: 1px;
-	border-color: #0F0F0F;
+=
 	width: 75%;
-	height: 80%;
+	height: 300px;
 }
 
-#latest_ten h2 
-{
-	position: relative;
-	top: -12%;
-	width: 35%;
-	padding-left: 3%;
-	background: #FFFFFF;
-}
+
 
 #latest_ten_cont 
 {
+    /*
 	position: relative;
 	top: -12%;
+    */
 }
 
