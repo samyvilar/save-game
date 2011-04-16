@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+
+{% block title %} 
+    Registration Page 
+{% endblock %}
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+{% block css %} 
+    <link rel='stylesheet' href="{{ STATIC_PREFIX }}css/regthanks.css" type='text/css' /> 
+{% endblock %}
+{% block js %} 
+    <script src="{{ STATIC_PREFIX }}js/regthanks.js"></script> 
+{% endblock %}
+
+<!--Overriding Nav --!>
+{% block nav %}
+	<div id='nav'>
+        <div style='width: 100%; float: right;'>
+            <a href='/signIn/'>Login</a> &nbsp; | &nbsp;
+            <a href='/registration/'>Sign Up</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div id='thankyou'>
+        <span style='color: rgb(100,100, 255)'> Thank you for registering! A confirmation e-mail has been sent to you. Try a save data search. </span>
+        <br /><br /><br /><br />
+        Redirecting to the main page in 5 seconds...
+        <br />    
+        <br />
+        <a href="/">If you do not wish to wait, please click here to return to the home page.</a>
+    </div>
+    <body onload="redirect()">
+{% endblock %}
+

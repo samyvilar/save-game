@@ -2,6 +2,6 @@ $(document).ready
 (
 	function()
 	{
-    	$("#submit").button();
+    	$("#registerbutton").button();
 	}
 );

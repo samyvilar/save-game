@@ -1,2 +1,62 @@
 /*CSS for the Registration Page */
 
+#formwrapper 
+{
+	margin: auto;
+	width: 70%;
+}
+
+#formcontents
+{
+	border: 2px solid black;
+	-moz-border-radius: 15px;
+	-webkit-border-radius: 15px;
+	border-radius: 15px;
+	padding: 50px;
+	margin-bottom: 10px;
+	height: 250px;
+
+}
+.fieldnames
+{
+	font-family: Verdana, times, serif;
+	color: rgb(84,84,84); 
+	font-size: 18px;
+}
+.errorlist
+{
+	font-weight: 10pt;
+	color: rgb(255,0,0);
+	margin-left: 20%;
+	list-style: none;
+}
+
+#username
+{
+	float: left;
+	margin-bottom: 7%;
+}
+
+#email
+{
+	float: right;
+	margin-bottom: 7%;
+}
+
+#password
+{
+	clear: both;
+	float: left;
+
+}
+
+#repassword
+{
+	float: right;
+}
+
+#registerbutton
+{
+	clear: both;
+	float: right;
+}

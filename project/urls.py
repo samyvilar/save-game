@@ -7,7 +7,8 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^$', 'savegame.views.mainpage'),
-    url(r'^registration/', 'savegame.views.regpage'), 
+    url(r'^registration/$', 'savegame.views.regpage'), 
+    url(r'^registration/thanks/$', 'savegame.views.regthanks'), 
     
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

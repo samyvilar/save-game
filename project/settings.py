@@ -163,3 +163,9 @@ LOGGING = {
         },
     }
 }
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'noreplysavegame@gmail.com'
+EMAIL_HOST_PASSWORD = 'ogcughhh'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
