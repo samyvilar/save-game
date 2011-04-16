@@ -1,6 +1,13 @@
+#logInMessage {
+    text-align: center;
+    color: red;
+    font-weight: bold;
+    font-size: 1.8em;
+}
+
 #signInBlock {
     margin-top: 10%;
-    margin-left: 40%;
+    margin-left: 28%;
 }
 
 form#signInForm {
@@ -52,7 +59,7 @@ form#signInForm input:focus {
 }
 
 form#signInForm button {
-    background: rgb(230,230,230);
+    background: rgb(230, 230, 230);
     border: none;
     -moz-border-radius: 20px;
     -webkit-border-radius: 20px;
@@ -69,5 +76,5 @@ form#signInForm button {
 }
 
 form#signInForm button:hover {
-    background: rgb(210,210,210);
+    background: rgb(210, 210, 210);
     cursor: pointer;
