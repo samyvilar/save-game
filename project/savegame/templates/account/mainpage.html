@@ -7,10 +7,37 @@
 {% block css %} <link rel='stylesheet' href="{{ STATIC_PREFIX }}css/mainpage.css" type='text/css' /> {% endblock %}
 {% block js %} <script src="{{ STATIC_PREFIX }}js/mainpage.js"></script> {% endblock %}
 
+{% block nav %}
+	{% if logged_in %}
+		<div id='nav'>
+		  <div style='width: 100%; float: left; text-align: center;'>
+			<!-- This part needs to dynamically be loaded with the right username -->
+			Welcome, <span style='color: red'>Eudis</span>
+			
+		  </div>
+		  <div> &nbsp;
+		  </div>
+		  <div style='width: 100%; float: left;'>
+			<a href='/'>Search</a> &nbsp; &nbsp; | &nbsp; &nbsp;
+			<a href='/settings/'>Account Settings</a> &nbsp; &nbsp; | &nbsp; &nbsp;
+			<a href='#'>Upload</a> &nbsp; &nbsp; | &nbsp; &nbsp;
+			<a href='/signOut/'>Sign Off</a>
+		  </div>
+		</div>
+	{% else %}
+		<div id='nav'>
+        	<div style='width: 100%; float: right;'>
+          	  <a href='/signIn/'>Login</a> &nbsp; | &nbsp;
+          	  <a href='/registration/'>Sign Up</a>
+        	</div>
+   	 	</div>
+	{% endif %}
+{% endblock %}
+
 {% block content %} 
 
     <div id='mainpage_container'>
-        <form id = 'search_form' method = 'POST' action = "/resultspage"> {% csrf_token %}
+        <form id = 'search_form' method = 'POST' action = "/results/"> {% csrf_token %}
         	<input id = 'search_bar' type = 'text' value = 'Search' onFocus = 'value=""' 
 				onBlur= "if (value == ''){value='Search'}"/>
             <input id = 'search' type = 'submit' value = 'Go!'/>

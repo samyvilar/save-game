@@ -6,10 +6,10 @@ TEMPLATE_DEBUG = DEBUG
 # Added by Eudis.  This points to the folder that contains 'save-game' repo
 
 # Akshai
-#TEMPLATE_BASE = '/Users/Admin/Desktop/Repo/'
+TEMPLATE_BASE = '/Users/Admin/Desktop/Repo/'
 
 # Eudis
-TEMPLATE_BASE = '/home/prototype/repos/hg/'
+#TEMPLATE_BASE = '/home/prototype/repos/hg/'
 
 
 ADMINS = (
@@ -22,7 +22,7 @@ MANAGERS = ADMINS
 #DBHOME = '/Users/Admin/Desktop/Repo/save-game/project/savegame.db' 
 
 # Eudis
-DBHOME = '/home/prototype/repos/hg/save-game/project/savegame.db' # How come you can set this up by reference
+#DBHOME = '/home/prototype/repos/hg/save-game/project/savegame.db' # How come you can set this up by reference
 
 # Added by Eudis.  make this point to the sqlite3 database in your repo
 DBHOME = 'savegame.db'

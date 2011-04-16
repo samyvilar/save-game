@@ -1,5 +1,6 @@
 from django.template import Context, RequestContext, loader
 from django.http import HttpResponse
+from savegame.models import User
 #from savegame.models import savefiles
 
 def mainpage(request):
@@ -8,21 +9,17 @@ def mainpage(request):
 	#If AJAX/JQuery is used: http://docs.djangoproject.com/en/dev/ref/contrib/csrf/
 	
 	#latest_ten = savefiles.objects.all().order_by('datetime-uploaded')[:10]
+	t = loader.get_template('account/mainpage.html')
+	logged_in = False
 	if request.user.is_authenticated():
-		t = loader.get_template('mainpage/mainpage.html')
-	else:
-		t = loader.get_template('mainpage/mainpageguest.html')
-	c = RequestContext(request, {})
+		logged_in = True;
+	c = RequestContext(request, {'logged_in':logged_in})
 	return HttpResponse(t.render(c))
 
-#TEMPORARY VIEW to just see the logged in version of the page. mainpage func should work 
-#correctly once log in system is in place.
-def mainpageauth(request):
-	t = loader.get_template('mainpage/mainpage.html')
-	c = RequestContext(request, {})
+def regpage(request):
+	t = loader.get_template('account/regpage.html')
+	c = Context({})
 	return HttpResponse(t.render(c))
-#END TEMPORARY VIEW
-
 
 def settings(request):
     t = loader.get_template('account/settings.html')

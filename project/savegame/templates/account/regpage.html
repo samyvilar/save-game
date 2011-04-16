@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+
+{% block title %} 
+    Registration Page 
+{% endblock %}
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+{% block css %} 
+    <link rel='stylesheet' href="{{ STATIC_PREFIX }}css/regpage.css" type='text/css' /> 
+{% endblock %}
+{% block js %} 
+    <script src="{{ STATIC_PREFIX }}js/regpage.js"></script> 
+{% endblock %}
+
+<!--Overriding Nav --!>
+{% block nav %}
+	<div id='nav'>
+        <div style='width: 100%; float: right;'>
+            <a href='/signIn/'>Login</a> &nbsp; | &nbsp;
+            <a href='/registration/'>Sign Up</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %} 
+   
+
+{% endblock %}
+
