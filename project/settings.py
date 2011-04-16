@@ -19,7 +19,7 @@ ADMINS = (
 MANAGERS = ADMINS
 
 # Akshai
-#DBHOME = '/Users/Admin/Desktop/Repo/save-game/project/savegame.db' 
+#DBHOME = '/Users/Admin/Desktop/Repo/save-game/project/savegame.db'
 
 # Eudis
 #DBHOME = '/home/prototype/repos/hg/save-game/project/savegame.db' # How come you can set this up by reference
@@ -114,6 +114,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfResponseMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
