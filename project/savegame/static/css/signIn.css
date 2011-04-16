@@ -4,7 +4,7 @@
 }
 
 form#signInForm {
-    border: 1px solid gray;
+    background: gray;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
@@ -23,11 +23,9 @@ form#signInForm fieldset:last-of-type {
 }
 
 form#signInForm legend {
-    color: #384313;
     font-size: 16px;
     font-weight: bold;
     padding-bottom: 10px;
-    text-shadow: 0 1px 1px #c0d576;
 }
 
 form#signInForm label {
@@ -73,4 +71,3 @@ form#signInForm button {
 form#signInForm button:hover {
     background: rgb(210,210,210);
     cursor: pointer;
-}
