@@ -20,7 +20,7 @@
 		  <div style='width: 100%; float: left;'>
 			<a href='/'>Search</a> &nbsp; &nbsp; | &nbsp; &nbsp;
 			<a href='/settings/'>Account Settings</a> &nbsp; &nbsp; | &nbsp; &nbsp;
-			<a href='/upload/'>Upload</a> &nbsp; &nbsp; | &nbsp; &nbsp;
+			<a href='#'>Upload</a> &nbsp; &nbsp; | &nbsp; &nbsp;
 			<a href='/signOut/'>Sign Off</a>
 		  </div>
 		</div>
@@ -37,15 +37,15 @@
 {% block content %} 
 
     <div id='mainpage_container'>
-        <form id = 'search_form' method = 'POST' action = "/resultspage"> {% csrf_token %}
+        <form id = 'search_form' method = 'POST' action = "/results/"> {% csrf_token %}
         	<input id = 'search_bar' type = 'text' value = 'Search' onFocus = 'value=""' 
 				onBlur= "if (value == ''){value='Search'}"/>
             <input id = 'search' type = 'submit' value = 'Go!'/>
         </form>
     	<br/>
     	<div id='latest_ten'>
-    		<h2>Latest Uploads</h2>
     		<div id = 'latest_ten_cont'>
+                <h2>Latest Uploads</h2>
 				{% if latest_ten %}
 					<ol>
 					{% for upload in latest_ten %}
