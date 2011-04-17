@@ -48,14 +48,17 @@ ul
 
 
 
-#container {
+#container
+{
     display: table;
-    }
+}
 
-  #row  {
+#row
+{
     display: table-row;
-    }
+}
 
-  #left, #right, #middle {
+#left, #right, #middle
+{
     display: table-cell;
-    }
+}

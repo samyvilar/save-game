@@ -21,7 +21,8 @@ urlpatterns = patterns('',
                        url(r'results/', 'savegame.views.results'),
 
                        # Uncomment the next line to enable the admin:
-                       url(r'^admin/', include(admin.site.urls))
+                       url(r'^admin/', include(admin.site.urls)),
+                       url(r'^uploadsavegame/', 'savegame.views.uploadsavegame')
 )
 
 #urlpatterns += staticfiles_urlpatterns()

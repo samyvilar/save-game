@@ -44,24 +44,25 @@
 </form>
 
 <div id="container">
+   {% for uploadgame in uploadgames %}
   <div id="row">
-
   	<div id="left">
-  		<h4>Left Col</h4>
-  		<p>...</p>
+  		<h4>Game</h4>         
+        <p>{{ uploadgame.title }}</p>
   	</div>
-
+      
   	<div id="middle">
-  		<h4>Middle Col</h4>
-  		<p>...</p>
+  		<h4>Date</h4>
+        <p>{{ uploadgame.uploaddate }}</p>
   	</div>
 
   	<div id="right">
-    	<h4>Right Col</h4>
-    	<p>...</p>
+    	<h4>Action</h4>
+        <p><a href="delete/?uploadgame={{ uploadgame.id }}">Delete</a></p>
   	</div>
+    </div>
+   {% endfor %}
 
-	</div>
 </div>
 
 
