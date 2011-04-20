@@ -220,7 +220,7 @@ def populate_games_pc():
     totalpages = 288
     root_page = 'http://www.gamespot.com/games.html?type=games&platform=5&mode=all&sort=views&dlx_type=all&sortdir=asc&official=all&page='
 
-    populate_game(root_page, [44, totalpages], 'PC')
+    populate_game(root_page, [78, totalpages], 'PC')
 
 def populate_xbox_360_games():
     totalpages = 73

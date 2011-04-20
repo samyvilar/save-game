@@ -129,8 +129,7 @@ def profile(request, user_id = None):
     #    return redirect('/notloggedin/') # if anonymous user and user profile is private
     #elif request.user.is_authenticated() and request.user.id == User.objects.filter(id = int(user_id)).id: # users profile ...
     user            = User.objects.get(id = user_id)
-    profile         = user.get_profile()
-    print 'name: ' + profile.avatar.name
+    profile         = user.get_profile()    
     uploadsavegames = UploadedGame.objects.filter(user = user)
     form            = UploadGameForm()
 
