@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %} Upload Saved Game {% endblock %}
+
+{% block css %}
+    {% load static %}
+    {% get_static_prefix as STATIC_PREFIX %}
+    <link rel='stylesheet' href='{{ STATIC_PREFIX }}css/profile.css' type='text/css' />
+{% endblock %}
+
+
+
+{% block content %}    
+        <div class="profile_avatar">
+            <img src="/{{ profile.avatar.name }}" /><br />
+            {{ user.username }}
+        </div>
+
+        {% if form %}
+        <div class="panel-grid-container" style="width: 500px; height: auto; margin-left: 100px;">
+            <h1>New Upload</h1>
+            <form action="" method="post">
+            {% csrf_token %}
+            <div class="column-form" style="width: 100px">Game</div>
+            <div class="column-form" style="width: 300px">{{ form.game }}</div>
+
+            <div class="column-form" style="width: 100px">Platform</div>
+            <div class="column-form" style="width: 300px">{{ form.platform }}</div>
+
+            <div class="column-form" style="width: 100px">Comment</div>
+            <div class="column-form" style="width: 300px">{{ form.comment }}</div>
+
+            <div class="column-form" style="width: 100px">Private</div>
+            <div class="column-form" style="width: 300px">{{ form.private }}</div>
+
+            <div class="column-form" style="width: 100px">File</div>
+            <div class="column-form" style="width: 300px">{{ form.file }}</div>
+
+            <div class="column-form" style="width: 100px"></div>
+            <div class="column-form" style="width: 300px"><input type="submit" value="Submit" /></div>
+
+            </form>                                                 
+        </div>
+        {% endif %}
+        
+        
+        <div class="panel-grid-container" style="margin-left: 30px; margin-top: 50px">
+            <h1>Uploads</h1>
+            <div class="column-header" style="width: 155px">Game</div>
+            <div class="column-header" style="width: 90px">Platform</div>
+            <div class="column-header" style="width: 90px">Time</div>
+            <div class="column-header" style="width: 250px">Comment</div>
+            <div class="column-header" style="width: 100px">Private</div>
+            <div class="column-header" style="width: 100px; border-right:none !important">Action</div>
+
+            {% if uploadsavegames|length == 0 %}
+                <div class="empty-full-row">Nothing yet ...</div>
+            
+            {% endif %}
+        </div>        
+{% endblock %}

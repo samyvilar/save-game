@@ -1,0 +1,52 @@
+.panel-grid-container
+{
+    border-width: 1px;
+    border-color: black;
+
+    border-style: solid;
+    width: 850px;
+    float: left;
+    height: auto;
+
+    border-radius: 8px;
+    background-color: white;
+}
+
+.panel-grid-container h1
+{
+
+    font-size: 15px;
+    text-align: center;
+
+    margin: 1px;
+    padding: 8px;
+}
+
+.panel-grid-container .column-header
+{
+    float: left;
+    text-align: center;
+    border-right: 1px solid black;
+    border-top: 1px solid black;
+    padding: 5px;
+}
+.panel-grid-container .column-form
+{
+    float: left;
+    text-align: left;
+    padding: 5px;
+}
+
+.panel-grid-container .empty-full-row
+{
+    width: 840px;
+    float: left;
+    border-top: 1px solid black;
+    text-align: center;
+    padding: 5px;
+}
+
+.profile_avatar
+{
+    float: left;
+}

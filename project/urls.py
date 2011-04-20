@@ -22,7 +22,9 @@ urlpatterns = patterns('',
 
                        # Uncomment the next line to enable the admin:
                        url(r'^admin/', include(admin.site.urls)),
-                       url(r'^uploadsavegame/', 'savegame.views.uploadsavegame')
+                       
+                       url(r'^profile/$', 'savegame.views.profile'),
+                       url(r'^profile/(?P<user_id>\d*)/$', 'savegame.views.profile')
 )
 
 #urlpatterns += staticfiles_urlpatterns()

@@ -7,9 +7,11 @@ from django.contrib.auth import authenticate, login, logout
 from savegameforms import RegForm
 import string
 
+from savegame.forms import *
+
 from savegame.models import *
 
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, redirect
 
 def mainpage(request):
 	#Will try to use Django forms later. Search redirects to /resultspage
@@ -114,14 +116,32 @@ def gamepage(request):
 	c = Context({})
 	return HttpResponse(t.render(c))
 
-
-def uploadsavegame(request):
-    #user = User.
-    uploadgames = SavedGame.objects.all()
-    
-    return render_to_response('gamepage/uploadsavedgame.html', {}, context_instance=RequestContext(request))
-
 def results(request):
 	c = Context({})
 	t = loader.get_template('results/index.html')
 	return HttpResponse(t.render(c))
+
+def profile(request, user_id = None):
+
+    #if user_id == None or User.objects.filter(id = int(user_id)).count() == 0:
+    #    return redirect('/invaliduser/') # if supplied an invalid user id
+    #elif not request.user.is_authenticated() and User.objects.filter(id = int(user_id)).private:
+    #    return redirect('/notloggedin/') # if anonymous user and user profile is private
+    #elif request.user.is_authenticated() and request.user.id == User.objects.filter(id = int(user_id)).id: # users profile ...
+    user            = User.objects.get(id = user_id)
+    profile         = user.get_profile()
+    print 'name: ' + profile.avatar.name
+    uploadsavegames = UploadedGame.objects.filter(user = user)
+    form            = UploadGameForm()
+
+    context = {'user':user, 'profile':profile, 'uploadsavegames':uploadsavegames, 'form':form}
+
+    return render_to_response('account/profile.html',
+                               context,
+                                   context_instance=RequestContext(request))
+    #else: # logged in user looking a public profile
+    #    user        = User.objects.get(id = user_id)
+    #    profile     = user.get_profile()
+    #    uploadsavegames = UploadedGame.objects.filter(user = user, private = False)
+    #    context = {'user':user, 'profile':profile, 'uploadsavegames':uploadsavegames, 'form':None}
+
