@@ -122,25 +122,28 @@ def results(request):
 	return HttpResponse(t.render(c))
 
 def profile(request, user_id = None):
+    if user_id == None or User.objects.filter(pk = user_id).count() == 0:
+        return redirect('/invaliduser/') # if supplied an invalid user id
+    elif not request.user.is_authenticated() and User.objects.get(pk = user_id).get_profile().private:
+        return redirect('/notloggedin/') # if anonymous user and user profile is private
+    elif request.user.is_authenticated() and request.user.id == user_id: # users profile ...
+        user            = User.objects.get(id = user_id)
+        profile         = user.get_profile()
+        uploadsavegames = UploadedGame.objects.filter(user = user)
+        form            = UploadGameForm()
 
-    #if user_id == None or User.objects.filter(id = int(user_id)).count() == 0:
-    #    return redirect('/invaliduser/') # if supplied an invalid user id
-    #elif not request.user.is_authenticated() and User.objects.filter(id = int(user_id)).private:
-    #    return redirect('/notloggedin/') # if anonymous user and user profile is private
-    #elif request.user.is_authenticated() and request.user.id == User.objects.filter(id = int(user_id)).id: # users profile ...
-    user            = User.objects.get(id = user_id)
-    profile         = user.get_profile()    
-    uploadsavegames = UploadedGame.objects.filter(user = user)
-    form            = UploadGameForm()
+        context = {'user':user, 'profile':profile, 'uploadsavegames':uploadsavegames, 'form':form}
 
-    context = {'user':user, 'profile':profile, 'uploadsavegames':uploadsavegames, 'form':form}
+        return render_to_response('account/profile.html',
+                                   context,
+                                       context_instance=RequestContext(request))
+    else: # logged in user looking a public profile
+        user        = User.objects.get(id = user_id)
+        profile     = user.get_profile()
+        uploadsavegames = UploadedGame.objects.filter(user = user, private = False)
+        context = {'user':user, 'profile':profile, 'uploadsavegames':uploadsavegames, 'form':None}
 
-    return render_to_response('account/profile.html',
-                               context,
-                                   context_instance=RequestContext(request))
-    #else: # logged in user looking a public profile
-    #    user        = User.objects.get(id = user_id)
-    #    profile     = user.get_profile()
-    #    uploadsavegames = UploadedGame.objects.filter(user = user, private = False)
-    #    context = {'user':user, 'profile':profile, 'uploadsavegames':uploadsavegames, 'form':None}
+        return render_to_response('account/profile.html',
+                                   context,
+                                       context_instance=RequestContext(request))
 

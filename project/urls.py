@@ -24,7 +24,8 @@ urlpatterns = patterns('',
                        url(r'^admin/', include(admin.site.urls)),
                        
                        url(r'^profile/$', 'savegame.views.profile'),
-                       url(r'^profile/(?P<user_id>\d*)/$', 'savegame.views.profile')
+                       url(r'^profile/(?P<user_id>\d*)/$', 'savegame.views.profile'),
+                       
 )
 
 #urlpatterns += staticfiles_urlpatterns()
