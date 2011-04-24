@@ -8,28 +8,91 @@
     <link rel='stylesheet' href='{{ STATIC_PREFIX }}css/gamepage.css' type='text/css' />
 {% endblock %}
 
+{% block js %}
+<script type='text/javascript'>
+
+function getUploadedFileData(data){
+    data = eval( '(' + data + ')' );  // Interpret string as json object.  Very unsafe, but does the job :)
+    
+    $("#data_title").html(data['data_title']);
+    $("#download_link").attr("src", data['download_link']); /* Set the attribute dynamically */
+    $("#uploader").html(data['uploader']);
+    $("#date").html(data['date']);
+    $("#profile").html(data['profile_path']);
+    $("#game_desc").html(data['game_desc']);
+    
+    
+}
+
+
+function getLastCommentId(data){
+}
+$(document).ready(function(){
+    var user_id = 3;  /* This is a stub, needs to be replaced */
+    var uploaded_game_id = 17;  /* This is a stub, needs to be replaced */
+
+    /* This part uses ajax to get the necessary
+       data from the db, given the user_id and uploaded_game_id */    
+    $.ajax({
+        type: "GET",
+        url: "/getUploadedFileData/",
+        data: { 'user_id' : user_id, 'uploaded_game_id' : uploaded_game_id },
+        async: false,
+        success: getUploadedFileData
+    });
+
+
+    $("#sub").click(function(){
+        /*
+        var gu_id = 1;
+
+        $.ajax({
+            async: false,
+            success: getLastCommentId,
+            url: "/getLastId"
+            data: { game_upload_id : gu_id } 
+
+        })
+
+        var comment_id=1;
+        var div = "<div id='" + comment_id + "' class='acomment'><br /><a href='#'>Blah</a> &nbsp; &nbsp; <span style='font-style:italic'> 1/23/2222 - 1:30pm </span><p>"+
+        "Sweet!"
+        + "</p><hr /><br /></div>";
+       
+        $(div).insertBefore(".acomment");
+        $("#" + comment_id ).hide();
+        $("#" + comment_id ).show('slow');
+        */
+    });
+
+});
+</script>
+
+{% endblock %}
+
+
 {% block content %} 
     <div id='gameinfo'>
         <div id='title'>
             <div style='width:30%; float:left;'>
-                <h2>RE_Only_Knife</h2>
+                <h2 id='data_title'>RE_Only_Knife</h2>
                 <br />
-                <span style='font-style: italic'>Uploaded 2/28/2011</span>
+                Uploaded <span id='date' style='font-style: italic'> 2/28/2011</span>
             </div>
             <div style='width:65%; float:left; text-align: center;'>
-                <h1> <a href='#'>Download Savegame</a> </h1>
+                <h1> <a id='download_link' href='#'>Download Savegame</a> </h1>
             </div>
         </div>
         <div id='desc'>
             <div style='width: 30%; float: left;'>
-                Profile Stuff
+                <img id='profile' src='' alt='No profile pic' />
                 <br />
-                Uploaded By: Eudis
+                Uploaded By:  <span id='uploader'> Eudis </span>
             </div>
             
             <div style='float:left; width: 65%; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius:15px; border: 1px solid gray; min-height: 100px; margin-left: 2%; padding: 1%'>
             <h3> Description </h3>
-            The save game is awesome.  In it is proof how I beat RE with only the knife.
+            <p id='game_desc'> The save game is awesome.  In it is proof how I beat RE with only the knife.</p>
             </div>
         </div>
         <div id='comments'>
@@ -37,30 +100,32 @@
             <div style='width:49%; float: left;'>
                 <h3>Post A Comment</h3>
                 <br />
+                 <input id='sub' type='button' value='Submit Comment' />
+                <br />
                 <textarea id='comment_area' rows='10' cols='30'>
 
                 </textarea>
                 <br />
-                <input type='submit' value='Submit Comment' />
+               
             </div>
     
             <div style='width: 49%; float: left; overflow: hidden; height: 300px;'> 
                 
-                <div style='width: 100%; float: left;'>
+                <div class='acomment'>
                     <br />
                     <a href="#">Eudis</a> &nbsp; &nbsp; <span style='font-style:italic'> 1/22/2011 - 1:30pm </span>
                     <p> This game save is awesome! Thanks a lot </p>
                     <hr />
                     <br />
                 </div>
-                 <div style='width: 100%; float: left;'>
+                 <div class='acomment'>
                     <br />
                     <a href="#">Akshai</a> &nbsp; &nbsp; <span style='font-style:italic'> 1/22/2011 - 1:45pm</span>
                     <p> I disagree </p>
                     <hr />
                     <br />
                 </div>
-                 <div style='width: 100%; float: left;'>
+                 <div class='acomment'>
                     <br />
                     <a href="#">Townes</a> &nbsp; &nbsp; <span style='font-style:italic'> 1/22/2011 </span>
                     <p> I beat Grossberg in an argument. And I love the kindle. </p>

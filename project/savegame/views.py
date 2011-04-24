@@ -13,6 +13,8 @@ from savegame.models import *
 
 from django.shortcuts import render_to_response, redirect
 
+import json
+
 def mainpage(request):
 	#Will try to use Django forms later. Search redirects to /resultspage
 	#May need to handle CSRF cookies later
@@ -146,4 +148,31 @@ def profile(request, user_id = None):
         return render_to_response('account/profile.html',
                                    context,
                                        context_instance=RequestContext(request))
+
+
+
+def getUploadedFileData(request):
+
+   
+    info = {}    
+
+    try:
+        user_id = request.GET['user_id']
+        uploaded_id = request.GET['uploaded_game_id']
+
+    except:
+        return HttpResponse("Error retrieving uploaded file data!");
+
+
+    # Get stuff off the data base and pass it back to the client!
+
+    info['data_title'] = "f.zip"
+    info['date'] = '1/2/2222' #UploadedGame.objects.filter(user=user_id, id=uploaded_id).values()[0]['datetime']
+    info['uploader'] = User.objects.filter(id=user_id).values()[0].get('username')
+    info['profile_path'] = 'profile_path'
+    info['download_link'] =  UploadedGame.objects.filter(user=user_id, id=uploaded_id).values()[0]['file']
+    info['game_desc'] = "tmp"
+    
+
+    return HttpResponse(json.dumps(info))
 
