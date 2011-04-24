@@ -21,7 +21,7 @@ urlpatterns = patterns('',
                        url(r'results/', 'savegame.views.results'),
 
                        url(r'getUploadedFileData/', 'savegame.views.getUploadedFileData'),
-
+                       url(r'getCommentData/', 'savegame.views.getCommentData'),
                        # Uncomment the next line to enable the admin:
                        url(r'^admin/', include(admin.site.urls)),
                        

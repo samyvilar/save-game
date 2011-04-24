@@ -15,6 +15,8 @@ from django.shortcuts import render_to_response, redirect
 
 import json
 
+from datetime import datetime
+
 def mainpage(request):
 	#Will try to use Django forms later. Search redirects to /resultspage
 	#May need to handle CSRF cookies later
@@ -173,6 +175,54 @@ def getUploadedFileData(request):
     info['download_link'] =  UploadedGame.objects.filter(user=user_id, id=uploaded_id).values()[0]['file']
     info['game_desc'] = UploadedGame.objects.filter(user=user_id, id=uploaded_id).values()[0]['comment']
     
+    
+    res = Comments.objects.filter(uploadedgame=uploaded_id).order_by('id').values()
+    info2 = {}
+    for i in res:
+        i['datetime'] = ''  #this is a hack because datetime result is not serializable
+        info2[i['id']] = i
+
+    info['info2'] = info2;
+
+    return HttpResponse(json.dumps(info))
+
+
+def getCommentData(request):
+
+    
+    try:
+        user_id = request.GET['user_id']   # This should be the currently logged in user
+        uploaded_id = request.GET['uploaded_game_id']
+        comment_data = request.GET['comment_data']
+
+    except:
+        return HttpResponse("Error retrieving uploaded file data for comments!");
+
+
+    # Put the comment in the database now
+    now = datetime.now()    
+    date = str(now.month) + '/' + str(now.day) + '/' + str(now.year)
+    print date
+
+    entry = Comments()
+
+    uploaded = UploadedGame(id=17)
+    user = User(id=3)
+
+    entry.uploadedgame = uploaded
+    entry.user         = user
+    entry.comment      = str(comment_data)
+    entry.datetime     = now
+
+    entry.save()
+    
+    res = Comments.objects.filter(uploadedgame=17).values()
+    info = {}
+    
+
+    # Just get the last comment, and then return it
+    info['only'] = Comments.objects.filter(uploadedgame=17).values()[len(Comments.objects.filter(uploadedgame=17).values()) - 1]
+    info['only']['datetime'] = ''
 
     return HttpResponse(json.dumps(info))
 
