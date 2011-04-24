@@ -14,17 +14,14 @@ from savegame.models import *
 from django.shortcuts import render_to_response, redirect
 
 def mainpage(request):
-	#Will try to use Django forms later. Search redirects to /resultspage
-	#May need to handle CSRF cookies later
-	#If AJAX/JQuery is used: http://docs.djangoproject.com/en/dev/ref/contrib/csrf/
-	#latest_ten = savefiles.objects.all().order_by('datetime-uploaded')[:10]
+	latest_ten = UploadedGame.objects.all().exclude(private = True).order_by('-datetime')[:10]
 	logged_in = False
 	t = loader.get_template('account/mainpage.html')
-	c = RequestContext(request, {'logged_in': logged_in})
+	c = Context({'logged_in': logged_in, 'latest_ten': latest_ten})
 	if request.user.is_authenticated():
 		logged_in = True;
 		fullname = request.user.get_full_name()
-		c = RequestContext(request, {'logged_in': logged_in, 'fullname': string.capwords(fullname)})
+		c = Context({'logged_in': logged_in, 'fullname': string.capwords(fullname), 'latest_ten': latest_ten})
 	return HttpResponse(t.render(c))
 
 

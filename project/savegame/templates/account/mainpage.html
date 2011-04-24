@@ -37,7 +37,7 @@
 {% block content %} 
 
     <div id='mainpage_container'>
-        <form id = 'search_form' method = 'POST' action = "/results/"> {% csrf_token %}
+        <form id = 'search_form' method = "GET" action = "/results/">
         	<input id = 'search_bar' type = 'text' value = 'Search' onFocus = 'value=""' 
 				onBlur= "if (value == ''){value='Search'}"/>
             <input id = 'search' type = 'submit' value = 'Go!'/>
@@ -49,7 +49,7 @@
 				{% if latest_ten %}
 					<ol>
 					{% for upload in latest_ten %}
-						<li>&nbsp;{{upload.filename}}&nbsp;&nbsp;&nbsp;{{upload.gamename}}</li>
+						<li>&nbsp;&nbsp;&nbsp;<a href = '{{upload.file}}'>{{upload.file}}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{upload.game.title}}</li>
 					{% endfor %}
 					</ol>
 				{% else %}
