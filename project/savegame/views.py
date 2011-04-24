@@ -169,9 +169,9 @@ def getUploadedFileData(request):
     info['data_title'] = "f.zip"
     info['date'] = '1/2/2222' #UploadedGame.objects.filter(user=user_id, id=uploaded_id).values()[0]['datetime']
     info['uploader'] = User.objects.filter(id=user_id).values()[0].get('username')
-    info['profile_path'] = 'profile_path'
+    info['profile_path'] = '/'+UserProfile.objects.filter(user=user_id).values()[0].get('avatar')
     info['download_link'] =  UploadedGame.objects.filter(user=user_id, id=uploaded_id).values()[0]['file']
-    info['game_desc'] = "tmp"
+    info['game_desc'] = UploadedGame.objects.filter(user=user_id, id=uploaded_id).values()[0]['comment']
     
 
     return HttpResponse(json.dumps(info))
