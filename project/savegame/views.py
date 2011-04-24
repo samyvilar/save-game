@@ -13,6 +13,10 @@ from savegame.models import *
 
 from django.shortcuts import render_to_response, redirect
 
+import json
+
+from datetime import datetime
+
 def mainpage(request):
 	latest_ten = UploadedGame.objects.all().exclude(private = True).order_by('-datetime')[:10]
 	logged_in = False
@@ -141,4 +145,79 @@ def profile(request, user_id = None):
         return render_to_response('account/profile.html',
                                    context,
                                        context_instance=RequestContext(request))
+
+
+
+def getUploadedFileData(request):
+
+   
+    info = {}    
+
+    try:
+        user_id = request.GET['user_id']
+        uploaded_id = request.GET['uploaded_game_id']
+
+    except:
+        return HttpResponse("Error retrieving uploaded file data!");
+
+
+    # Get stuff off the data base and pass it back to the client!
+
+    info['data_title'] = "f.zip"
+    info['date'] = '1/2/2222' #UploadedGame.objects.filter(user=user_id, id=uploaded_id).values()[0]['datetime']
+    info['uploader'] = User.objects.filter(id=user_id).values()[0].get('username')
+    info['profile_path'] = '/'+UserProfile.objects.filter(user=user_id).values()[0].get('avatar')
+    info['download_link'] =  UploadedGame.objects.filter(user=user_id, id=uploaded_id).values()[0]['file']
+    info['game_desc'] = UploadedGame.objects.filter(user=user_id, id=uploaded_id).values()[0]['comment']
+    
+    
+    res = Comments.objects.filter(uploadedgame=uploaded_id).order_by('id').values()
+    info2 = {}
+    for i in res:
+        i['datetime'] = ''  #this is a hack because datetime result is not serializable
+        info2[i['id']] = i
+
+    info['info2'] = info2;
+
+    return HttpResponse(json.dumps(info))
+
+
+def getCommentData(request):
+
+    
+    try:
+        user_id = request.GET['user_id']   # This should be the currently logged in user
+        uploaded_id = request.GET['uploaded_game_id']
+        comment_data = request.GET['comment_data']
+
+    except:
+        return HttpResponse("Error retrieving uploaded file data for comments!");
+
+
+    # Put the comment in the database now
+    now = datetime.now()    
+    date = str(now.month) + '/' + str(now.day) + '/' + str(now.year)
+    print date
+
+    entry = Comments()
+
+    uploaded = UploadedGame(id=17)
+    user = User(id=3)
+
+    entry.uploadedgame = uploaded
+    entry.user         = user
+    entry.comment      = str(comment_data)
+    entry.datetime     = now
+
+    entry.save()
+    
+    res = Comments.objects.filter(uploadedgame=17).values()
+    info = {}
+    
+
+    # Just get the last comment, and then return it
+    info['only'] = Comments.objects.filter(uploadedgame=17).values()[len(Comments.objects.filter(uploadedgame=17).values()) - 1]
+    info['only']['datetime'] = ''
+
+    return HttpResponse(json.dumps(info))
 
