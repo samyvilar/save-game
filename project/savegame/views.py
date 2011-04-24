@@ -24,8 +24,6 @@ def mainpage(request):
 	if request.user.is_authenticated():
 		logged_in = True;
 		fullname = request.user.get_full_name()
-		if request.user.is_staff:
-			fullname = request.user.username
 		c = RequestContext(request, {'logged_in': logged_in, 'fullname': string.capwords(fullname)})
 	return HttpResponse(t.render(c))
 
