@@ -135,8 +135,8 @@ def results(request):
 		if not s4.exists():
 			s4 = UploadedGame.objects.filter(comment__icontains=qry)
 		
-		search_res = (s1|s2|s3|s4).distinct() 
-		pgr = Paginator(search_res, 10)
+		search_res = (s1|s2|s3|s4).distinct()
+		pgr = Paginator(search_res, 12)
 		tpages = pgr.num_pages
 		try:
 			pg = int(request.GET.get('page', '1'))
@@ -254,4 +254,23 @@ def getCommentData(request):
 	info['only']['datetime'] = ''
 
 	return HttpResponse(json.dumps(info))
+	
+def getvotedata(request):
+	uploaded_id = request.GET.get('uploaded_game_id')
+	upvotes = request.GET.get('upvotes', '')
+	downvotes = request.GET.get('downvotes', '')
+	info = {}
+	game = UploadedGame.objects.get(id=uploaded_id)
+	info['upvotes'] = game.upvote
+	info['downvotes'] = game.downvote
+	if upvotes:
+		game.upvote = game.upvote + 1
+		info['upvotes'] = game.upvote
+	if downvotes:
+		game.downvote = game.downvote + 1
+		info['downvotes'] = game.downvote
+	game.save()
+
+	return HttpResponse(json.dumps(info))
+
 

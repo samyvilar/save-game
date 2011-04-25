@@ -19,6 +19,7 @@ urlpatterns = patterns('',
                        url(r'sign[Oo]ut/', 'savegame.views.signOut'),
                        url(r'gamepage/', 'savegame.views.gamepage'),
                        url(r'results/', 'savegame.views.results'),
+                       url(r'getvotedata/', 'savegame.views.getvotedata'),
 
                        url(r'getUploadedFileData/', 'savegame.views.getUploadedFileData'),
                        url(r'getCommentData/', 'savegame.views.getCommentData'),

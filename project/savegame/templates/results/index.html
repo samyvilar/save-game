@@ -8,6 +8,53 @@
     <link rel='stylesheet' href='{{ STATIC_PREFIX }}css/results.css' type='text/css' />
 {% endblock %}
 
+{% block js %}
+<!-- 
+<script type='text/javascript'>
+
+function getvotedata(data){
+    data = eval( '(' + data + ')' );  // Interpret string as json object.  Very unsafe, but does the job :)
+    $("#votes").html(data['upvotes']+data['downvotes']);
+    
+}
+
+$(document).ready(function(){
+
+    /* This part uses ajax to get the necessary
+       data from the db, given the user_id and uploaded_game_id */    
+    $.ajax({
+        type: "GET",
+        url: "/getvotedata/",
+        data: {'uploaded_game_id' : uploaded_game_id },
+        async: false,
+        success: getvotedata
+    });
+
+
+    $("#upvote").click(function(){
+        $.ajax({
+            async: false,
+            success: getvotedata,
+            url: "/getvotedata/",
+            data: {'uploaded_game_id' : uploaded_game_id, 'upvote': 1} 
+
+        });         
+    });
+    
+	$("#downvote").click(function(){
+		$.ajax({
+			async: false,
+			success: getvotedata,
+			url: "/getvotedata/",
+			data: {'uploaded_game_id' : uploaded_game_id, 'downvote': 1} 
+		});         
+    });
+
+});
+</script>
+ -->
+
+{% endblock %}
 {% block nav %}
 	{% if logged_in %}
 		<div id='nav'>
@@ -72,7 +119,7 @@
 							<br />
 							<a href="#">Downvote</a>
 					</div>
-					<div style='font-size: 14px; width: 9%; float: left'>
+					<div id = 'votes' style='font-size: 14px; width: 9%; float: left'>
 					   +3
 					</div>
 				</div>
