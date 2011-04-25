@@ -1,35 +1,37 @@
 .panel-grid-container
 {
-    border-width: 1px;
-    border-color: black;
-
-    border-style: solid;
+    border: 1px solid black;
     width: 850px;
     float: left;
     height: auto;
 
     border-radius: 8px;
-    background-color: white;
 }
 
-.panel-grid-container h1
+.panel-grid-container caption
 {
-
-    font-size: 15px;
-    text-align: center;
-
-    margin: 1px;
-    padding: 8px;
-}
-
-.panel-grid-container .column-header
-{
-    float: left;
-    text-align: center;
-    border-right: 1px solid black;
-    border-top: 1px solid black;
     padding: 5px;
+    font-weight: bold;
+    border-radius: 8px;
+    border: 1px solid black;
 }
+
+.panel-grid-container td
+{
+    padding: 6px;
+    text-align: center;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.panel-grid-container th
+{
+    padding: 6px;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+}
+
+
 .panel-grid-container .column-form
 {
     float: left;
@@ -37,16 +39,15 @@
     padding: 5px;
 }
 
-.panel-grid-container .empty-full-row
-{
-    width: 840px;
-    float: left;
-    border-top: 1px solid black;
-    text-align: center;
-    padding: 5px;
-}
 
 .profile_avatar
 {
     float: left;
+    height: 100%;
+    width: 190px;
+}
+
+#settings-panel
+{
+    display: none;        
 }

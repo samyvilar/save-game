@@ -29,8 +29,8 @@ class UserProfileAdmin(UserAdmin):
 	inlines = [UserProfileInline]    
 
 class UploadedGame_Admin(admin.ModelAdmin):
-    list_display = ('id', 'game', 'platform', 'user', 'datetime', 'comment', 'upvote', 'downvote', 'private')
-    search_fields = ['game', 'platform', 'user', 'datetime', 'comment', 'private']
+    list_display = ('id', 'title', 'game', 'platform', 'user', 'datetime', 'description', 'upvote', 'downvote', 'private')
+    search_fields = ['title', 'game', 'platform', 'user', 'datetime', 'description', 'private']
     
 
 class Comments_Admin(admin.ModelAdmin):

@@ -530,11 +530,12 @@ def populate_uploaded_game():
             platform = Platform.objects.get(name = 'PC')
             dt = datetime.date.today()
             private = random.sample([True, False], 1)[0]
-            comments = random.sample(["Finnished the first level ...", "Got to the second level ...",
+            title = random.sample([game.title + " rocks!", game.title + " working ...", game.title + " stil there ..."], 1)[0]
+            description = random.sample(["Finnished the first level ...", "Got to the second level ...",
                 "The third level was a real pain!", "Im stuck at this level, pls help me!!!",
                 "Completely Finnished the game."], 1)[0]
             upload_game = UploadedGame.objects.create(game = game, platform = platform, user = user,
-                datetime = dt, comment = comments, private = private, upvote = 0, downvote = 0)
+                datetime = dt, description = description, private = private, upvote = 0, downvote = 0)
             upload_game.file.name = '/static/saved_games/saved-file.bin'
             upload_game.save()
 

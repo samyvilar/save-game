@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %} Upload Saved Game {% endblock %}
+{% block title %} Profile {% endblock %}
 
 {% block css %}
     {% load static %}
@@ -8,53 +8,135 @@
     <link rel='stylesheet' href='{{ STATIC_PREFIX }}css/profile.css' type='text/css' />
 {% endblock %}
 
-
-
-{% block content %}    
+{% block content %}
         <div class="profile_avatar">
-            <img src="/{{ profile.avatar.name }}" /><br />
-            {{ user.username }}
-        </div>
-
-        {% if form %}
-        <div class="panel-grid-container" style="width: 500px; height: auto; margin-left: 100px;">
-            <h1>New Upload</h1>
-            <form action="" method="post">
-            {% csrf_token %}
-            <div class="column-form" style="width: 100px">Game</div>
-            <div class="column-form" style="width: 300px">{{ form.game }}</div>
-
-            <div class="column-form" style="width: 100px">Platform</div>
-            <div class="column-form" style="width: 300px">{{ form.platform }}</div>
-
-            <div class="column-form" style="width: 100px">Comment</div>
-            <div class="column-form" style="width: 300px">{{ form.comment }}</div>
-
-            <div class="column-form" style="width: 100px">Private</div>
-            <div class="column-form" style="width: 300px">{{ form.private }}</div>
-
-            <div class="column-form" style="width: 100px">File</div>
-            <div class="column-form" style="width: 300px">{{ form.file }}</div>
-
-            <div class="column-form" style="width: 100px"></div>
-            <div class="column-form" style="width: 300px"><input type="submit" value="Submit" /></div>
-
-            </form>                                                 
-        </div>
-        {% endif %}
-        
-        
-        <div class="panel-grid-container" style="margin-left: 30px; margin-top: 50px">
-            <h1>Uploads</h1>
-            <div class="column-header" style="width: 155px">Game</div>
-            <div class="column-header" style="width: 90px">Platform</div>
-            <div class="column-header" style="width: 90px">Time</div>
-            <div class="column-header" style="width: 250px">Comment</div>
-            <div class="column-header" style="width: 100px">Private</div>
-            <div class="column-header" style="width: 100px; border-right:none !important">Action</div>
-
-            {% if uploadsavegames|length == 0 %}
-                <div class="empty-full-row">Nothing yet ...</div>            
+            <img id="avatar-img" src="/{{ profile.avatar.name }}" /><br />
+            {% if owner %}
+                <input id="open-panel-button" onclick="showPanel()" type="button" value="Update" style="float: right;" />
             {% endif %}
+            <div id="info">
+                Name: <span id="first_name">{{ user.first_name }}</span> <span id="last_name">{{ user.last_name }}</span><br />
+                Username: <span id="username">{{ user.username }}</span><br />
+                JDate: {{ user.date_joined }}<br />
+                <br />
+                
+            </div>
+            
+
+            {% if owner %}
+                <script type="text/javascript">
+                    function showPanel()
+                    {
+                        button = document.getElementById('open-panel-button');
+                        button.value = 'Cancel'
+                        
+                        curpanel = document.getElementById('info');
+                        curpanel.style.display = 'none';
+                        
+                        panel = document.getElementById('settings-panel');
+                        panel.style.display = 'block';
+
+                        button.onclick = function () 
+                            {
+                                button.onclick = showPanel;
+                                button.value = 'Update';
+                                panel.style.display = 'none';
+                                curpanel.style.display = 'block';
+                            }
+                    }
+
+                    function submitPost()
+                    {                        
+                        if ($('input[type=file]').val() == "")
+                            $.post('', $("#profile-form").serialize(),
+                            function(data)
+                            {
+                                $('#first_name').html(data[0].fields.first_name);
+                                $('#last_name').html(data[0].fields.last_name);
+                                $('#username').html(data[0].fields.username);
+                                
+                                $('#avatar-img').attr('src', '/' + data[1].fields.avatar);
+
+                                $('#settings-panel').css('display', 'none');
+                                $('#info').css('display', 'block');
+
+                                button = document.getElementById('open-panel-button');
+                                button.click();
+                            });
+                          else
+                               $("#profile-form").submit();
+                    }
+
+                </script>
+                
+
+                <div id ="settings-panel">
+                    <form id="profile-form" action="" method="POST" enctype="multipart/form-data">
+                        <input type="file" name="avatar" /><br />
+                        <input type="text" name="first_name" value="{{ user.first_name }}" /><br />
+                        <input type="text" name="last_name" value="{{ user.last_name }}" /><br />
+                        <input type="text" name="email" value="{{user.email }}" /><br />
+                        <input type="text" name="username" value="{{ user.username }}" /><br />
+                        <input type="password" name="password" value="password" /><br />
+                        <input type="checkbox" name="private" 
+                               {% if profile.private %}
+                                    checked
+                               {% endif %}
+                               />Private Profile
+                        <input style="float: right" type="button" onclick="submitPost()" value="Submit" /><br />
+                    </form>
+                    <br />
+                </div>
+                    
+            
+            {% endif %}
+
+            Numb Uploads: {{ uploadsavegames|length }}<br />
+            Numb Comments: {{ comments|length }}<br />
         </div>        
+                
+        <table class="panel-grid-container" style="width: 870px; margin-left: 30px; margin-top: 0px; float: right;" cellspacing="0">
+            <caption>My Uploads</caption>
+            <thead><th>Title</th><th>Game</th><th>Platform</th><th>Date</th><th>Comment</th><th>Private</th><th>Action</th></thead>
+            <tbody>
+            {% if uploadsavegames|length == 0 %}
+                <tr><td colspan="all">Nothing yet ...</td></tr>
+            {% else %}
+
+                {% for upload in uploadsavegames %}
+                <tr>
+                    <td>{{ upload.title }}</td>
+                    <td><a href="">{{ upload.game }}</a></td>
+                    <td>{{ upload.game.platform }}</td>
+                    <td>{{ upload.datetime }}</td>
+                    <td>{{ upload.description }}</td>
+                    <td>{{ upload.private }}</td>
+                    <td>Delete</td>
+                </tr>
+                {% endfor %}
+            {% endif %}
+            </tbody>
+        </table>
+
+        <table class="panel-grid-container" style="width: 870px; margin-left: 30px; margin-top: 50px; float: right;" cellspacing="0">
+            <caption>My Comments</caption>
+            <thead><th>Title</th><th>Game</th><th>Date</th><th>Comment</th></thead>
+            <tbody>
+                {% if comments|length == 0 %}
+                    <tr><td collspan="all">Nothing yet ...</td></tr>
+                {% else %}
+                    
+                    {% for comment in comments %}
+                    <tr>
+                        <td>{{ comment.uploadedgame.title }}</td>
+                        <td><a href="">{{ comment.uploadedgame.game }}</a></td>
+                        <td>{{ comment.datetime }}</td>
+                        <td>{{ comment.comment }}</td>
+                    </tr>
+                    {% endfor %}
+                    
+                {% endif %}
+            </tbody>
+        </table>
+
 {% endblock %}

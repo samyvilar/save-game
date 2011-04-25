@@ -1,7 +1,7 @@
 from django.db                  import models
 from django.contrib.auth.models import User
 from django.db.models.signals   import post_save
-
+import random
 
 max_length = 100
 class Company(models.Model):
@@ -78,15 +78,17 @@ def create_user_profile(sender, instance, created, **kwargs):
 post_save.connect(create_user_profile, sender = User)
 
 class UploadedGame(models.Model):
-    game        = models.ForeignKey(Game)
-    platform    = models.ForeignKey(Platform)
-    file        = models.FileField(upload_to = 'savegame/static/saved_games')
-    user        = models.ForeignKey(User)
-    datetime    = models.DateTimeField()
-    comment     = models.TextField()
-    upvote      = models.IntegerField()
-    downvote    = models.IntegerField()
-    private     = models.BooleanField()
+    game                = models.ForeignKey(Game)
+    platform            = models.ForeignKey(Platform)
+    file                = models.FileField(upload_to = 'savegame/static/saved_games')
+    user                = models.ForeignKey(User)
+    datetime            = models.DateTimeField()
+    title               = models.CharField(max_length = max_length)
+    description         = models.TextField()
+    upvote              = models.IntegerField()
+    downvote            = models.IntegerField()
+    private             = models.BooleanField()
+    original_file_name  = models.CharField(max_length = 512)
 
     def __unicode__(self):
         return  u'%s' % self.game.title
@@ -107,3 +109,9 @@ class Comments(models.Model):
     class Meta:
         verbose_name = 'Comments'
         verbose_name_plural = 'Comments'
+
+def getRandomString(len = 20):
+    temp = range(ord('a'), ord('z'))
+    temp.extend(range(ord('A'), ord('Z')))
+    temp.extend(range(ord('0'), ord('9')))
+    return "".join([chr(random.sample(temp, 1)[0]) for x in xrange(len)])

@@ -10,9 +10,9 @@ import string
 from savegame.forms import *
 
 from savegame.models import *
-
+from django.core import serializers
 from django.shortcuts import render_to_response, redirect
-
+import os
 def mainpage(request):
 	#Will try to use Django forms later. Search redirects to /resultspage
 	#May need to handle CSRF cookies later
@@ -121,29 +121,71 @@ def results(request):
 	t = loader.get_template('results/index.html')
 	return HttpResponse(t.render(c))
 
-def profile(request, user_id = None):
+def profile(request, user_id = None):    
     if user_id == None or User.objects.filter(pk = user_id).count() == 0:
-        return redirect('/invaliduser/') # if supplied an invalid user id
-    elif not request.user.is_authenticated() and User.objects.get(pk = user_id).get_profile().private:
-        return redirect('/notloggedin/') # if anonymous user and user profile is private
-    elif request.user.is_authenticated() and request.user.id == user_id: # users profile ...
+        return redirect('/invalid_user_id/') # if supplied an invalid user id    
+    elif request.user.is_authenticated() and request.user.id == int(user_id): # users profile ...                    
         user            = User.objects.get(id = user_id)
         profile         = user.get_profile()
         uploadsavegames = UploadedGame.objects.filter(user = user)
         form            = UploadGameForm()
+        comments        = Comments.objects.filter(user = user)
+        owner           = True
 
-        context = {'user':user, 'profile':profile, 'uploadsavegames':uploadsavegames, 'form':form}
+        if request.method == "POST":            
+            user.first_name     = request.POST['first_name']
+            user.last_name      = request.POST['last_name']
+            user.username       = request.POST['username']
+            user.set_password(request.POST['password'])
+            user.email          = request.POST['email']
+
+            user.save()
+            
+            if 'avatar' in request.FILES:
+                file = request.FILES['avatar']
+                try:
+                    os.remove(os.getcwd() + '/savegame/' + profile.avatar.name)
+                except Exception:
+                    pass
+                filename = 'static/images/' + getRandomString() + '.' + file.name.split('.')[-1:][0]                
+                destination = open('savegame/' + filename, 'wb')
+                for chunk in file.chunks():
+                    destination.write(chunk)
+                destination.close()
+                profile.avatar.name = filename
+
+            if 'private' in request.POST:
+                profile.private = request.POST['private']
+            profile.save()
+
+            if request.is_ajax():                                  
+                return HttpResponse(serializers.serialize('json', [user, profile]) ,
+                                    mimetype = 'application/json')
+                
+            
+                
+
+        context = {'user':user,
+                   'profile':profile,
+                   'uploadsavegames':uploadsavegames,
+                   'form':form,
+                   'comments':comments,
+                   'owner':owner}
 
         return render_to_response('account/profile.html',
                                    context,
-                                       context_instance=RequestContext(request))
-    else: # logged in user looking a public profile
+                                   context_instance=RequestContext(request))
+    elif User.objects.get(pk = user_id).get_profile().private: # if profile is private ..
+        return redirect('/private_profile/')
+    else: # public profile viewed by anyone ...
         user        = User.objects.get(id = user_id)
         profile     = user.get_profile()
         uploadsavegames = UploadedGame.objects.filter(user = user, private = False)
-        context = {'user':user, 'profile':profile, 'uploadsavegames':uploadsavegames, 'form':None}
+        comments        = Comments.objects.filter(user = user)
+        
+        context = {'user':user, 'profile':profile, 'uploadsavegames':uploadsavegames, 'comments':comments}
 
         return render_to_response('account/profile.html',
                                    context,
-                                       context_instance=RequestContext(request))
+                                   context_instance=RequestContext(request))
 
