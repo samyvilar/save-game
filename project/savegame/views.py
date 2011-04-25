@@ -10,8 +10,12 @@ import string
 from savegame.forms import *
 from savegame.models import *
 from savegame.helpers import levenshtein
+from django.core import serializers
+from django.shortcuts import render_to_response, redirect
+import os
 import json
 from datetime import datetime
+
 
 def mainpage(request):
 	latest_ten = UploadedGame.objects.all().exclude(private = True).order_by('-datetime')[:10]
@@ -154,32 +158,74 @@ def results(request):
 	c = Context({'logged_in': loggedin, 'fullname': string.capwords(fullname), 'search_res' : search_res, 'qry': qry, 'page_list' : pglst, 'ellipses1': e1, 'ellipses2': e2})
 	return HttpResponse(t.render(c))
 
-def profile(request, user_id = None):
-	if user_id == None or User.objects.filter(pk = user_id).count() == 0:
-		return redirect('/invaliduser/') # if supplied an invalid user id
-	elif not request.user.is_authenticated() and User.objects.get(pk = user_id).get_profile().private:
-		return redirect('/notloggedin/') # if anonymous user and user profile is private
-	elif request.user.is_authenticated() and request.user.id == user_id: # users profile ...
-		user			= User.objects.get(id = user_id)
-		profile			= user.get_profile()
-		uploadsavegames = UploadedGame.objects.filter(user = user)
-		form			= UploadGameForm()
 
-		context = {'user':user, 'profile':profile, 'uploadsavegames':uploadsavegames, 'form':form}
+def profile(request, user_id = None):    
+    if user_id == None or User.objects.filter(pk = user_id).count() == 0:
+        return redirect('/invalid_user_id/') # if supplied an invalid user id    
+    elif request.user.is_authenticated() and request.user.id == int(user_id): # users profile ...                    
+        user            = User.objects.get(id = user_id)
+        profile         = user.get_profile()
+        uploadsavegames = UploadedGame.objects.filter(user = user)
+        form            = UploadGameForm()
+        comments        = Comments.objects.filter(user = user)
+        owner           = True
 
-		return render_to_response('account/profile.html',
-								   context,
-									   context_instance=RequestContext(request))
-	else: # logged in user looking a public profile
-		user		= User.objects.get(id = user_id)
-		profile		= user.get_profile()
-		uploadsavegames = UploadedGame.objects.filter(user = user, private = False)
-		context = {'user':user, 'profile':profile, 'uploadsavegames':uploadsavegames, 'form':None}
+        if request.method == "POST":            
+            user.first_name     = request.POST['first_name']
+            user.last_name      = request.POST['last_name']
+            user.username       = request.POST['username']
+            user.set_password(request.POST['password'])
+            user.email          = request.POST['email']
 
-		return render_to_response('account/profile.html',
-								   context,
-									   context_instance=RequestContext(request))
+            user.save()
+            
+            if 'avatar' in request.FILES:
+                file = request.FILES['avatar']
+                try:
+                    os.remove(os.getcwd() + '/savegame/' + profile.avatar.name)
+                except Exception:
+                    pass
+                filename = 'static/images/' + getRandomString() + '.' + file.name.split('.')[-1:][0]                
+                destination = open('savegame/' + filename, 'wb')
+                for chunk in file.chunks():
+                    destination.write(chunk)
+                destination.close()
+                profile.avatar.name = filename
 
+            if 'private' in request.POST:
+                profile.private = request.POST['private']
+            profile.save()
+
+            if request.is_ajax():                                  
+                return HttpResponse(serializers.serialize('json', [user, profile]) ,
+                                    mimetype = 'application/json')
+                
+            
+                
+
+        context = {'user':user,
+                   'profile':profile,
+                   'uploadsavegames':uploadsavegames,
+                   'form':form,
+                   'comments':comments,
+                   'owner':owner}
+
+        return render_to_response('account/profile.html',
+                                   context,
+                                   context_instance=RequestContext(request))
+    elif User.objects.get(pk = user_id).get_profile().private: # if profile is private ..
+        return redirect('/private_profile/')
+    else: # public profile viewed by anyone ...
+        user        = User.objects.get(id = user_id)
+        profile     = user.get_profile()
+        uploadsavegames = UploadedGame.objects.filter(user = user, private = False)
+        comments        = Comments.objects.filter(user = user)
+        
+        context = {'user':user, 'profile':profile, 'uploadsavegames':uploadsavegames, 'comments':comments}
+
+        return render_to_response('account/profile.html',
+                                   context,
+                                   context_instance=RequestContext(request))
 
 
 def getUploadedFileData(request):
@@ -197,20 +243,24 @@ def getUploadedFileData(request):
 
 	# Get stuff off the data base and pass it back to the client!
 
-	info['data_title'] = "f.zip"
-	info['date'] = '1/2/2222' #UploadedGame.objects.filter(user=user_id, id=uploaded_id).values()[0]['datetime']
-	info['uploader'] = User.objects.filter(id=user_id).values()[0].get('username')
-	info['profile_path'] = '/'+UserProfile.objects.filter(user=user_id).values()[0].get('avatar')
-	info['download_link'] =	 UploadedGame.objects.filter(user=user_id, id=uploaded_id).values()[0]['file']
-	info['game_desc'] = UploadedGame.objects.filter(user=user_id, id=uploaded_id).values()[0]['comment']
-	res = Comments.objects.filter(uploadedgame=uploaded_id).order_by('id').values()
+
 	game = UploadedGame.objects.get(id=uploaded_id)
 	info['upvotes'] = str(game.upvote)
 	info['downvotes'] = str (game.downvote)
-	info2 = {}
-	for i in res:
-		i['datetime'] = ''	#this is a hack because datetime result is not serializable
-		info2[i['id']] = i
+	
+    info['data_title'] = "f.zip"
+    info['date'] = '1/2/2222' #UploadedGame.objects.filter(user=user_id, id=uploaded_id).values()[0]['datetime']
+    info['uploader'] = User.objects.filter(id=user_id).values()[0].get('username')
+    info['profile_path'] = '/'+UserProfile.objects.filter(user=user_id).values()[0].get('avatar')
+    info['download_link'] =  UploadedGame.objects.filter(user=user_id, id=uploaded_id).values()[0]['file']
+    info['game_desc'] = UploadedGame.objects.filter(user=3, id=17).values()[0]['description']
+    
+    
+    res = Comments.objects.filter(uploadedgame=uploaded_id).order_by('id').values()
+    info2 = {}
+    for i in res:
+        i['datetime'] = ''  #this is a hack because datetime result is not serializable
+        info2[i['id']] = i
 
 	info['info2'] = info2;
 
