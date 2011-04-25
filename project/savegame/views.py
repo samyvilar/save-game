@@ -218,7 +218,7 @@ def getUploadedFileData(request):
     info['uploader'] = User.objects.filter(id=user_id).values()[0].get('username')
     info['profile_path'] = '/'+UserProfile.objects.filter(user=user_id).values()[0].get('avatar')
     info['download_link'] =  UploadedGame.objects.filter(user=user_id, id=uploaded_id).values()[0]['file']
-    info['game_desc'] = UploadedGame.objects.filter(user=user_id, id=uploaded_id).values()[0]['comment']
+    info['game_desc'] = UploadedGame.objects.filter(user=3, id=17).values()[0]['description']
     
     
     res = Comments.objects.filter(uploadedgame=uploaded_id).order_by('id').values()
