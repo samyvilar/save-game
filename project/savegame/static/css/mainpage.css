@@ -4,7 +4,7 @@
 {
 	margin: auto;
 	width: 70%;
-	height: 300px;
+	height: 350px;
 
 }
 
@@ -36,13 +36,13 @@
 {
 	clear: both;
 	margin: auto;
+	outline-style: solid;
+	outline-width: thin;
 	margin-top: 7%; 
 	padding: 0px 10px;
-	width: 75%;
-	height: 300px;
+	width: 60%;
+	height: 320px;
 }
-
-
 
 #latest_ten_cont 
 {

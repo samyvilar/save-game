@@ -3,18 +3,13 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.contrib.auth import authenticate, login, logout
-# Additional imports
-from savegameforms import RegForm
-import string
-
-from savegame.forms import *
-
-from savegame.models import *
-
 from django.shortcuts import render_to_response, redirect
-
+from django.core.paginator import Paginator
+# Additional imports
+import string
+from savegame.forms import *
+from savegame.models import *
 import json
-
 from datetime import datetime
 
 def mainpage(request):
@@ -116,8 +111,25 @@ def gamepage(request):
 	return HttpResponse(t.render(c))
 
 def results(request):
-	c = Context({})
+	logged_in = False
+	fullname = ""
+	if request.user.is_authenticated():
+		logged_in = True;
+		fullname = request.user.get_full_name()
 	t = loader.get_template('results/index.html')
+	search_res = {}
+	qry = request.GET.get('search', '')
+	if qry:
+		search_res = UploadedGame.objects.all().filter(game__title__contains=str(qry))
+	    	pgr = Paginator(search_res, 10) 
+	    	try:
+	    		pg = int(request.GET.get('page', '1'))
+	    	except ValueError:
+        		pg = 1
+        	if pg > pgr.num_pages:
+        		pg = pgr.num_pages
+       	 	search_res = pgr.page(pg)
+	c = Context({'logged_in': logged_in, 'fullname': string.capwords(fullname), 'search_res' : search_res, 'qry': qry})
 	return HttpResponse(t.render(c))
 
 def profile(request, user_id = None):
