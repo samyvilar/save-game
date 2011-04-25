@@ -49,7 +49,7 @@
 				{% if latest_ten %}
 					<ol>
 					{% for upload in latest_ten %}
-						<li>&nbsp;&nbsp;&nbsp;<a href = '{{upload.file}}'>{{upload.file}}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{upload.game.title}}</li>
+						<li>&nbsp;&nbsp;&nbsp;<a href = '/gamepage/?uploaded_game_id={{ upload.id }}'>{{upload.file}}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{upload.game.title}}</li>
 						<br />
 					{% endfor %}
 					</ol>

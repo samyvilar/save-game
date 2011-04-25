@@ -78,131 +78,29 @@
 				</div>
 			</div>
 		{% endfor %}
-	{% else %}
-		<div class='gray'>
-        <div class='one'>
-            <a href="#">TF2-CrazyHorse</a>
-        </div>
-        <div class='one'>
-            Team Fortress 
-        </div>
-        <div class='one'>
-             PC 
-        </div>
-        <div class='one' style='font-size: 12px;'>
-            <div style='width: 39%; float: left'>
-                    <a href="#"> Comment </a>
-            </div>
-            <div style='width: 39%; float: left'>
-                    <a href="#">DownRate</a>
-                    <br />
-                    <br />
-                    <a href="#">UpRate</a>
-            </div>
-            <div style='font-size: 14px; width: 9%; float: left'>
-               +3
-            </div>
-        </div>
-    </div>
-
-    <div class='white'>
-        <div class='one'>
-            <a href="#">CODKillStreak</a>
-        </div>
-        <div class='one'>
-            Call of Duty 4
-        </div>
-        <div class='one'>
-            Resident Evil 4
-        </div>
-        <div class='one' style='font-size: 12px;'>
-            <div style='width: 39%; float: left'>
-                    <a href="#"> Comment </a>
-            </div>
-            <div style='width: 39%; float: left'>
-                    <a href="#">DownRate</a>
-                    <br />
-                    <br />
-                    <a href="#">UpRate</a>
-            </div>
-            <div style='font-size: 14px; width: 9%; float: left'>
-               +3
-            </div>
-        </div>
-    </div>
-
-	<div class='gray'>
-        <div class='one'>
-            <a href="#">ProofOfl33t</a>
-        </div>
-        <div class='one'>
-            Resident Evil 4 
-        </div>
-        <div class='one'>
-             GC 
-        </div>
-        <div class='one' style='font-size: 12px;'>
-            <div style='width: 39%; float: left'>
-                    <a href="#"> Comment </a>
-            </div>
-            <div style='width: 39%; float: left'>
-                    <a href="#">DownRate</a>
-                    <br />
-                    <br />
-                    <a href="#">UpRate</a>
-            </div>
-            <div style='font-size: 14px; width: 9%; float: left'>
-               +3
-            </div>
-        </div>
-    </div>
-
-	<div class='white'>
-		<div class='one'>
-			<a href="#">NotTouched</a>
-		</div>
-		<div class='one'>
-			GT4
-		</div>
-		<div class='one'>
-			 PS3
-		</div>
-		<div class='one' style='font-size: 12px;'>
-			<div style='width: 39%; float: left'>
-					<a href="#"> Comment </a>
-			</div>
-			<div style='width: 39%; float: left'>
-					<a href="#">DownRate</a>
-					<br />
-					<br />
-					<a href="#">UpRate</a>
-			</div>
-			<div style='font-size: 14px; width: 9%; float: left'>
-			   +1
-			</div>
-		</div>
-	</div>
 	{% endif %}	
 </div>
 
 {% endblock %}
 
 {% block h_footer %}
-    <div style='width: 100%; text-align:center; float: left; font-size: 18px;'>
+    <div style='width: 100%; text-align:center; float: left; font-size: 22px;'>
     	{% if search_res %}
 			{% if search_res.has_previous %}
 				<a href="/results/?search={{qry|escape}}&page={{ search_res.previous_page_number }}">Previous</a>
 			{% endif %}
-			Page {{ search_res.number }} of {{ search_res.paginator.num_pages }}
+			{% if ellipses1 %}
+				 | <a href="/results/?search={{qry|escape}}&page=1">1</a> | ... 
+			{% endif %}
+			{% for p in page_list %}
+				 | <a href="/results/?search={{qry|escape}}&page={{ p }}">{{ p }}</a> |
+			{% endfor %}
+			{% if ellipses2 %}
+				... | <a href="/results/?search={{qry|escape}}&page={{ search_res.paginator.num_pages }}">{{ search_res.paginator.num_pages }}</a> |
+			{% endif %}
 			{% if search_res.has_next %}
 				<a href="/results/?search={{qry|escape}}&page={{ search_res.next_page_number }}">Next</a>
 			{% endif %}
-		{% else %}
-			<a href="#">1</a> | 
-			<a href="#">2</a> | 
-			<a href="#">3</a> |     
-			<a href="#">4</a> | 
-			<a href="#">5</a>
 		{% endif %}
     </div>
 {% endblock %}
