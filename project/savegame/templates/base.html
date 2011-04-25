@@ -30,21 +30,28 @@
                         </div>
                 </div>
                 {% block nav %}
-                <div id='nav'>
-                  <div style='width: 100%; float: left; text-align: center;'>
-                    <!-- This part needs to dynamically be loaded with the right username -->
-                    Welcome, <span style='color: red'>Eudis</span>
-                    
-                  </div>
-                  <div> &nbsp;
-                  </div>
-                  <div style='width: 100%; float: left;'>
-                    <a href='#'>Search</a> &nbsp; &nbsp; | &nbsp; &nbsp;
-                    <a href='#'>Account Settings</a> &nbsp; &nbsp; | &nbsp; &nbsp;
-                    <a href='#'>Upload</a> &nbsp; &nbsp; | &nbsp; &nbsp;
-                    <a href='#'>Sign Off</a>
-                  </div>
-                </div>
+				{% if logged_in %}
+					<div id='nav'>
+					  <div style='width: 100%; float: left; text-align: center;'>
+						Welcome, <span style='color: red'>{{ fullname }}</span>
+					  </div>
+					  <div> &nbsp;
+					  </div>
+					  <div style='width: 100%; float: left;'>
+						<a href='/'>Search</a> &nbsp; &nbsp; | &nbsp; &nbsp;
+						<a href='/profile/{{ user_id }}'>Account Settings</a> &nbsp; &nbsp; | &nbsp; &nbsp;
+						<a href='/upload'>Upload</a> &nbsp; &nbsp; | &nbsp; &nbsp;
+						<a href='/signOut/'>Sign Off</a>
+					  </div>
+					</div>
+				{% else %}
+					<div id='nav'>
+						<div style='width: 100%; float: right;'>
+						  <a href='/signIn/'>Login</a> &nbsp; | &nbsp;
+						  <a href='/registration/'>Sign Up</a>
+						</div>
+					</div>
+				{% endif %}
                 {% endblock %}
 
               </div>

@@ -20,12 +20,12 @@ from datetime import datetime
 def mainpage(request):
 	latest_ten = UploadedGame.objects.all().exclude(private = True).order_by('-datetime')[:10]
 	loggedin = False
+	fullname = ""
 	t = loader.get_template('account/mainpage.html')
-	c = Context({'logged_in': loggedin, 'latest_ten': latest_ten})
 	if request.user.is_authenticated():
 		loggedin = True;
 		fullname = request.user.get_full_name()
-		c = Context({'logged_in': loggedin, 'fullname': string.capwords(fullname), 'latest_ten': latest_ten})
+	c = Context({'logged_in': loggedin, 'fullname': string.capwords(fullname), 'user_id': request.user.id, 'latest_ten': latest_ten})
 	return HttpResponse(t.render(c))
 
 
@@ -61,16 +61,26 @@ def regthanks(request):
 
 
 def settings(request):
+	loggedin = False
+	fullname = ""
+	if request.user.is_authenticated():
+		loggedin = True;
+		fullname = request.user.get_full_name()
 	t = loader.get_template('account/settings.html')
-	c = Context({})
+	c = Context({'logged_in': loggedin, 'user_id': request.user.id, 'fullname': string.capwords(fullname)})
 	return HttpResponse(t.render(c))
 
 
 def signIn(request):
+	loggedin = False
+	fullname = ""
 	signInTemplate = loader.get_template('account/signIn.html')
+	id = request.user.id
 	if request.user.is_authenticated():
 		# Case: User is already logged in.
-		signInContext = Context({"logInMessage": "You are already signed in."})
+		loggedin = True;
+		fullname = request.user.get_full_name()
+		signInContext = Context({'logged_in': loggedin, 'fullname': string.capwords(fullname), 'user_id': id, "logInMessage": "You are already signed in."})
 		return HttpResponse(signInTemplate.render(signInContext))
 	else:
 		# Case: User is NOT logged in yet.
@@ -83,36 +93,38 @@ def signIn(request):
 				if user.is_active:
 					# Case: Credentials verified (access granted).
 					login(request, user)
-					signInContext = RequestContext(
-							{"logInMessage": "You have been signed in successfully."})
-					return HttpResponse(signInTemplate.render(signInContext))
+					return redirect('/')
 				else:
 					# Case: User account disabled.
-					signInContext = Context({"logInMessage": "Your account has been "\
-															 "disabled.", 'notLoggedIn': 'TRUE'})
+					signInContext = Context({'logged_in': loggedin, 'fullname': fullname, 'user_id': id, "logInMessage": "Your account has been disabled.", 'notLoggedIn': 'TRUE'})
 					return HttpResponse(signInTemplate.render(signInContext))
 			else:
 				# Case: Invalid credentials.
-				signInContext = Context({"logInMessage": "Invalid Username or Password: "\
-														 "Please check your credentials.",
-										 'notLoggedIn': 'TRUE'})
+				signInContext = Context({"logInMessage": "Invalid Username or Password: Please check your credentials.", 'notLoggedIn': 'TRUE', 'logged_in': loggedin, 'user_id': id, 'fullname': fullname})
 				return HttpResponse(signInTemplate.render(signInContext))
 		except:
 			# Case: Default page with the sign-in form - user is NOT logged in yet.
-			signInContext = Context({"notLoggedIn": "TRUE"})
+			signInContext = Context({'logged_in': loggedin, 'fullname': fullname, 'user_id': id, "notLoggedIn": "TRUE"})
 			return HttpResponse(signInTemplate.render(signInContext))
 
 
 def signOut(request):
 	logout(request)
+	loggedin = False
+	fullname = ""
 	signOutTemplate = loader.get_template('account/signOut.html')
-	signOutContext = Context({})
+	signOutContext = Context({'logged_in': loggedin, 'fullname': fullname, 'user_id': request.user.id})
 	return HttpResponse(signOutTemplate.render(signOutContext))
 
 
 def gamepage(request):
+	loggedin = False
+	fullname = ""
+	if request.user.is_authenticated():
+		loggedin = True;
+		fullname = request.user.get_full_name()
 	t = loader.get_template('gamepage/index.html')
-	c = Context({})
+	c = Context({'logged_in': loggedin, 'fullname': fullname, 'user_id': request.user.id})
 	return HttpResponse(t.render(c))
 
 def results(request):
@@ -155,77 +167,86 @@ def results(request):
 		
 		pglst = [str(i) for i in range (fpg, lpg+1)]
 		search_res = pgr.page(pg)
-	c = Context({'logged_in': loggedin, 'fullname': string.capwords(fullname), 'search_res' : search_res, 'qry': qry, 'page_list' : pglst, 'ellipses1': e1, 'ellipses2': e2})
+	c = Context({'logged_in': loggedin, 'fullname': string.capwords(fullname), 'user_id': request.user.id, 'search_res' : search_res, 'qry': qry, 'page_list' : pglst, 'ellipses1': e1, 'ellipses2': e2})
 	return HttpResponse(t.render(c))
 
 
-def profile(request, user_id = None):    
-    if user_id == None or User.objects.filter(pk = user_id).count() == 0:
-        return redirect('/invalid_user_id/') # if supplied an invalid user id    
-    elif request.user.is_authenticated() and request.user.id == int(user_id): # users profile ...                    
-        user            = User.objects.get(id = user_id)
-        profile         = user.get_profile()
-        uploadsavegames = UploadedGame.objects.filter(user = user)
-        form            = UploadGameForm()
-        comments        = Comments.objects.filter(user = user)
-        owner           = True
+def profile(request, user_id = None):
+        loggedin = False
+        fullname = ""
+        if user_id == None or User.objects.filter(pk = user_id).count() == 0:
+                return redirect('/invalid_user_id/') # if supplied an invalid user id    
+        elif request.user.is_authenticated() and request.user.id == int(user_id): # users profile ...                    
+                user            = User.objects.get(id = user_id)
+                profile         = user.get_profile()
+                uploadsavegames = UploadedGame.objects.filter(user = user)
+                form            = UploadGameForm()
+                comments        = Comments.objects.filter(user = user)
+                owner           = True
+                loggedin		= True
+                fullname		= user.get_full_name()
+                        
+                if request.method == "POST":            
+                    user.first_name     = request.POST['first_name']
+                    user.last_name      = request.POST['last_name']
+                    user.username       = request.POST['username']
+                    user.set_password(request.POST['password'])
+                    user.email          = request.POST['email']
 
-        if request.method == "POST":            
-            user.first_name     = request.POST['first_name']
-            user.last_name      = request.POST['last_name']
-            user.username       = request.POST['username']
-            user.set_password(request.POST['password'])
-            user.email          = request.POST['email']
+                    user.save()
+                    
+                    if 'avatar' in request.FILES:
+                        file = request.FILES['avatar']
+                        try:
+                            os.remove(os.getcwd() + '/savegame/' + profile.avatar.name)
+                        except Exception:
+                            pass
+                        filename = 'static/images/' + getRandomString() + '.' + file.name.split('.')[-1:][0]                
+                        destination = open('savegame/' + filename, 'wb')
+                        for chunk in file.chunks():
+                            destination.write(chunk)
+                        destination.close()
+                        profile.avatar.name = filename
 
-            user.save()
-            
-            if 'avatar' in request.FILES:
-                file = request.FILES['avatar']
-                try:
-                    os.remove(os.getcwd() + '/savegame/' + profile.avatar.name)
-                except Exception:
-                    pass
-                filename = 'static/images/' + getRandomString() + '.' + file.name.split('.')[-1:][0]                
-                destination = open('savegame/' + filename, 'wb')
-                for chunk in file.chunks():
-                    destination.write(chunk)
-                destination.close()
-                profile.avatar.name = filename
+                    if 'private' in request.POST:
+                        profile.private = request.POST['private']
+                    profile.save()
 
-            if 'private' in request.POST:
-                profile.private = request.POST['private']
-            profile.save()
+                    if request.is_ajax():                                  
+                        return HttpResponse(serializers.serialize('json', [user, profile]) ,
+                                            mimetype = 'application/json')
+                        
+                    
+                        
 
-            if request.is_ajax():                                  
-                return HttpResponse(serializers.serialize('json', [user, profile]) ,
-                                    mimetype = 'application/json')
-                
-            
-                
+                context = {'user':user,
+                           'profile':profile,
+                           'uploadsavegames':uploadsavegames,
+                           'form':form,
+                           'comments':comments,
+                           'owner':owner,
+                           'logged_in': loggedin,
+                           'fullname': string.capwords(fullname),
+                           'user_id': user.id}
 
-        context = {'user':user,
-                   'profile':profile,
-                   'uploadsavegames':uploadsavegames,
-                   'form':form,
-                   'comments':comments,
-                   'owner':owner}
+                return render_to_response('account/profile.html',
+                                           context,
+                                           context_instance=RequestContext(request))
+        elif User.objects.get(pk = user_id).get_profile().private: # if profile is private ..
+                return redirect('/')
+        else: # public profile viewed by anyone ...
+                user            = User.objects.get(id = user_id)
+                profile         = user.get_profile()
+                uploadsavegames = UploadedGame.objects.filter(user = user, private = False)
+                comments        = Comments.objects.filter(user = user)
+                loggedin		= True
+                fullname		= user.get_full_name()
 
-        return render_to_response('account/profile.html',
-                                   context,
-                                   context_instance=RequestContext(request))
-    elif User.objects.get(pk = user_id).get_profile().private: # if profile is private ..
-        return redirect('/private_profile/')
-    else: # public profile viewed by anyone ...
-        user        = User.objects.get(id = user_id)
-        profile     = user.get_profile()
-        uploadsavegames = UploadedGame.objects.filter(user = user, private = False)
-        comments        = Comments.objects.filter(user = user)
-        
-        context = {'user':user, 'profile':profile, 'uploadsavegames':uploadsavegames, 'comments':comments}
+                context = {'logged_in': loggedin, 'fullname': string.capwords(fullname), 'user':user, 'profile':profile, 'uploadsavegames':uploadsavegames, 'comments':comments}
 
-        return render_to_response('account/profile.html',
-                                   context,
-                                   context_instance=RequestContext(request))
+                return render_to_response('account/profile.html',
+                                           context,
+                                           context_instance=RequestContext(request))
 
 
 def getUploadedFileData(request):
