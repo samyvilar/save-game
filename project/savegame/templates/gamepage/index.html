@@ -8,28 +8,154 @@
     <link rel='stylesheet' href='{{ STATIC_PREFIX }}css/gamepage.css' type='text/css' />
 {% endblock %}
 
+{% block js %}
+<script type='text/javascript'>
+
+function getUploadedFileData(data){
+    data = eval( '(' + data + ')' );  // Interpret string as json object.  Very unsafe, but does the job :)
+    
+    $("#data_title").html(data['data_title']);
+    $("#download_link").attr("src", data['download_link']); /* Set the attribute dynamically */
+    $("#uploader").html(data['uploader']);
+    $("#date").html(data['date']);
+    $("#profile").attr("src", data['profile_path']);
+    $("#game_desc").html(data['game_desc']);
+
+
+    /* Load the comment section */
+
+     /* Get all the date properly formattted */
+        info = [];
+        for(var i in data['info2']){
+             info.push(Number(i));
+        }
+        
+        info = info.reverse();
+       
+
+        var comment_id = 0;
+        var date = 0;
+        var comment = '';
+        var user = '';
+       
+        for(var i = 0; i < info.length; i++)
+        {
+            
+            comment_id = data['info2'][info[i]]['id'];
+            date = data['info2'][info[i]]['datetime'];
+            comment = data['info2'][info[i]]['comment'];
+            user = 'eudis';    
+            
+            var div = "<div id='" + comment_id +
+            "' class='acomment'><br /><a href='#'>" + user + "</a> &nbsp; &nbsp; <span style='font-style:italic'>" +  date + " </span><p>" +
+            comment
+            + "</p><hr /><br /></div>";
+            $("#comment_section").append(div);
+            
+        }
+    
+    
+}
+
+
+function getCommentData(data){
+        
+        data = eval('(' + data + ')');
+        
+        
+        /* First, we simply attach all comments, EXCEPT the last one */
+
+        /* Get all the date properly formattted */
+     
+
+        var comment_id = data['only']['id'];
+        var date = data['only']['datetime'];
+        var comment = data['only']['comment'];
+        var user = 'eudis';       
+
+        
+        var div = "<div id='" + comment_id +
+         "' class='acomment'><br /><a href='#'>" + user + "</a> &nbsp; &nbsp; <span style='font-style:italic'>" + date + "</span><p>" +
+        comment
+        + "</p><hr /><br /></div>";
+       
+        $(div).insertBefore(".acomment");
+        $("#" + comment_id ).hide();
+        $("#" + comment_id ).show('slow', function(){ });
+               
+}
+
+$(document).ready(function(){
+    var user_id = 3;  /* This is a stub, needs to be replaced */
+    var uploaded_game_id = 17;  /* This is a stub, needs to be replaced */
+
+    /* This part uses ajax to get the necessary
+       data from the db, given the user_id and uploaded_game_id */    
+    $.ajax({
+        type: "GET",
+        url: "/getUploadedFileData/",
+        data: { 'user_id' : user_id, 'uploaded_game_id' : uploaded_game_id },
+        async: false,
+        success: getUploadedFileData
+    });
+
+
+    $("#sub").click(function(){
+       
+        var logged_in_user = 3
+
+        // We remove extra whitespace from the comment input
+        var comment_data = $("#comment_area").val();
+        
+        comment_data = comment_data.replace(/(\r\n|\n|\r)/gm,"");
+        comment_data = comment_data.replace(/\s+/g," ");
+        if( comment_data == '' || comment_data == ' ' ){
+            alert("Provide a comment!");
+            return;
+        }
+        
+
+        $.ajax({
+            async: false,
+            success: getCommentData,
+            url: "/getCommentData/",
+            data: { 'user_id' : logged_in_user, 'uploaded_game_id' : uploaded_game_id, 'comment_data': comment_data  } 
+
+        });
+
+        
+        
+    });
+
+});
+</script>
+
+{% endblock %}
+
+
 {% block content %} 
     <div id='gameinfo'>
         <div id='title'>
             <div style='width:30%; float:left;'>
-                <h2>RE_Only_Knife</h2>
+                <h2 id='data_title'>RE_Only_Knife</h2>
                 <br />
-                <span style='font-style: italic'>Uploaded 2/28/2011</span>
+                Uploaded <span id='date' style='font-style: italic'> 2/28/2011</span>
+                <br />
             </div>
             <div style='width:65%; float:left; text-align: center;'>
-                <h1> <a href='#'>Download Savegame</a> </h1>
+                <h1> <a id='download_link' href='#'>Download Savegame</a> </h1>
             </div>
         </div>
         <div id='desc'>
             <div style='width: 30%; float: left;'>
-                Profile Stuff
+                <img id='profile' src='' alt='No profile pic' />
                 <br />
-                Uploaded By: Eudis
+                Uploaded By:  <span id='uploader'> Eudis </span>
             </div>
             
             <div style='float:left; width: 65%; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius:15px; border: 1px solid gray; min-height: 100px; margin-left: 2%; padding: 1%'>
             <h3> Description </h3>
-            The save game is awesome.  In it is proof how I beat RE with only the knife.
+            <p id='game_desc'> The save game is awesome.  In it is proof how I beat RE with only the knife.</p>
             </div>
         </div>
         <div id='comments'>
@@ -37,37 +163,16 @@
             <div style='width:49%; float: left;'>
                 <h3>Post A Comment</h3>
                 <br />
+                 <input id='sub' type='button' value='Submit Comment' />
+                <br />
                 <textarea id='comment_area' rows='10' cols='30'>
 
                 </textarea>
                 <br />
-                <input type='submit' value='Submit Comment' />
+               
             </div>
     
-            <div style='width: 49%; float: left; overflow: hidden; height: 300px;'> 
-                
-                <div style='width: 100%; float: left;'>
-                    <br />
-                    <a href="#">Eudis</a> &nbsp; &nbsp; <span style='font-style:italic'> 1/22/2011 - 1:30pm </span>
-                    <p> This game save is awesome! Thanks a lot </p>
-                    <hr />
-                    <br />
-                </div>
-                 <div style='width: 100%; float: left;'>
-                    <br />
-                    <a href="#">Akshai</a> &nbsp; &nbsp; <span style='font-style:italic'> 1/22/2011 - 1:45pm</span>
-                    <p> I disagree </p>
-                    <hr />
-                    <br />
-                </div>
-                 <div style='width: 100%; float: left;'>
-                    <br />
-                    <a href="#">Townes</a> &nbsp; &nbsp; <span style='font-style:italic'> 1/22/2011 </span>
-                    <p> I beat Grossberg in an argument. And I love the kindle. </p>
-                    <hr />
-                    <br />
-                </div>
-                
+            <div id='comment_section' style='width: 49%; float: left; overflow: scroll; height: 300px;'> 
                 
                 
             </div>
