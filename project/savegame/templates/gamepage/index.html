@@ -20,6 +20,8 @@ function getUploadedFileData(data){
     $("#date").html(data['date']);
     $("#profile").attr("src", data['profile_path']);
     $("#game_desc").html(data['game_desc']);
+    $("#upvotes").html(data['upvotes']);
+    $("#downvotes").html(data['downvotes']);
 
 
     /* Load the comment section */
@@ -85,6 +87,13 @@ function getCommentData(data){
                
 }
 
+function getvotedata(data){ 
+	data = eval('(' + data + ')');
+        
+    $("#upvotes").html(data['upvotes']);
+    $("#downvotes").html(data['downvotes']);          
+}
+
 $(document).ready(function(){
     var user_id = 3;  /* This is a stub, needs to be replaced */
     var uploaded_game_id = 17;  /* This is a stub, needs to be replaced */
@@ -126,6 +135,27 @@ $(document).ready(function(){
         
         
     });
+    
+    $("#upv").click(function(){
+		var logged_in_user = 3;
+		$.ajax({
+			async: false,		
+			success: getvotedata,
+			url: "/getvotedata/",
+			data: { 'user_id' : logged_in_user, 'uploaded_game_id' : uploaded_game_id, 'upvote': 1  }
+	
+		}); 
+	});
+	
+	$("#dnv").click(function(){
+		var logged_in_user = 3;
+		$.ajax({
+			async: false,
+			success: getvotedata,
+			url: "/getvotedata/",
+			data: { 'user_id' : logged_in_user, 'uploaded_game_id' : uploaded_game_id, 'downvote': 1  },
+		});
+	});
 
 });
 </script>
@@ -135,16 +165,23 @@ $(document).ready(function(){
 
 {% block content %} 
     <div id='gameinfo'>
+		<!-- Voting -->
+		<div id = 'voting'>
+			 <input id='upv' type='image' src= '{{ STATIC_PREFIX }}images/upv.png' height="25" width = "20"/> <br />
+			 <span id='upvotes'>10</span> <br />
+			 <span id='downvotes'>10</span> <br />
+			 <input id='dnv' type='image' src= '{{ STATIC_PREFIX }}images/dnv.png' height="25" width = "20"/> <br />
+		</div> 
         <div id='title'>
-            <div style='width:30%; float:left;'>
+            <div style='width:25%; float:left;'>
                 <h2 id='data_title'>RE_Only_Knife</h2>
                 <br />
                 Uploaded <span id='date' style='font-style: italic'> 2/28/2011</span>
                 <br />
             </div>
-            <div style='width:65%; float:left; text-align: center;'>
+            <div style='width:60%; float:left; text-align: center;'>
                 <h1> <a id='download_link' href='#'>Download Savegame</a> </h1>
-            </div>
+            </div>           	
         </div>
         <div id='desc'>
             <div style='width: 30%; float: left;'>

@@ -8,53 +8,6 @@
     <link rel='stylesheet' href='{{ STATIC_PREFIX }}css/results.css' type='text/css' />
 {% endblock %}
 
-{% block js %}
-<!-- 
-<script type='text/javascript'>
-
-function getvotedata(data){
-    data = eval( '(' + data + ')' );  // Interpret string as json object.  Very unsafe, but does the job :)
-    $("#votes").html(data['upvotes']+data['downvotes']);
-    
-}
-
-$(document).ready(function(){
-
-    /* This part uses ajax to get the necessary
-       data from the db, given the user_id and uploaded_game_id */    
-    $.ajax({
-        type: "GET",
-        url: "/getvotedata/",
-        data: {'uploaded_game_id' : uploaded_game_id },
-        async: false,
-        success: getvotedata
-    });
-
-
-    $("#upvote").click(function(){
-        $.ajax({
-            async: false,
-            success: getvotedata,
-            url: "/getvotedata/",
-            data: {'uploaded_game_id' : uploaded_game_id, 'upvote': 1} 
-
-        });         
-    });
-    
-	$("#downvote").click(function(){
-		$.ajax({
-			async: false,
-			success: getvotedata,
-			url: "/getvotedata/",
-			data: {'uploaded_game_id' : uploaded_game_id, 'downvote': 1} 
-		});         
-    });
-
-});
-</script>
- -->
-
-{% endblock %}
 {% block nav %}
 	{% if logged_in %}
 		<div id='nav'>
@@ -107,20 +60,22 @@ $(document).ready(function(){
 					 {{ member.platform.name }}
 				</div>
 				<div class='one' style='font-size: 12px;'>
-					<div style='width: 30%; float: left'>
+					<div style='width: 28%; float: left'>
 						<a href="{{member.file}}">Download</a>
 					</div>
-					<div style='width: 30%; float: left'>
+					<div style='width: 28%; float: left'>
                     	<a href="/gamepage/?uploaded_game_id={{ member.id }}"> View Page </a>
                     </div>
-					<div style='width: 30%; float: left'>
-							<a href="#">Upvote</a>
+					<div style='width: 28%; float: left'>
+							<span>Upvotes:</span>
 							<br />
 							<br />
-							<a href="#">Downvote</a>
+							<span>Downvotes:</span>
 					</div>
-					<div id = 'votes' style='font-size: 14px; width: 9%; float: left'>
-					   {{ member.upvote }} <br /> <br /> {{ member.downvote }}
+					<div id = '{{ member.id }}' style='font-size: 12px; width: 5%; float: left'>
+					   <span id = 'upvote'>{{ member.upvote }} </span> 
+					   <br /> <br /> 
+					   <span id = 'downvote'>{{ member.downvote }}</span>
 					</div>
 				</div>
 			</div>

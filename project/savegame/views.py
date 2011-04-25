@@ -203,9 +203,10 @@ def getUploadedFileData(request):
 	info['profile_path'] = '/'+UserProfile.objects.filter(user=user_id).values()[0].get('avatar')
 	info['download_link'] =	 UploadedGame.objects.filter(user=user_id, id=uploaded_id).values()[0]['file']
 	info['game_desc'] = UploadedGame.objects.filter(user=user_id, id=uploaded_id).values()[0]['comment']
-	
-	
 	res = Comments.objects.filter(uploadedgame=uploaded_id).order_by('id').values()
+	game = UploadedGame.objects.get(id=uploaded_id)
+	info['upvotes'] = str(game.upvote)
+	info['downvotes'] = str (game.downvote)
 	info2 = {}
 	for i in res:
 		i['datetime'] = ''	#this is a hack because datetime result is not serializable
@@ -257,16 +258,16 @@ def getCommentData(request):
 	
 def getvotedata(request):
 	uploaded_id = request.GET.get('uploaded_game_id')
-	upvotes = request.GET.get('upvotes', '')
-	downvotes = request.GET.get('downvotes', '')
+	upvoted = request.GET.get('upvote', '')
+	downvoted = request.GET.get('downvote', '')
 	info = {}
 	game = UploadedGame.objects.get(id=uploaded_id)
 	info['upvotes'] = game.upvote
 	info['downvotes'] = game.downvote
-	if upvotes:
+	if upvoted:
 		game.upvote = game.upvote + 1
 		info['upvotes'] = game.upvote
-	if downvotes:
+	if downvoted:
 		game.downvote = game.downvote + 1
 		info['downvotes'] = game.downvote
 	game.save()
