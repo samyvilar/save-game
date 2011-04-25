@@ -120,7 +120,7 @@ def results(request):
 	pglst = []
 	e1, e2, loggedin = False, False, False
 	if request.user.is_authenticated():
-		logged_in = True;
+		loggedin = True;
 		fullname = request.user.get_full_name()
 	t = loader.get_template('results/index.html')
 	search_res = {}
@@ -129,7 +129,7 @@ def results(request):
 		s1 = UploadedGame.objects.filter(game__title__iexact=qry)
 		s2 = UploadedGame.objects.filter(file__iexact='saved-file.bin')
 		s3 = UploadedGame.objects.filter(user__username__iexact=qry)
-		s4 = UploadedGame.objects.filter(comment__iexact=qry)
+		s4 = UploadedGame.objects.filter(description__iexact=qry)
 		if not s1.exists():
 			s1 = UploadedGame.objects.filter(game__title__icontains=qry)
 		if not s2.exists():
@@ -137,7 +137,7 @@ def results(request):
 		if not s3.exists():
 			s3 = UploadedGame.objects.filter(user__username__icontains=qry)
 		if not s4.exists():
-			s4 = UploadedGame.objects.filter(comment__icontains=qry)
+			s4 = UploadedGame.objects.filter(description__icontains=qry)
 		
 		search_res = (s1|s2|s3|s4).distinct()
 		pgr = Paginator(search_res, 12)
@@ -248,19 +248,19 @@ def getUploadedFileData(request):
 	info['upvotes'] = str(game.upvote)
 	info['downvotes'] = str (game.downvote)
 	
-    info['data_title'] = "f.zip"
-    info['date'] = '1/2/2222' #UploadedGame.objects.filter(user=user_id, id=uploaded_id).values()[0]['datetime']
-    info['uploader'] = User.objects.filter(id=user_id).values()[0].get('username')
-    info['profile_path'] = '/'+UserProfile.objects.filter(user=user_id).values()[0].get('avatar')
-    info['download_link'] =  UploadedGame.objects.filter(user=user_id, id=uploaded_id).values()[0]['file']
-    info['game_desc'] = UploadedGame.objects.filter(user=3, id=17).values()[0]['description']
+    	info['data_title'] = "f.zip"
+    	info['date'] = '1/2/2222' #UploadedGame.objects.filter(user=user_id, id=uploaded_id).values()[0]['datetime']
+    	info['uploader'] = User.objects.filter(id=user_id).values()[0].get('username')
+    	info['profile_path'] = '/'+UserProfile.objects.filter(user=user_id).values()[0].get('avatar')
+	info['download_link'] =  UploadedGame.objects.filter(user=user_id, id=uploaded_id).values()[0]['file']
+    	info['game_desc'] = UploadedGame.objects.filter(user=3, id=17).values()[0]['description']
     
     
-    res = Comments.objects.filter(uploadedgame=uploaded_id).order_by('id').values()
-    info2 = {}
-    for i in res:
-        i['datetime'] = ''  #this is a hack because datetime result is not serializable
-        info2[i['id']] = i
+   	res = Comments.objects.filter(uploadedgame=uploaded_id).order_by('id').values()
+    	info2 = {}
+    	for i in res:
+        	i['datetime'] = ''  #this is a hack because datetime result is not serializable
+        	info2[i['id']] = i
 
 	info['info2'] = info2;
 
