@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from savegame.models import *
+from savegame.models import UploadedGame
 from django.contrib.auth.models import User
 from django import forms
 

@@ -21,6 +21,7 @@
     {% if notLoggedIn %}
         <div id="signInBlock">
             <form action="" id="signInForm" method="POST">
+            {% csrf_token %}
                 <fieldset>
                     <legend>Credentials Entry</legend>
                     <label for="username">Username:</label>

@@ -14,6 +14,7 @@ import os
 import json
 from datetime import datetime
 from project.savegame.models import *
+from django.core.context_processors import csrf
 
 def mainpage(request):
     latest_ten = UploadedGame.objects.all().exclude(private=True).order_by('-datetime')[:10]
@@ -357,15 +358,23 @@ def getvotedata(request):
     return HttpResponse(json.dumps(info))
 
 
+#def uploadHandler(saveFile):
+    # Write the saveFile to some location.
+
+
+
 def upload(request):
     # Only allow the user to upload data if he or she has already logged in.
     if request.user.is_authenticated():
         uploadForm = UploadGameForm()
+
+        # Create the database entry for the saveFile
+
         uploadTemplate = loader.get_template('account/upload.html')
         uploadContext = RequestContext(request, {'uploadForm': uploadForm})
         return HttpResponse(uploadTemplate.render(uploadContext))
     else:
         uploadTemplate = loader.get_template('account/upload.html')
         uploadContext = RequestContext(request,
-                                       {'accessDenied': "You must be logged in to see this page"})
+                                       {'accessDenied': "You must be logged in to see this page."})
         return HttpResponse(uploadTemplate.render(uploadContext))
