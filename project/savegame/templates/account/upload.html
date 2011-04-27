@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}
+    Upload Your Saved Games
+{% endblock %}
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+
+<!--Overriding Nav --!>
+{% block nav %}
+	<div id='nav'>
+        <div style='width: 100%; float: right;'>
+            <a href='/signIn/'>Login</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    {% if accessDenied %}
+        <div id='accessDenied'>
+            {{ accessDenied }}
+        </div>
+    {% else %}
+        <div id = 'formwrapper'>
+            <form id = 'upload_page' method = 'POST' action = "/upload/"> {% csrf_token %}
+                <div id = 'formcontents'>
+                    <div id = 'validationerrors'>
+                        {{ uploadForm.non_field_errors }}
+                    </div>
+                    <div id='game'>
+                        <label for='id_game'><span class = 'fieldnames'>Associated Game: </span></label>
+                        {{ uploadForm.game }} {{ uploadForm.game.errors }}
+                    </div>
+                    <div id='platform'>
+                        <label for='id_platform'><span class = 'fieldnames'>Associated Platform: </span></label>
+                        {{ uploadForm.platform }} {{ uploadForm.platform.errors }}
+                    </div>
+                    <div id='file'>
+                        <label for='id_file'><span class = 'fieldnames'>Saved Game File: </span></label>
+                        {{ uploadForm.file }} {{ uploadForm.file.errors }}
+                    </div>
+                    <div id='title'>
+                        <label for='id_title'><span class = 'fieldnames'>Title for this save: </span></label>
+                        {{ uploadForm.title }} {{ uploadForm.title.errors }}
+                    </div>
+                    <div id='description'>
+                        <label for='id_description'><span class = 'fieldnames'>Description for this save: </span></label>
+                        {{ uploadForm.description }} {{ uploadForm.description.errors }}
+                    </div>
+                    <div id='private'>
+                        <label for='id_private'><span class = 'fieldnames'>Make this save private? </span></label>
+                        {{ uploadForm.private }} {{ uploadForm.private.errors }}
+                    </div>
+                </div>
+                <input id = 'upload_submit' type = 'submit' value = 'Upload'/>
+            </form>
+        </div>
+    {% endif %}
+{% endblock %}
