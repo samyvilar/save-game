@@ -12,3 +12,9 @@ http://127.0.0.1:8000/gamepage/
 http://127.0.0.1:8000/results/
 http://127.0.0.1:8000/registration/
 http://127.0.0.1:8000/registration/thanks/
+http://127.0.0.1:8000/upload/
+
+http://127.0.0.1:8000/getvotedata/
+http://127.0.0.1:8000/getUploadedFileData/
+http://127.0.0.1:8000/getCommentData/
+http://127.0.0.1:8000/profile/[user-id]
