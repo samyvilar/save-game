@@ -382,10 +382,16 @@ def uploadHandler(saveFile):
 def upload(request):
     # Only allow the user to upload data if he or she has already logged in.
     if request.user.is_authenticated():
+        loggedIn = True
+        fullName = request.user.get_full_name()
+        userID = request.user.id
+
         if request.method == 'POST':
             # Case: User is logged in and had just submitted a save file:
-            inUploadForm = UploadGameForm(request.POST, request.FILES)
-            # if inUploadForm.is_valid():
+
+            # The following two lines will be used for form validation:
+            #inUploadForm = UploadGameForm(request.POST, request.FILES)
+            #if inUploadForm.is_valid():
             uploadedLocation = uploadHandler(request.FILES['file'])[8:]
             gameIn = Game.objects.get(id=request.POST['game'])
             platformIn = Platform.objects.get(id=request.POST['platform'])
@@ -398,7 +404,7 @@ def upload(request):
             except:
                 privateIn = False
             origName = request.FILES['file'].name
-            userIn = User.objects.get(id=request.user.id)
+            userIn = User.objects.get(id=userID)
             datetimeIn = datetime.datetime.now()
             upvoteIn = 0
             downvoteIn = 0
@@ -418,14 +424,19 @@ def upload(request):
             savedGame.save()
 
             uploadTemplate = loader.get_template('account/upload.html')
-            uploadContext = RequestContext(request, {'accessDenied':\
-                                                         "Your file has been successfully uploaded."})
+            uploadContext = RequestContext(request, {
+                'accessDenied': "Your file has been successfully uploaded."
+                , 'logged_in': loggedIn, 'fullname': fullName,
+                'user_id': userID})
             return HttpResponse(uploadTemplate.render(uploadContext))
         else:
             # Case: User logged in but had not submitted saved data for uploading:
             uploadForm = UploadGameForm()
             uploadTemplate = loader.get_template('account/upload.html')
-            uploadContext = RequestContext(request, {'uploadForm': uploadForm})
+            uploadContext = RequestContext(request,
+                                           {'uploadForm': uploadForm, 'logged_in': loggedIn,
+                                            'fullname': fullName,
+                                            'user_id': userID})
             return HttpResponse(uploadTemplate.render(uploadContext))
     else:
         uploadTemplate = loader.get_template('account/upload.html')

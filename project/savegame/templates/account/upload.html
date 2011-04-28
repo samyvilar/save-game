@@ -4,14 +4,8 @@
 {% endblock %}
 {% load static %}
 {% get_static_prefix as STATIC_PREFIX %}
-
-<!--Overriding Nav --!>
-{% block nav %}
-	<div id='nav'>
-        <div style='width: 100%; float: right;'>
-            <a href='/signIn/'>Login</a>
-        </div>
-    </div>
+{% block css %}
+    <link rel='stylesheet' href="{{ STATIC_PREFIX }}css/upload.css" type='text/css'/>
 {% endblock %}
 
 {% block content %}
