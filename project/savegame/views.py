@@ -14,7 +14,6 @@ import os
 import json
 from datetime import datetime
 from project.savegame.models import *
-from django.core.context_processors import csrf
 
 def mainpage(request):
     latest_ten = UploadedGame.objects.all().exclude(private=True).order_by('-datetime')[:10]
@@ -358,21 +357,48 @@ def getvotedata(request):
     return HttpResponse(json.dumps(info))
 
 
-#def uploadHandler(saveFile):
-    # Write the saveFile to some location.
+def uploadHandler(saveFile):
+    path = 'savegame/static/saved_games/' + saveFile.name
 
+    existCount = 1
+    fileName = saveFile.name.split(".")[0]
+    fileExtension = saveFile.name.split(".")[1]
+
+    # Check if the file already exists:
+    while os.path.exists(path):
+        # Stay in this loop until we find a path that does NOT exist.
+        path = 'savegame/static/saved_games/' +\
+               fileName + '_' + str(existCount) + '.' + fileExtension
+        existCount += 1
+
+    # Write the saveFile to some location.
+    destination = open(path, 'wb+')
+    for chunk in saveFile.chunks():
+        destination.write(chunk)
+    destination.close()
+    return path
 
 
 def upload(request):
     # Only allow the user to upload data if he or she has already logged in.
     if request.user.is_authenticated():
-        uploadForm = UploadGameForm()
+        if request.method == 'POST':
+            # Case: User is logged in and had just submitted a save file:
+            inUploadForm = UploadGameForm(request.POST, request.FILES)
+            # if inUploadForm.is_valid():
+            uploadedLocation = uploadHandler(request.FILES['file'])
+            # Create the database entry for the saveFile
 
-        # Create the database entry for the saveFile
-
-        uploadTemplate = loader.get_template('account/upload.html')
-        uploadContext = RequestContext(request, {'uploadForm': uploadForm})
-        return HttpResponse(uploadTemplate.render(uploadContext))
+            uploadTemplate = loader.get_template('account/upload.html')
+            uploadContext = RequestContext(request, {'accessDenied':\
+                                                         "Your file has been successfully uploaded."})
+            return HttpResponse(uploadTemplate.render(uploadContext))
+        else:
+            # Case: User logged in but had not submitted saved data for uploading:
+            uploadForm = UploadGameForm()
+            uploadTemplate = loader.get_template('account/upload.html')
+            uploadContext = RequestContext(request, {'uploadForm': uploadForm})
+            return HttpResponse(uploadTemplate.render(uploadContext))
     else:
         uploadTemplate = loader.get_template('account/upload.html')
         uploadContext = RequestContext(request,

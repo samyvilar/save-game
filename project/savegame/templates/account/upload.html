@@ -21,7 +21,7 @@
         </div>
     {% else %}
         <div id = 'formwrapper'>
-            <form id = 'upload_page' method = 'POST' action = "/upload/"> {% csrf_token %}
+            <form id = 'upload_page' method = 'POST' action = "/upload/" enctype = "multipart/form-data"> {% csrf_token %}
                 <div id = 'formcontents'>
                     <div id = 'validationerrors'>
                         {{ uploadForm.non_field_errors }}
