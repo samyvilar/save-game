@@ -425,8 +425,10 @@ def upload(request):
 
             uploadTemplate = loader.get_template('account/upload.html')
             uploadContext = RequestContext(request, {
-                'accessDenied': "Your file has been successfully uploaded."
-                , 'logged_in': loggedIn, 'fullname': fullName,
+                'accessDenied': "Your file has been successfully uploaded.",
+                'redirectOn': True,
+                'logged_in': loggedIn,
+                'fullname': fullName,
                 'user_id': userID})
             return HttpResponse(uploadTemplate.render(uploadContext))
         else:
