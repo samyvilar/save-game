@@ -12,8 +12,8 @@ from django.core import serializers
 from django.shortcuts import render_to_response, redirect
 import os
 import json
-from datetime import datetime
 from project.savegame.models import *
+import datetime
 
 def mainpage(request):
     latest_ten = UploadedGame.objects.all().exclude(private=True).order_by('-datetime')[:10]
@@ -364,7 +364,7 @@ def uploadHandler(saveFile):
     fileName = saveFile.name.split(".")[0]
     fileExtension = saveFile.name.split(".")[1]
 
-    # Check if the file already exists:
+    # Check if the file already exists (Accommodates multiple saves with the same filename):
     while os.path.exists(path):
         # Stay in this loop until we find a path that does NOT exist.
         path = 'savegame/static/saved_games/' +\
@@ -386,8 +386,36 @@ def upload(request):
             # Case: User is logged in and had just submitted a save file:
             inUploadForm = UploadGameForm(request.POST, request.FILES)
             # if inUploadForm.is_valid():
-            uploadedLocation = uploadHandler(request.FILES['file'])
+            uploadedLocation = uploadHandler(request.FILES['file'])[8:]
+            gameIn = Game.objects.get(id=request.POST['game'])
+            platformIn = Platform.objects.get(id=request.POST['platform'])
+            titleIn = request.POST['title']
+            descriptIn = request.POST['description']
+            try:
+                # If the 'private' key exists, then that means the checkbox was ticked.
+                request.POST['private']
+                privateIn = True
+            except:
+                privateIn = False
+            origName = request.FILES['file'].name
+            userIn = User.objects.get(id=request.user.id)
+            datetimeIn = datetime.datetime.now()
+            upvoteIn = 0
+            downvoteIn = 0
+
             # Create the database entry for the saveFile
+            savedGame = UploadedGame.objects.create(game=gameIn,\
+                                                    platform=platformIn,\
+                                                    file=uploadedLocation,\
+                                                    user=userIn,\
+                                                    datetime=datetimeIn,\
+                                                    title=titleIn,\
+                                                    description=descriptIn,\
+                                                    upvote=upvoteIn,\
+                                                    downvote=downvoteIn,\
+                                                    private=privateIn,\
+                                                    original_file_name=origName)
+            savedGame.save()
 
             uploadTemplate = loader.get_template('account/upload.html')
             uploadContext = RequestContext(request, {'accessDenied':\
