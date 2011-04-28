@@ -200,12 +200,17 @@ def profile(request, user_id=None):
         loggedin = True
         fullname = user.get_full_name()
 
+
+        if request.is_ajax():
+            return HttpResponse(serializers.serialize('json', [user, profile]) ,mimetype = 'application/json')
+
         if request.method == "POST":
             user.first_name = request.POST['first_name']
             user.last_name = request.POST['last_name']
             user.username = request.POST['username']
             user.set_password(request.POST['password'])
             user.email = request.POST['email']
+
 
             user.save()
 
