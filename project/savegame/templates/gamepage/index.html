@@ -95,8 +95,8 @@ function getvotedata(data){
 }
 
 $(document).ready(function(){
-    var user_id = 3;  /* This is a stub, needs to be replaced */
-    var uploaded_game_id = 17;  /* This is a stub, needs to be replaced */
+    var user_id = {{ user_id }}; 
+    var uploaded_game_id = {{ uploaded_id }}; 
 
     /* This part uses ajax to get the necessary
        data from the db, given the user_id and uploaded_game_id */    

@@ -134,7 +134,11 @@ def gamepage(request):
         loggedin = True;
         fullname = request.user.get_full_name()
     t = loader.get_template('gamepage/index.html')
-    c = Context({'logged_in': loggedin, 'fullname': fullname, 'user_id': request.user.id})
+
+    print "user_id: ", request.user.id
+    print "uploaded_id: ", request.GET['uploaded_game_id']
+
+    c = Context({'logged_in': loggedin, 'fullname': fullname, 'user_id': request.user.id, 'uploaded_id':request.GET['uploaded_game_id']})
     return HttpResponse(t.render(c))
 
 
@@ -265,28 +269,55 @@ def getUploadedFileData(request):
     info = {}
 
     try:
-        user_id = request.GET['user_id']
+       
         uploaded_id = request.GET['uploaded_game_id']
 
     except:
         return HttpResponse("Error retrieving uploaded file data!");
 
 
-    # Get stuff off the data base and pass it back to the client!
+    # This is the user associated with this save game
+    user_id = UploadedGame.objects.filter(id=uploaded_id).values()[0]['user_id']  
 
+    # Get stuff off the data base and pass it back to the client!
 
     game = UploadedGame.objects.get(id=uploaded_id)
     info['upvotes'] = str(game.upvote)
     info['downvotes'] = str(game.downvote)
 
     info['data_title'] = "f.zip"
-    info[
-    'date'] = '1/2/2222' #UploadedGame.objects.filter(user=user_id, id=uploaded_id).values()[0]['datetime']
-    info['uploader'] = User.objects.filter(id=user_id).values()[0].get('username')
-    info['profile_path'] = '/' + UserProfile.objects.filter(user=user_id).values()[0].get('avatar')
-    info['download_link'] = UploadedGame.objects.filter(user=user_id, id=uploaded_id).values()[0][
-                            'file']
-    info['game_desc'] = UploadedGame.objects.filter(user=3, id=17).values()[0]['description']
+    
+    date = UploadedGame.objects.filter(id=uploaded_id).values()
+
+    if len(date):
+        info['date'] = str(date[0]['datetime'])
+    else:
+        info['date'] = ''
+
+    uploader = User.objects.filter(id=user_id).values()
+    if len(uploader) > 0:
+        info['uploader'] = uploader[0].get('username')
+    else:
+        info['uploader'] = 'Empty'
+    
+    profile_path = UserProfile.objects.filter(user=user_id).values()
+    if len(profile_path) > 0 :
+        info['profile_path'] = '/' + profile_path[0].get('avatar')
+    else:
+        info['download_link'] = ''
+
+    download_link = UploadedGame.objects.filter(id=uploaded_id).values()
+    if len(download_link)> 0:
+        info['download_link'] = download_link[0]['file']
+    else:
+        info['download_link'] = 'Empty...'
+ 
+
+    game_desc = UploadedGame.objects.filter(id=uploaded_id).values()
+    if len(game_desc) > 0:
+        info['game_desc'] = game_desc[0]['description']
+    else:
+        info['game_desc'] = 'No description...'
 
     res = Comments.objects.filter(uploadedgame=uploaded_id).order_by('id').values()
     info2 = {}
