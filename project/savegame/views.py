@@ -278,6 +278,7 @@ def getUploadedFileData(request):
 
     # This is the user associated with this save game
     user_id = UploadedGame.objects.filter(id=uploaded_id).values()[0]['user_id']  
+    print UploadedGame.objects.filter(id=uploaded_id).values()
 
     # Get stuff off the data base and pass it back to the client!
 
@@ -285,7 +286,7 @@ def getUploadedFileData(request):
     info['upvotes'] = str(game.upvote)
     info['downvotes'] = str(game.downvote)
 
-    info['data_title'] = "f.zip"
+    info['data_title'] = str(game.title)
     
     date = UploadedGame.objects.filter(id=uploaded_id).values()
 
@@ -297,14 +298,21 @@ def getUploadedFileData(request):
     uploader = User.objects.filter(id=user_id).values()
     if len(uploader) > 0:
         info['uploader'] = uploader[0].get('username')
+
     else:
         info['uploader'] = 'Empty'
-    
+        
     profile_path = UserProfile.objects.filter(user=user_id).values()
+    
+    
     if len(profile_path) > 0 :
-        info['profile_path'] = '/' + profile_path[0].get('avatar')
+        print "WTF! ", str(profile_path[0]['avatar'])
+        info['profile_path'] = '/' + str(profile_path[0]['avatar'])
+       
     else:
-        info['download_link'] = ''
+        info['profile_path'] = ''
+
+    print "ID: ", user_id, " Value? ", info['profile_path']
 
     download_link = UploadedGame.objects.filter(id=uploaded_id).values()
     if len(download_link)> 0:
@@ -322,7 +330,6 @@ def getUploadedFileData(request):
     res = Comments.objects.filter(uploadedgame=uploaded_id).order_by('id').values()
     info2 = {}
     for i in res:
-        i['datetime'] = ''  #this is a hack because datetime result is not serializable
         info2[i['id']] = i
 
     info['info2'] = info2;
