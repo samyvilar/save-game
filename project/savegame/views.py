@@ -341,9 +341,6 @@ def getUploadedFileData(request):
         info2[i['id']]['username'] = User.objects.filter(id=i['user_id']).values()[0]['username']
         
     info['info2'] = info2;
-    
-    print "HERE\n"
-    print info['info2']
 
     return HttpResponse(json.dumps(info))
 
@@ -381,6 +378,7 @@ def getCommentData(request):
     info['only'] = Comments.objects.filter(uploadedgame=uploaded_id).values()[
                    len(Comments.objects.filter(uploadedgame=uploaded_id).values()) - 1]
     info['only']['datetime'] = str(info['only']['datetime'])
+    info['only']['username'] = User.objects.filter(id=user_id).values()[0]['username']
 
     return HttpResponse(json.dumps(info))
 

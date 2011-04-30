@@ -69,7 +69,7 @@ function getCommentData(data){
         var comment_id = data['only']['id'];
         var date = data['only']['datetime'];
         var comment = data['only']['comment'];
-        var user = 'eudis';       
+        var user = data['only']['username'];;       
 
         
         var div = "<div id='" + comment_id +
