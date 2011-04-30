@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.mail import send_mail
 from django.contrib.auth import authenticate, login, logout
 from django.core.paginator import Paginator
+from django.views.decorators.csrf import csrf_exempt
 # Additional imports
 import string
 from savegame.forms import *
@@ -70,7 +71,7 @@ def settings(request):
                  'fullname': string.capwords(fullname)})
     return HttpResponse(t.render(c))
 
-
+@csrf_exempt
 def signIn(request):
     loggedin = False
     fullname = ""
@@ -204,12 +205,17 @@ def profile(request, user_id=None):
         loggedin = True
         fullname = user.get_full_name()
 
+
+        if request.is_ajax():
+            return HttpResponse(serializers.serialize('json', [user, profile]) ,mimetype = 'application/json')
+
         if request.method == "POST":
             user.first_name = request.POST['first_name']
             user.last_name = request.POST['last_name']
             user.username = request.POST['username']
             user.set_password(request.POST['password'])
             user.email = request.POST['email']
+
 
             user.save()
 
