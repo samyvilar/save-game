@@ -330,9 +330,13 @@ def getUploadedFileData(request):
     res = Comments.objects.filter(uploadedgame=uploaded_id).order_by('id').values()
     info2 = {}
     for i in res:
+        i['datetime'] = str(i['datetime'])
         info2[i['id']] = i
-
+        
     info['info2'] = info2;
+    
+    print "HERE\n"
+    print info['info2']
 
     return HttpResponse(json.dumps(info))
 
@@ -348,14 +352,15 @@ def getCommentData(request):
 
 
     # Put the comment in the database now
-    now = datetime.now()
-    date = str(now.month) + '/' + str(now.day) + '/' + str(now.year)
+    now = datetime.datetime.now()
+    #date = str(now.month) + '/' + str(now.day) + '/' + str(now.year)
+    date = '1/2/3'
     print date
 
     entry = Comments()
 
-    uploaded = UploadedGame(id=17)
-    user = User(id=3)
+    uploaded = UploadedGame(id=uploaded_id)
+    user = User(id=user_id)
 
     entry.uploadedgame = uploaded
     entry.user = user
@@ -364,14 +369,14 @@ def getCommentData(request):
 
     entry.save()
 
-    res = Comments.objects.filter(uploadedgame=17).values()
+    res = Comments.objects.filter(uploadedgame=uploaded_id).values()
     info = {}
 
 
     # Just get the last comment, and then return it
-    info['only'] = Comments.objects.filter(uploadedgame=17).values()[
-                   len(Comments.objects.filter(uploadedgame=17).values()) - 1]
-    info['only']['datetime'] = ''
+    info['only'] = Comments.objects.filter(uploadedgame=uploaded_id).values()[
+                   len(Comments.objects.filter(uploadedgame=uploaded_id).values()) - 1]
+    info['only']['datetime'] = str(info['only']['datetime'])
 
     return HttpResponse(json.dumps(info))
 

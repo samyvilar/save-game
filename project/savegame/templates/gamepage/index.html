@@ -33,7 +33,7 @@ function getUploadedFileData(data){
         }
         
         info = info.reverse();
-       
+       alert(info);
 
         var comment_id = 0;
         var date = 0;
@@ -42,7 +42,7 @@ function getUploadedFileData(data){
        
         for(var i = 0; i < info.length; i++)
         {
-            
+         
             comment_id = data['info2'][info[i]]['id'];
             date = data['info2'][info[i]]['datetime'];
             comment = data['info2'][info[i]]['comment'];
