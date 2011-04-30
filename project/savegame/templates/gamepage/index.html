@@ -46,7 +46,7 @@ function getUploadedFileData(data){
             comment_id = data['info2'][info[i]]['id'];
             date = data['info2'][info[i]]['datetime'];
             comment = data['info2'][info[i]]['comment'];
-            user = 'eudis';    
+            user = data['info2'][info[i]]['username'];    
             
             var div = "<div id='" + comment_id +
             "' class='acomment'><br /><a href='#'>" + user + "</a> &nbsp; &nbsp; <span style='font-style:italic'>" +  date + " </span><p>" +
@@ -63,11 +63,7 @@ function getUploadedFileData(data){
 function getCommentData(data){
         
         data = eval('(' + data + ')');
-        
-        
-        /* First, we simply attach all comments, EXCEPT the last one */
-
-        /* Get all the date properly formattted */
+           
      
 
         var comment_id = data['only']['id'];
@@ -81,9 +77,16 @@ function getCommentData(data){
         comment
         + "</p><hr /><br /></div>";
        
-        $(div).insertBefore(".acomment");
-        $("#" + comment_id ).hide();
-        $("#" + comment_id ).show('slow', function(){ });
+        if ($("#comment_section").children().length > 0 ){
+            $(div).insertBefore(".acomment");
+            $("#" + comment_id ).hide();
+            $("#" + comment_id ).show('slow', function(){ });
+        }
+        else {
+            $("#comment_section").append(div);
+            $("#" + comment_id ).hide();
+            $("#" + comment_id ).show('slow', function(){ });
+        }
                
 }
 

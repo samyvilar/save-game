@@ -332,6 +332,7 @@ def getUploadedFileData(request):
     for i in res:
         i['datetime'] = str(i['datetime'])
         info2[i['id']] = i
+        info2[i['id']]['username'] = User.objects.filter(id=i['user_id']).values()[0]['username']
         
     info['info2'] = info2;
     
@@ -353,9 +354,7 @@ def getCommentData(request):
 
     # Put the comment in the database now
     now = datetime.datetime.now()
-    #date = str(now.month) + '/' + str(now.day) + '/' + str(now.year)
-    date = '1/2/3'
-    print date
+    
 
     entry = Comments()
 
@@ -371,7 +370,6 @@ def getCommentData(request):
 
     res = Comments.objects.filter(uploadedgame=uploaded_id).values()
     info = {}
-
 
     # Just get the last comment, and then return it
     info['only'] = Comments.objects.filter(uploadedgame=uploaded_id).values()[
