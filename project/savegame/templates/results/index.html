@@ -14,43 +14,36 @@
             <div class='t_c'> Save Data </div>
             <div class='t_c'> Game </div>
             <div class='t_c'> Platform </div>
-            <div class='t_c'> Action </div>
-   
-    </div>
-    <div style='width: 100%; float: left;'>
-        <br />
+            <div class='t_c'> Information </div>
     </div>
     {% if search_res %}
     	{% for member in search_res.object_list %}
 			<div class="{% cycle 'gray' 'white' %}">
-				<div class='one'>
+				<span class='one'>
 					<a href="/gamepage/?uploaded_game_id={{ member.id }}">Filename</a>
-				</div>
-				<div class='one'>
+				</span>
+				<span class='one'>
 					{{ member.game.title }}
-				</div>
-				<div class='one'>
+				</span>
+				<span class='one'>
 					 {{ member.platform.name }}
-				</div>
-				<div class='one' style='font-size: 12px;'>
-					<div style='width: 28%; float: left'>
+				</span>
+				<span class='one' style='font-size: 12px;'>
+					<div style='width: 45%; float: left'>
 						<a href="{{member.file}}">Download</a>
 					</div>
-					<div style='width: 28%; float: left'>
-                    	<a href="/gamepage/?uploaded_game_id={{ member.id }}"> View Page </a>
-                    </div>
-					<div style='width: 28%; float: left'>
+					<div style='width: 30%; float: left'>
 							<span>Upvotes:</span>
 							<br />
 							<br />
 							<span>Downvotes:</span>
 					</div>
-					<div id = '{{ member.id }}' style='font-size: 12px; width: 5%; float: left'>
+					<div class= 'two' >
 					   <span id = 'upvote'>{{ member.upvote }} </span> 
 					   <br /> <br /> 
 					   <span id = 'downvote'>{{ member.downvote }}</span>
 					</div>
-				</div>
+				</span>
 			</div>
 		{% endfor %}
 	{% endif %}	
@@ -59,7 +52,7 @@
 {% endblock %}
 
 {% block h_footer %}
-    <div style='width: 100%; text-align:center; float: left; font-size: 22px;'>
+    <div id = 'h_footer'>
     	{% if search_res %}
 			{% if search_res.has_previous %}
 				<a href="/results/?search={{qry|escape}}&page={{ search_res.previous_page_number }}">Previous</a>

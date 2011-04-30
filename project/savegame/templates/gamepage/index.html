@@ -141,24 +141,26 @@ $(document).ready(function(){
     });
     
     $("#upv").click(function(){
-		var logged_in_user = 3;
-		$.ajax({
-			async: false,		
-			success: getvotedata,
-			url: "/getvotedata/",
-			data: { 'user_id' : logged_in_user, 'uploaded_game_id' : uploaded_game_id, 'upvote': 1  }
-	
-		}); 
+		var logged_in_user = {{ user_id }};
+		if (logged_in_user != "")
+			$.ajax({
+				async: false,		
+				success: getvotedata,
+				url: "/getvotedata/",
+				data: { 'uploaded_game_id' : uploaded_game_id, 'upvote': 1  }
+		
+			}); 
 	});
 	
 	$("#dnv").click(function(){
-		var logged_in_user = 3;
-		$.ajax({
-			async: false,
-			success: getvotedata,
-			url: "/getvotedata/",
-			data: { 'user_id' : logged_in_user, 'uploaded_game_id' : uploaded_game_id, 'downvote': 1  },
-		});
+		var logged_in_user = {{ user_id }};
+		if (logged_in_user != "")
+			$.ajax({
+				async: false,
+				success: getvotedata,
+				url: "/getvotedata/",
+				data: { 'uploaded_game_id' : uploaded_game_id, 'downvote': 1  },
+			});
 	});
 
 });

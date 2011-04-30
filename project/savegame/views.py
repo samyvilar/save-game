@@ -13,7 +13,6 @@ from django.core import serializers
 from django.shortcuts import render_to_response, redirect
 import os
 import json
-from project.savegame.models import *
 import datetime
 
 def mainpage(request):
@@ -167,7 +166,7 @@ def results(request):
         if not s4.exists():
             s4 = UploadedGame.objects.filter(description__icontains=qry)
 
-        search_res = (s1 | s2 | s3 | s4).distinct()
+        search_res = (s1 | s2 | s3 | s4).distinct().exclude(private=True).order_by('-upvote')
         pgr = Paginator(search_res, 12)
         tpages = pgr.num_pages
         try:
@@ -388,7 +387,7 @@ def getvotedata(request):
     upvoted = request.GET.get('upvote', '')
     downvoted = request.GET.get('downvote', '')
     info = {}
-    game = UploadedGame.objects.get(id=uploaded_id)
+    game = UploadedGame.objects.get(id=int(uploaded_id))
     info['upvotes'] = game.upvote
     info['downvotes'] = game.downvote
     if upvoted:

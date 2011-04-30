@@ -1,15 +1,18 @@
-#top {
+#top 
+{
     width: 100%;
     float: left;
 }
 
-#table {
+#table 
+{
     margin: auto;
     width: 100%;
     float: left;
 }
 
-#title {
+#title 
+{
     height: 30px;
     font-size:19px;
     padding-bottom: 1%;
@@ -19,12 +22,22 @@
     width: 100%;
     margin: auto;
 }
-.one {
+
+.one 
+{
     width: 24.7%;
     float: left;
 }
 
-.gray {
+.two
+{
+	font-size: 12px; 
+	width: 5%; 
+	float: left
+}
+
+.gray 
+{
     background: rgb(210,210,210);
     font-size: 19px;
     margin: auto;
@@ -33,15 +46,25 @@
     
 }
 
-.white {
+.white 
+{
     font-size: 19px;
     margin: auto;
     width: 100%;
     float: left;
 }
 
-.t_c {
+.t_c 
+{
      float: left; 
      width: 24.7%;
      text-align: center;
+}
+
+#h_footer
+{
+	width: 100%; 
+	text-align:center; 
+	float: left; 
+	font-size: 22px;
 }
