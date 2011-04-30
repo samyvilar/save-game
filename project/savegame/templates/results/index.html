@@ -20,7 +20,7 @@
     	{% for member in search_res.object_list %}
 			<div class="{% cycle 'gray' 'white' %}">
 				<span class='one'>
-					<a href="/gamepage/?uploaded_game_id={{ member.id }}">Filename</a>
+					<a href="/gamepage/?uploaded_game_id={{ member.id }}"> {% firstof member.original_file_name "Filename" %}</a>
 				</span>
 				<span class='one'>
 					{{ member.game.title }}
@@ -39,9 +39,9 @@
 							<span>Downvotes:</span>
 					</div>
 					<div class= 'two' >
-					   <span id = 'upvote'>{{ member.upvote }} </span> 
+					   <span>{{ member.upvote }} </span> 
 					   <br /> <br /> 
-					   <span id = 'downvote'>{{ member.downvote }}</span>
+					   <span>{{ member.downvote }}</span>
 					</div>
 				</span>
 			</div>
