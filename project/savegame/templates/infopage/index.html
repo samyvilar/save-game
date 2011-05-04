@@ -9,14 +9,17 @@
 {% endblock %}
 
 {% block content %} 
+	<span id = 'platform'> {{ platform }} </span>
 	<ul>
 	{% for m in games %}
 		<li>
 			<div class = 'savegame'>
 				<span class = 'title'> <a href ="/gamepage/?uploaded_game_id={{ m.id }}">{{ m.title}}</a></span>
-				<span class = 'upvotes'> {{ m.upvote }} </span>
-				<span class = 'downvotes'> {{ m.downvote }} </span>
+				<span class = 'votes'> Upvotes: {{ m.upvote }} </span>
+				<br />
+				<span class = 'votes'> Downvotes: {{ m.downvote }} </span>
 			</div>
+			<br /> <br />
 		</li>
 	{% endfor %}
 	</ul>

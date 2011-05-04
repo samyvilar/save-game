@@ -2,3 +2,23 @@ li
 {
 	list-style-type: none;
 }
+
+#platform
+{
+	font-size: 30px;
+}
+.savegame
+{
+	margin: auto;
+	width: 50%;
+}
+.title
+{
+	float: left;
+	font-size: 20px;
+}
+
+.votes
+{
+	float: right;
+}
