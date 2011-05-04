@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %} {{ g.title }} {% endblock %}
+
+{% block css %}
+    {% load static %}
+    {% get_static_prefix as STATIC_PREFIX %}
+    <link rel='stylesheet' href='{{ STATIC_PREFIX }}css/infopage.css' type='text/css' />
+{% endblock %}
+
+{% block content %} 
+	<ul>
+	{% for m in games %}
+		<li>
+			<div class = 'savegame'>
+				<span class = 'title'> <a href ="/gamepage/?uploaded_game_id={{ m.id }}">{{ m.title}}</a></span>
+				<span class = 'upvotes'> {{ m.upvote }} </span>
+				<span class = 'downvotes'> {{ m.downvote }} </span>
+			</div>
+		</li>
+	{% endfor %}
+	</ul>
+{% endblock %}
+
+
+
+

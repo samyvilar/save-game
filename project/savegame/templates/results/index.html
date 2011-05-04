@@ -20,10 +20,10 @@
     	{% for member in search_res.object_list %}
 			<div class="{% cycle 'gray' 'white' %}">
 				<span class='one'>
-					<a href="/gamepage/?uploaded_game_id={{ member.id }}"> {% firstof member.original_file_name "Filename" %}</a>
+					<a href="/gamepage/?uploaded_game_id={{ member.id }}"> {% firstof member.title "No Title Provided" %}</a>
 				</span>
 				<span class='one'>
-					{{ member.game.title }}
+					<a href="/infopage/?game_id={{ member.id }}">{{ member.game.title }}</a>
 				</span>
 				<span class='one'>
 					 {{ member.platform.name }}

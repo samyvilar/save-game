@@ -114,7 +114,7 @@ $(document).ready(function(){
     $("#sub").click(function(){
        
 
-        var logged_in_user = {{ user_id }};
+        var logged_in_user = "{{ user_id }}";
 
 
         // We remove extra whitespace from the comment input
@@ -127,40 +127,45 @@ $(document).ready(function(){
             return;
         }
         
-
-        $.ajax({
-            async: false,
-            success: getCommentData,
-            url: "/getCommentData/",
-            data: { 'user_id' : logged_in_user, 'uploaded_game_id' : uploaded_game_id, 'comment_data': comment_data  } 
-
-        });
-
-        
+		if (logged_in_user != "None")
+			$.ajax({
+				async: false,
+				success: getCommentData,
+				url: "/getCommentData/",
+				data: { 'user_id' : logged_in_user, 'uploaded_game_id' : uploaded_game_id, 'comment_data': comment_data  } 
+	
+			});
+		else
+			alert("Please log-in to comment!");    
         
     });
     
     $("#upv").click(function(){
-		var logged_in_user = {{ user_id }};
-		if (logged_in_user != "")
+		var logged_in_user = "{{ user_id }}";
+		if (logged_in_user != "None")
 			$.ajax({
 				async: false,		
 				success: getvotedata,
 				url: "/getvotedata/",
 				data: { 'uploaded_game_id' : uploaded_game_id, 'upvote': 1  }
 		
-			}); 
+			});
+		else
+			alert("Please log-in to vote!");
+
 	});
 	
 	$("#dnv").click(function(){
-		var logged_in_user = {{ user_id }};
-		if (logged_in_user != "")
+		var logged_in_user = "{{ user_id }}";
+		if (logged_in_user != "None")
 			$.ajax({
 				async: false,
 				success: getvotedata,
 				url: "/getvotedata/",
 				data: { 'uploaded_game_id' : uploaded_game_id, 'downvote': 1  },
 			});
+		else
+			alert("Please log-in to vote!");
 	});
 
 });

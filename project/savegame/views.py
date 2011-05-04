@@ -37,13 +37,14 @@ def regpage(request):
             pwd = reg.cleaned_data['password']
             email = reg.cleaned_data['email']
 
+            newacc = User.objects.create_user(un, email, pwd)
+            newacc.first_name = un
+            newacc.save()
+            
             msg = "Thank you for registering at Save-Game! \n Your username is: " + un
             sub = "Welcome to Save-Game!"
             send_mail(sub, msg, 'noreplysavegame@gmail.com', [str(email)])
 
-            newacc = User.objects.create_user(un, email, pwd)
-            newacc.first_name = un
-            newacc.save()
             return HttpResponseRedirect('thanks/')
     else:
         reg = RegForm()
@@ -141,7 +142,20 @@ def gamepage(request):
     c = Context({'logged_in': loggedin, 'fullname': fullname, 'user_id': request.user.id, 'uploaded_id':request.GET['uploaded_game_id']})
     return HttpResponse(t.render(c))
 
-
+def gameinfo(request):
+	fullname = ""
+	loggedin = False
+	if request.user.is_authenticated():
+		loggedin = True
+		fullname = request.user.get_full_name()
+	sgame = UploadedGame.objects.get(id=int(request.GET.get('game_id')))
+	plat = sgame.platform.name
+	gname = sgame.game.title
+	agames = UploadedGame.objects.filter(game__title=gname, platform__name=plat).exclude(private=True).order_by('-upvote')
+	t = loader.get_template('infopage/index.html')
+	c = Context({'logged_in': loggedin, 'fullname': fullname, 'user_id': request.user.id, 'games': agames})
+	return HttpResponse(t.render(c))
+	
 def results(request):
     fullname = ""
     pglst = []
@@ -154,7 +168,7 @@ def results(request):
     qry = request.GET.get('search', '')
     if qry:
         s1 = UploadedGame.objects.filter(game__title__iexact=qry)
-        s2 = UploadedGame.objects.filter(file__iexact='saved-file.bin')
+        s2 = UploadedGame.objects.filter(file__iexact='static/saved_games/' + qry)
         s3 = UploadedGame.objects.filter(user__username__iexact=qry)
         s4 = UploadedGame.objects.filter(description__iexact=qry)
         if not s1.exists():
@@ -346,7 +360,7 @@ def getUploadedFileData(request):
 
 def getCommentData(request):
     try:
-        user_id = request.GET['user_id']   # This should be the currently logged in user
+        user_id = int(request.GET['user_id'])   # This should be the currently logged in user
         uploaded_id = request.GET['uploaded_game_id']
         comment_data = request.GET['comment_data']
 
