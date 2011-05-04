@@ -153,7 +153,7 @@ def gameinfo(request):
 	gname = sgame.game.title
 	agames = UploadedGame.objects.filter(game__title=gname, platform__name=plat).exclude(private=True).order_by('-upvote')
 	t = loader.get_template('infopage/index.html')
-	c = Context({'logged_in': loggedin, 'fullname': fullname, 'user_id': request.user.id, 'name': gname, 'platform': plat, 'games': agames, })
+	c = Context({'logged_in': loggedin, 'fullname': fullname, 'user_id': request.user.id, 'name': gname, 'platform': plat, 'games': agames })
 	return HttpResponse(t.render(c))
 	
 def results(request):
