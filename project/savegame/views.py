@@ -13,7 +13,6 @@ from django.core import serializers
 from django.shortcuts import render_to_response, redirect
 import os
 import json
-from project.savegame.models import *
 import datetime
 
 def mainpage(request):
@@ -38,13 +37,14 @@ def regpage(request):
             pwd = reg.cleaned_data['password']
             email = reg.cleaned_data['email']
 
+            newacc = User.objects.create_user(un, email, pwd)
+            newacc.first_name = un
+            newacc.save()
+            
             msg = "Thank you for registering at Save-Game! \n Your username is: " + un
             sub = "Welcome to Save-Game!"
             send_mail(sub, msg, 'noreplysavegame@gmail.com', [str(email)])
 
-            newacc = User.objects.create_user(un, email, pwd)
-            newacc.first_name = un
-            newacc.save()
             return HttpResponseRedirect('thanks/')
     else:
         reg = RegForm()
@@ -135,10 +135,27 @@ def gamepage(request):
         loggedin = True;
         fullname = request.user.get_full_name()
     t = loader.get_template('gamepage/index.html')
-    c = Context({'logged_in': loggedin, 'fullname': fullname, 'user_id': request.user.id})
+
+    print "user_id: ", request.user.id
+    print "uploaded_id: ", request.GET['uploaded_game_id']
+
+    c = Context({'logged_in': loggedin, 'fullname': fullname, 'user_id': request.user.id, 'uploaded_id':request.GET['uploaded_game_id']})
     return HttpResponse(t.render(c))
 
-
+def gameinfo(request):
+	fullname = ""
+	loggedin = False
+	if request.user.is_authenticated():
+		loggedin = True
+		fullname = request.user.get_full_name()
+	sgame = UploadedGame.objects.get(id=int(request.GET.get('game_id')))
+	plat = sgame.platform.name
+	gname = sgame.game.title
+	agames = UploadedGame.objects.filter(game__title=gname, platform__name=plat).exclude(private=True).order_by('-upvote')
+	t = loader.get_template('infopage/index.html')
+	c = Context({'logged_in': loggedin, 'fullname': fullname, 'user_id': request.user.id, 'name': gname, 'platform': plat, 'games': agames })
+	return HttpResponse(t.render(c))
+	
 def results(request):
     fullname = ""
     pglst = []
@@ -151,7 +168,7 @@ def results(request):
     qry = request.GET.get('search', '')
     if qry:
         s1 = UploadedGame.objects.filter(game__title__iexact=qry)
-        s2 = UploadedGame.objects.filter(file__iexact='saved-file.bin')
+        s2 = UploadedGame.objects.filter(file__iexact='static/saved_games/' + qry)
         s3 = UploadedGame.objects.filter(user__username__iexact=qry)
         s4 = UploadedGame.objects.filter(description__iexact=qry)
         if not s1.exists():
@@ -163,7 +180,7 @@ def results(request):
         if not s4.exists():
             s4 = UploadedGame.objects.filter(description__icontains=qry)
 
-        search_res = (s1 | s2 | s3 | s4).distinct()
+        search_res = (s1 | s2 | s3 | s4).distinct().exclude(private=True).order_by('-upvote')
         pgr = Paginator(search_res, 12)
         tpages = pgr.num_pages
         try:
@@ -271,35 +288,71 @@ def getUploadedFileData(request):
     info = {}
 
     try:
-        user_id = request.GET['user_id']
+       
         uploaded_id = request.GET['uploaded_game_id']
 
     except:
         return HttpResponse("Error retrieving uploaded file data!");
 
 
-    # Get stuff off the data base and pass it back to the client!
+    # This is the user associated with this save game
+    user_id = UploadedGame.objects.filter(id=uploaded_id).values()[0]['user_id']  
+    print UploadedGame.objects.filter(id=uploaded_id).values()
 
+    # Get stuff off the data base and pass it back to the client!
 
     game = UploadedGame.objects.get(id=uploaded_id)
     info['upvotes'] = str(game.upvote)
     info['downvotes'] = str(game.downvote)
 
-    info['data_title'] = "f.zip"
-    info[
-    'date'] = '1/2/2222' #UploadedGame.objects.filter(user=user_id, id=uploaded_id).values()[0]['datetime']
-    info['uploader'] = User.objects.filter(id=user_id).values()[0].get('username')
-    info['profile_path'] = '/' + UserProfile.objects.filter(user=user_id).values()[0].get('avatar')
-    info['download_link'] = UploadedGame.objects.filter(user=user_id, id=uploaded_id).values()[0][
-                            'file']
-    info['game_desc'] = UploadedGame.objects.filter(user=3, id=17).values()[0]['description']
+    info['data_title'] = str(game.title)
+    
+    date = UploadedGame.objects.filter(id=uploaded_id).values()
+
+    if len(date):
+        info['date'] = str(date[0]['datetime'])
+    else:
+        info['date'] = ''
+
+    uploader = User.objects.filter(id=user_id).values()
+    if len(uploader) > 0:
+        info['uploader'] = uploader[0].get('username')
+
+    else:
+        info['uploader'] = 'Empty'
+        
+    profile_path = UserProfile.objects.filter(user=user_id).values()
+    
+    
+    if len(profile_path) > 0 :
+        print "WTF! ", str(profile_path[0]['avatar'])
+        info['profile_path'] = '/' + str(profile_path[0]['avatar'])
+       
+    else:
+        info['profile_path'] = ''
+
+    print "ID: ", user_id, " Value? ", info['profile_path']
+
+    download_link = UploadedGame.objects.filter(id=uploaded_id).values()
+    if len(download_link)> 0:
+        info['download_link'] = download_link[0]['file']
+    else:
+        info['download_link'] = 'Empty...'
+ 
+
+    game_desc = UploadedGame.objects.filter(id=uploaded_id).values()
+    if len(game_desc) > 0:
+        info['game_desc'] = game_desc[0]['description']
+    else:
+        info['game_desc'] = 'No description...'
 
     res = Comments.objects.filter(uploadedgame=uploaded_id).order_by('id').values()
     info2 = {}
     for i in res:
-        i['datetime'] = ''  #this is a hack because datetime result is not serializable
+        i['datetime'] = str(i['datetime'])
         info2[i['id']] = i
-
+        info2[i['id']]['username'] = User.objects.filter(id=i['user_id']).values()[0]['username']
+        
     info['info2'] = info2;
 
     return HttpResponse(json.dumps(info))
@@ -307,7 +360,7 @@ def getUploadedFileData(request):
 
 def getCommentData(request):
     try:
-        user_id = request.GET['user_id']   # This should be the currently logged in user
+        user_id = int(request.GET['user_id'])   # This should be the currently logged in user
         uploaded_id = request.GET['uploaded_game_id']
         comment_data = request.GET['comment_data']
 
@@ -316,14 +369,13 @@ def getCommentData(request):
 
 
     # Put the comment in the database now
-    now = datetime.now()
-    date = str(now.month) + '/' + str(now.day) + '/' + str(now.year)
-    print date
+    now = datetime.datetime.now()
+    
 
     entry = Comments()
 
-    uploaded = UploadedGame(id=17)
-    user = User(id=3)
+    uploaded = UploadedGame(id=uploaded_id)
+    user = User(id=user_id)
 
     entry.uploadedgame = uploaded
     entry.user = user
@@ -332,14 +384,14 @@ def getCommentData(request):
 
     entry.save()
 
-    res = Comments.objects.filter(uploadedgame=17).values()
+    res = Comments.objects.filter(uploadedgame=uploaded_id).values()
     info = {}
 
-
     # Just get the last comment, and then return it
-    info['only'] = Comments.objects.filter(uploadedgame=17).values()[
-                   len(Comments.objects.filter(uploadedgame=17).values()) - 1]
-    info['only']['datetime'] = ''
+    info['only'] = Comments.objects.filter(uploadedgame=uploaded_id).values()[
+                   len(Comments.objects.filter(uploadedgame=uploaded_id).values()) - 1]
+    info['only']['datetime'] = str(info['only']['datetime'])
+    info['only']['username'] = User.objects.filter(id=user_id).values()[0]['username']
 
     return HttpResponse(json.dumps(info))
 
@@ -349,7 +401,7 @@ def getvotedata(request):
     upvoted = request.GET.get('upvote', '')
     downvoted = request.GET.get('downvote', '')
     info = {}
-    game = UploadedGame.objects.get(id=uploaded_id)
+    game = UploadedGame.objects.get(id=int(uploaded_id))
     info['upvotes'] = game.upvote
     info['downvotes'] = game.downvote
     if upvoted:

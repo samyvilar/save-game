@@ -44,11 +44,8 @@
 	height: 320px;
 }
 
-#latest_ten_cont 
+.gtitles
 {
-    /*
-	position: relative;
-	top: -12%;
-    */
+	float: right;
 }
 

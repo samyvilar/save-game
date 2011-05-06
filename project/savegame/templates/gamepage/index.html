@@ -15,7 +15,7 @@ function getUploadedFileData(data){
     data = eval( '(' + data + ')' );  // Interpret string as json object.  Very unsafe, but does the job :)
     
     $("#data_title").html(data['data_title']);
-    $("#download_link").attr("src", data['download_link']); /* Set the attribute dynamically */
+    $("#download_link").attr("href", data['download_link']); /* Set the attribute dynamically */
     $("#uploader").html(data['uploader']);
     $("#date").html(data['date']);
     $("#profile").attr("src", data['profile_path']);
@@ -33,7 +33,7 @@ function getUploadedFileData(data){
         }
         
         info = info.reverse();
-       
+    
 
         var comment_id = 0;
         var date = 0;
@@ -42,11 +42,11 @@ function getUploadedFileData(data){
        
         for(var i = 0; i < info.length; i++)
         {
-            
+         
             comment_id = data['info2'][info[i]]['id'];
             date = data['info2'][info[i]]['datetime'];
             comment = data['info2'][info[i]]['comment'];
-            user = 'eudis';    
+            user = data['info2'][info[i]]['username'];    
             
             var div = "<div id='" + comment_id +
             "' class='acomment'><br /><a href='#'>" + user + "</a> &nbsp; &nbsp; <span style='font-style:italic'>" +  date + " </span><p>" +
@@ -63,17 +63,13 @@ function getUploadedFileData(data){
 function getCommentData(data){
         
         data = eval('(' + data + ')');
-        
-        
-        /* First, we simply attach all comments, EXCEPT the last one */
-
-        /* Get all the date properly formattted */
+           
      
 
         var comment_id = data['only']['id'];
         var date = data['only']['datetime'];
         var comment = data['only']['comment'];
-        var user = 'eudis';       
+        var user = data['only']['username'];;       
 
         
         var div = "<div id='" + comment_id +
@@ -81,9 +77,16 @@ function getCommentData(data){
         comment
         + "</p><hr /><br /></div>";
        
-        $(div).insertBefore(".acomment");
-        $("#" + comment_id ).hide();
-        $("#" + comment_id ).show('slow', function(){ });
+        if ($("#comment_section").children().length > 0 ){
+            $(div).insertBefore(".acomment");
+            $("#" + comment_id ).hide();
+            $("#" + comment_id ).show('slow', function(){ });
+        }
+        else {
+            $("#comment_section").append(div);
+            $("#" + comment_id ).hide();
+            $("#" + comment_id ).show('slow', function(){ });
+        }
                
 }
 
@@ -95,15 +98,14 @@ function getvotedata(data){
 }
 
 $(document).ready(function(){
-    var user_id = 3;  /* This is a stub, needs to be replaced */
-    var uploaded_game_id = 17;  /* This is a stub, needs to be replaced */
+    var uploaded_game_id = {{ uploaded_id }}; 
 
     /* This part uses ajax to get the necessary
        data from the db, given the user_id and uploaded_game_id */    
     $.ajax({
         type: "GET",
         url: "/getUploadedFileData/",
-        data: { 'user_id' : user_id, 'uploaded_game_id' : uploaded_game_id },
+        data: {'uploaded_game_id' : uploaded_game_id },
         async: false,
         success: getUploadedFileData
     });
@@ -111,7 +113,9 @@ $(document).ready(function(){
 
     $("#sub").click(function(){
        
-        var logged_in_user = 3
+
+        var logged_in_user = "{{ user_id }}";
+
 
         // We remove extra whitespace from the comment input
         var comment_data = $("#comment_area").val();
@@ -123,38 +127,45 @@ $(document).ready(function(){
             return;
         }
         
-
-        $.ajax({
-            async: false,
-            success: getCommentData,
-            url: "/getCommentData/",
-            data: { 'user_id' : logged_in_user, 'uploaded_game_id' : uploaded_game_id, 'comment_data': comment_data  } 
-
-        });
-
-        
+		if (logged_in_user != "None")
+			$.ajax({
+				async: false,
+				success: getCommentData,
+				url: "/getCommentData/",
+				data: { 'user_id' : logged_in_user, 'uploaded_game_id' : uploaded_game_id, 'comment_data': comment_data  } 
+	
+			});
+		else
+			alert("Please log-in to comment!");    
         
     });
     
     $("#upv").click(function(){
-		var logged_in_user = 3;
-		$.ajax({
-			async: false,		
-			success: getvotedata,
-			url: "/getvotedata/",
-			data: { 'user_id' : logged_in_user, 'uploaded_game_id' : uploaded_game_id, 'upvote': 1  }
-	
-		}); 
+		var logged_in_user = "{{ user_id }}";
+		if (logged_in_user != "None")
+			$.ajax({
+				async: false,		
+				success: getvotedata,
+				url: "/getvotedata/",
+				data: { 'uploaded_game_id' : uploaded_game_id, 'upvote': 1  }
+		
+			});
+		else
+			alert("Please log-in to vote!");
+
 	});
 	
 	$("#dnv").click(function(){
-		var logged_in_user = 3;
-		$.ajax({
-			async: false,
-			success: getvotedata,
-			url: "/getvotedata/",
-			data: { 'user_id' : logged_in_user, 'uploaded_game_id' : uploaded_game_id, 'downvote': 1  },
-		});
+		var logged_in_user = "{{ user_id }}";
+		if (logged_in_user != "None")
+			$.ajax({
+				async: false,
+				success: getvotedata,
+				url: "/getvotedata/",
+				data: { 'uploaded_game_id' : uploaded_game_id, 'downvote': 1  },
+			});
+		else
+			alert("Please log-in to vote!");
 	});
 
 });

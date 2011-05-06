@@ -14,9 +14,14 @@ class RegForm(forms.Form):
         try:
             User.objects.get(username=entry) #using get because username should be unique
         except User.DoesNotExist:
-            pass
+            if entry == "None":
+            	raise forms.ValidationError("You cannot use that reserved username!")
+            else:
+            	pass
         else:
             raise forms.ValidationError("That username already exists!")
+            
+        
         return entry
 
     def clean_repassword(self):
