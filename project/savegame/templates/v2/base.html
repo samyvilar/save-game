@@ -37,26 +37,53 @@
       <div id="header">
           <img id="logo" src="{{ STATIC_PREFIX }}images/logo.png" />
           <div id="logo_title">SAVED GAMES</div>
-          <div id="login">
-              <form action="/login/" method="post">
-                  <input onclick="clearField(this, 'username')" onblur="checkTextField(this, 'username')" type="text"    value="Username (email)" name="username" class="login_textfield" />
-                  <input onclick="clearField(this, 'password')" onblur="checkTextField(this, 'password')" type="password" value="Password" name="password" class="login_textfield" />
-                  <input type="submit" value="Login" class="login_button"/>
-                  <input type="button" value="Register" class="login_button"/>
+
+          <div id="search_div">
+              <form id = 'search_form' method = "GET" action = "/results/">
+                <input id="search_text" name="search" type = 'text' value = 'Search' onFocus = 'value=""' onBlur= "if (value == ''){value='Search'}"/>
+                <input id="search_button" type = 'submit' value='Search'/>
               </form>
-          </div>         
-          <br />
+          </div>
+
+          {% if logged_in %}
+            <div id="logged_in">
+                <div id="user_panel">
+                    Welcome, <a href="/profile/{{ user_id }}" style="color: white;">{{ fullname }}</a>
+                    <input type="button" value="Sign Out" onclick="window.location='/signOut/'" class="login_button" style="width: 70px;"/>
+                </div>
+         {% else %}
+          <div id="login">
+              <div id="login_panel">
+                  <form action="/signIn/" method="post">
+                      <input onclick="clearField(this, 'username')" onblur="checkTextField(this, 'username')" type="text"    value="Username (email)" name="username" class="login_textfield" />
+                      <input onclick="clearField(this, 'password')" onblur="checkTextField(this, 'password')" type="password" value="Password" name="password" class="login_textfield" />
+                      <input type="submit" value="Login" class="login_button"/>
+                      <input type="button" value="Register" class="login_button" onclick="window.location='/registration/'"/>
+                  </form>
+              </div>              
+         {% endif %}
+                <div id="menu">
+                  <div class="menu_item"><a href="/games/genres/">Genres</a></div>
+                  <div class="menu_item"><a href="/games/consoles/">Consoles</a></div>
+                </div>
+          </div>
+
+          
+          <!--
           <div id="menu">
+              <div class="menu_item"><a href="/games/pc/">Genres</a></div>
+              <div class="menu_item"><a href="/games/xbox360/">Consoles</a></div>
+              <!--
               <div class="menu_item"><a href="/games/pc/">PC</a></div>
               <div class="menu_item"><a href="/games/xbox360/">Xbox 360</a></div>
               <div class="menu_item"><a href="/games/ps3/">PS 3</a></div>
               <div class="menu_item"><a href="/games/wii/">Wii</a></div>
               <div class="menu_item"><a href="/games/psp/">PSP</a></div>
               <div class="menu_item"><a href="/games/3ds/">3DS</a></div>
-              <div class="menu_item"><a href="/games/ds/">DS</a></div>
-              <div class="menu_item"><a href="/games/iphone/">iPhone</a></div>
-              <div class="menu_item"><a href="/games/android/">Android</a></div>
+              <div class="menu_item"><a href="/games/ds/">DS</a></div>              
           </div>
+           -->
+           
       </div>
 
       <div id='content'>

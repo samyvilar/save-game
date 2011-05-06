@@ -10,6 +10,7 @@ body
     background: -webkit-gradient(linear, left 160, left bottom, from(#FFFFFF), to(#CCCCCC));
 }
 
+
 #header
 {
     width: 100%;
@@ -42,8 +43,7 @@ body
 {
     float: right;
     margin-top: 16px;
-    margin-right: 16px;
-    
+    margin-right: 16px;        
 }
 
 .login_textfield
@@ -64,20 +64,34 @@ body
     margin-left: 5px;
 }
 
+#logged_in
+{
+    float: right;
+    margin-top: 16px;
+    margin-right: 16px;
+    color: white;
+    height: 100%;
+    width: 230px;
+}
+
+#user_panel
+{
+    height: 44px;
+}
 
 #menu
 {
-    position: absolute;
-    margin-top: 102px;
-    margin-left: 15%;
-    float: left;
+    
+    float: right;    
+    margin-top: 60px;
+    padding-right: 20px;    
 }
 
 #menu .menu_item
 {
     width: 95px;
     height: 33px;    
-    float: left;
+    float: right;
     margin-left: 10px;
     background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#CCCCCC));
     background: -moz-linear-gradient(top, rgba(255,255,255,0), rgba(204,204,204,1));
@@ -134,3 +148,32 @@ body
     margin-left: 5px;
     color: black;    
 }
+
+
+#search_div
+{
+    float: right;
+    margin-top: 120px;
+    margin-left: 30%;
+    position: absolute;
+    
+}
+
+#search_text
+{
+    font-size: 18px;
+	height: 34px;
+    width: 450px;
+    border-radius: 8px;
+    text-indent: 10px;    
+}
+
+#search_button
+{
+    height: 35px;
+    
+    font-size: 18px;
+    background-color: #EDEDED;
+    border-radius: 10px;    
+}
+
