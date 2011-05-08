@@ -149,14 +149,76 @@ def gameinfo(request):
 	if request.user.is_authenticated():
 		loggedin = True
 		fullname = request.user.get_full_name()
-	sgame = UploadedGame.objects.get(id=int(request.GET.get('game_id')))
+	sgame = Game.objects.get(id=int(request.GET.get('game_id')))
 	plat = sgame.platform.name
-	gname = sgame.game.title
+	gname = sgame.title
 	agames = UploadedGame.objects.filter(game__title=gname, platform__name=plat).exclude(private=True).order_by('-upvote')
 	t = loader.get_template('infopage/index.html')
 	c = Context({'logged_in': loggedin, 'fullname': fullname, 'user_id': request.user.id, 'name': gname, 'platform': plat, 'games': agames })
 	return HttpResponse(t.render(c))
-	
+
+def platform(request):
+	fullname = ""
+	loggedin = False
+	if request.user.is_authenticated():
+		loggedin = True
+		fullname = request.user.get_full_name()
+	pid = int(request.GET.get('p', '1'))
+	pgames = Game.objects.filter(platform__id=pid).order_by('title')
+	plat = Platform.objects.get(id=pid)
+	pgr = Paginator(pgames, 25)
+	tpages = pgr.num_pages
+	try:
+		pg = int(request.GET.get('page', '1'))
+	except ValueError:
+		pg = 1
+	if pg > tpages:
+		pg = tpages
+	if pg > tpages:
+		pg = tpages
+	fpg = pg - 3 if (pg - 3 >= 3) else 1
+	lpg = pg + 3 if (pg + 3 < tpages) else tpages
+	e1 = True if (fpg > 1) else False
+	e2 = True if (lpg < tpages) else False
+    	pglst = [str(i) for i in range(fpg, lpg + 1)]
+	pgames = pgr.page(pg)
+	t = loader.get_template('infopage/platform.html')
+	c = Context({'logged_in': loggedin, 'fullname': fullname, 
+			'user_id': request.user.id, 'platform': plat.name, 'pid' : pid, 'games': pgames, 
+			'page_list': pglst, 'ellipses1': e1, 'ellipses2': e2})
+	return HttpResponse(t.render(c))
+
+def genre(request):
+	fullname = ""
+	loggedin = False
+	if request.user.is_authenticated():
+		loggedin = True
+		fullname = request.user.get_full_name()
+	gid = int(request.GET.get('g', '1'))
+	ggames = Game.objects.filter(genre__id=gid).order_by('title')
+	gen = Genre.objects.get(id=gid)
+	pgr = Paginator(ggames, 25)
+	tpages = pgr.num_pages
+	try:
+		pg = int(request.GET.get('page', '1'))
+	except ValueError:
+		pg = 1
+	if pg > tpages:
+		pg = tpages
+	if pg > tpages:
+		pg = tpages
+	fpg = pg - 3 if (pg - 3 >= 3) else 1
+	lpg = pg + 3 if (pg + 3 < tpages) else tpages
+	e1 = True if (fpg > 1) else False
+	e2 = True if (lpg < tpages) else False
+    	pglst = [str(i) for i in range(fpg, lpg + 1)]
+	ggames = pgr.page(pg)
+	t = loader.get_template('infopage/genre.html')
+	c = Context({'logged_in': loggedin, 'fullname': fullname, 
+			'user_id': request.user.id, 'genre': gen.name, 'gid' : gid, 'games': ggames, 
+			'page_list': pglst, 'ellipses1': e1, 'ellipses2': e2})
+	return HttpResponse(t.render(c))
+
 def results(request):
     fullname = ""
     pglst = []

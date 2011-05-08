@@ -14,6 +14,7 @@
             <div class='t_c'> Save Data </div>
             <div class='t_c'> Game </div>
             <div class='t_c'> Platform </div>
+            <div class='t_c'> Genre </div>
             <div class='t_c'> Information </div>
     </div>
     {% if search_res %}
@@ -23,10 +24,13 @@
 					<a href="/gamepage/?uploaded_game_id={{ member.id }}"> {% firstof member.title "No Title Provided" %}</a>
 				</span>
 				<span class='one'>
-					<a href="/infopage/?game_id={{ member.id }}">{{ member.game.title }}</a>
+					<a href="/infopage/?game_id={{ member.game.id }}">{{ member.game.title }}</a>
 				</span>
 				<span class='one'>
-					 {{ member.platform.name }}
+					 <a href="/platform/?p={{ member.platform.id }}">{{ member.platform.name }}</a>
+				</span>
+				<span class='one'>
+					 <a href="/genre/?g={{ member.game.genre.id }}">{{ member.game.genre.name }}</a>
 				</span>
 				<span class='one' style='font-size: 12px;'>
 					<div style='width: 45%; float: left'>
