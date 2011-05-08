@@ -14,7 +14,7 @@ from django.shortcuts import render_to_response, redirect
 import os
 import json
 import datetime
-
+import os.path
 def mainpage(request):
     latest_ten = UploadedGame.objects.all().exclude(private=True).order_by('-datetime')[:10]
     loggedin = False
@@ -23,8 +23,9 @@ def mainpage(request):
     if request.user.is_authenticated():
         loggedin = True;
         fullname = request.user.get_full_name()
-    c = Context({'logged_in': loggedin, 'fullname': string.capwords(fullname),
+    c = RequestContext(request, {'logged_in': loggedin, 'fullname': string.capwords(fullname),
                  'user_id': request.user.id, 'latest_ten': latest_ten})
+                 
     return HttpResponse(t.render(c))
 
 
@@ -203,39 +204,29 @@ def results(request):
 
 
 def profile(request, user_id=None):
-    loggedin = False
-    fullname = ""
     if user_id == None or User.objects.filter(pk=user_id).count() == 0:
         return redirect('/invalid_user_id/') # if supplied an invalid user id
-    elif request.user.is_authenticated() and request.user.id == int(
-        user_id): # users profile ...
-        user = User.objects.get(id=user_id)
-        profile = user.get_profile()
-        uploadsavegames = UploadedGame.objects.filter(user=user)
-        form = UploadGameForm()
-        comments = Comments.objects.filter(user=user)
-        owner = True
-        loggedin = True
-        fullname = user.get_full_name()
-
-
-        if request.is_ajax():
-            return HttpResponse(serializers.serialize('json', [user, profile]) ,mimetype = 'application/json')
-
+    elif request.user.is_authenticated() and request.user.id == int(user_id): # users profile ...
+        user            = User.objects.get(id = int(user_id))
+        profile         = user.get_profile()
+        uploadsavegames = UploadedGame.objects.filter(user = user)        
+        comments        = Comments.objects.filter(user = user)
+        owner           = True
+        
         if request.method == "POST":
-            user.first_name = request.POST['first_name']
-            user.last_name = request.POST['last_name']
-            user.username = request.POST['username']
+            user.first_name     = request.POST['first_name']
+            user.last_name      = request.POST['last_name']
+            user.username       = request.POST['username']
             user.set_password(request.POST['password'])
-            user.email = request.POST['email']
+            user.email          = request.POST['email']
 
-
-            user.save()
+            user.save()            
 
             if 'avatar' in request.FILES:
                 file = request.FILES['avatar']
                 try:
-                    os.remove(os.getcwd() + '/savegame/' + profile.avatar.name)
+                    if os.path.basename(profile.avatar.name) != 'facebook_non_male.gif' and os.path.basename(profile.avatar.name) != 'facebook_non_female.gif':
+                        os.remove(os.getcwd() + '/savegame/' + profile.avatar.name)
                 except Exception:
                     pass
                 filename = 'static/images/' + getRandomString() + '.' + file.name.split('.')[-1:][0]
@@ -250,18 +241,13 @@ def profile(request, user_id=None):
             profile.save()
 
             if request.is_ajax():
-                return HttpResponse(serializers.serialize('json', [user, profile]),
-                                    mimetype='application/json')
+                return HttpResponse(serializers.serialize('json', [user, profile]), mimetype='application/json')
 
-        context = {'user': user,
+        context = {'user_object': user,
                    'profile': profile,
-                   'uploadsavegames': uploadsavegames,
-                   'form': form,
+                   'uploadsavegames': uploadsavegames,                   
                    'comments': comments,
-                   'owner': owner,
-                   'logged_in': loggedin,
-                   'fullname': string.capwords(fullname),
-                   'user_id': user.id}
+                   'owner': owner}
 
         return render_to_response('account/profile.html',
                                   context,
@@ -269,15 +255,12 @@ def profile(request, user_id=None):
     elif User.objects.get(pk=user_id).get_profile().private: # if profile is private ..
         return redirect('/')
     else: # public profile viewed by anyone ...
-        user = User.objects.get(id=user_id)
-        profile = user.get_profile()
+        user            = User.objects.get(id = int(user_id))
+        profile         = user.get_profile()
         uploadsavegames = UploadedGame.objects.filter(user=user, private=False)
-        comments = Comments.objects.filter(user=user)
-        loggedin = True
-        fullname = user.get_full_name()
+        comments        = Comments.objects.filter(user=user)
 
-        context = {'logged_in': loggedin, 'fullname': string.capwords(fullname), 'user': user,
-                   'profile': profile, 'uploadsavegames': uploadsavegames, 'comments': comments}
+        context = {'user_object': user,'profile': profile, 'uploadsavegames': uploadsavegames, 'comments': comments}
 
         return render_to_response('account/profile.html',
                                   context,

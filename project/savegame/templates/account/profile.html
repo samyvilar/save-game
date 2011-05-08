@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "v2/base.html" %}
 
 {% block title %} Profile {% endblock %}
 
@@ -15,9 +15,9 @@
                 <input id="open-panel-button" onclick="showPanel()" type="button" value="Update" style="float: right;" />
             {% endif %}
             <div id="info">
-                Name: <span id="first_name">{{ user.first_name }}</span> <span id="last_name">{{ user.last_name }}</span><br />
-                Username: <span id="username">{{ user.username }}</span><br />
-                JDate: {{ user.date_joined }}<br />
+                Name: <span id="first_name">{{ user_object.first_name }}</span> <span id="last_name">{{ user_object.last_name }}</span><br />
+                Username: <span id="username">{{ user_object.username }}</span><br />
+                JDate: {{ user_object.date_joined }}<br />
                 <br />
                 
             </div>
@@ -42,29 +42,36 @@
                                 button.value = 'Update';
                                 panel.style.display = 'none';
                                 curpanel.style.display = 'block';
-                            }
+                            }                           
                     }
 
                     function submitPost()
                     {                        
                         if ($('input[type=file]').val() == "")
+                        {                            
                             $.post('', $("#profile-form").serialize(),
-                            function(data)
-                            {
-                                $('#first_name').html(data[0].fields.first_name);
-                                $('#last_name').html(data[0].fields.last_name);
-                                $('#username').html(data[0].fields.username);
-                                
-                                $('#avatar-img').attr('src', '/' + data[1].fields.avatar);
+                                function(data)
+                                {
+                                    $('#first_name').html(data[0].fields.first_name);
+                                    $('#last_name').html(data[0].fields.last_name);
+                                    $('#username').html(data[0].fields.username);
 
-                                $('#settings-panel').css('display', 'none');
-                                $('#info').css('display', 'block');
+                                    $('#avatar-img').attr('src', '/' + data[1].fields.avatar);
 
-                                button = document.getElementById('open-panel-button');
-                                button.click();
-                            });
+                                    $('#settings-panel').css('display', 'none');
+                                    $('#info').css('display', 'block');
+
+                                    button = document.getElementById('open-panel-button');
+                                    button.click();
+                                });
+                        }
                           else
                                $("#profile-form").submit();
+                    }
+
+                    function deleteUpload(id)
+                    {
+                        
                     }
 
                 </script>
@@ -73,10 +80,10 @@
                 <div id ="settings-panel">
                     <form id="profile-form" action="" method="POST" enctype="multipart/form-data">
                         <input type="file" name="avatar" /><br />
-                        <input type="text" name="first_name" value="{{ user.first_name }}" /><br />
-                        <input type="text" name="last_name" value="{{ user.last_name }}" /><br />
-                        <input type="text" name="email" value="{{user.email }}" /><br />
-                        <input type="text" name="username" value="{{ user.username }}" /><br />
+                        <input type="text" name="first_name" value="{{ user_object.first_name }}" /><br />
+                        <input type="text" name="last_name" value="{{ user_object.last_name }}" /><br />
+                        <input type="text" name="email" value="{{user_object.email }}" /><br />
+                        <input type="text" name="username" value="{{ user_object.username }}" /><br />
                         <input type="password" name="password" value="password" /><br />
                         <input type="checkbox" name="private" 
                                {% if profile.private %}
@@ -94,10 +101,14 @@
             Numb Uploads: {{ uploadsavegames|length }}<br />
             Numb Comments: {{ comments|length }}<br />
         </div>        
-                
-        <table class="panel-grid-container" style="width: 870px; margin-left: 30px; margin-top: 0px; float: right;" cellspacing="0">
+
+        <table class="panel-grid-container" cellspacing="0">
             <caption>My Uploads</caption>
-            <thead><th>Title</th><th>Game</th><th>Platform</th><th>Date</th><th>Comment</th><th>Private</th><th>Action</th></thead>
+            <thead><th>Title</th><th>Game</th><th>Platform</th><th>Date</th><th>Comment</th><th>Private</th>
+            {% if owner %}
+                <th>Action</th>
+            {% endif %}
+            </thead>
             <tbody>
             {% if uploadsavegames|length == 0 %}
                 <tr><td colspan="all">Nothing yet ...</td></tr>
@@ -110,15 +121,17 @@
                     <td>{{ upload.game.platform }}</td>
                     <td>{{ upload.datetime }}</td>
                     <td>{{ upload.description }}</td>
-                    <td>{{ upload.private }}</td>
-                    <td>Delete</td>
+                    <td>{% if upload.private %} yes {% else %} no {% endif %}</td>
+                    {% if owner %}
+                    <td><input type="button" value="Delete" onclick="deleteUpload({{upload.id}})"/></td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             {% endif %}
             </tbody>
         </table>
 
-        <table class="panel-grid-container" style="width: 870px; margin-left: 30px; margin-top: 50px; float: right;" cellspacing="0">
+        <table class="panel-grid-container" cellspacing="0">
             <caption>My Comments</caption>
             <thead><th>Title</th><th>Game</th><th>Date</th><th>Comment</th></thead>
             <tbody>
@@ -137,6 +150,6 @@
                     
                 {% endif %}
             </tbody>
-        </table>
+        </table>    
 
 {% endblock %}

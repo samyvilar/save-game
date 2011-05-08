@@ -79,13 +79,7 @@ body
     height: 44px;
 }
 
-#menu
-{
-    
-    float: right;    
-    margin-top: 60px;
-    padding-right: 20px;    
-}
+#menu{   float: right;    margin-top: 60px; padding-right: 20px;    }
 
 #menu .menu_item
 {
@@ -118,14 +112,14 @@ body
 }
 
 #footer
-{
-    margin-top: 100px;
+{    
     width: 90%;
     margin-left: 5%;
     border-top: 1px solid black;
     text-indent: 10px;
     padding-top: 10px;
     padding-bottom: 10px;
+    margin-top: 100px;
 
      -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), to(rgba(1,1,1,0)));
      font-size: 13px;
@@ -134,7 +128,8 @@ body
 
 #content
 {
-    height: 100%;
+    width: 100%;
+    height: auto;
 }
 
 #footer_links
