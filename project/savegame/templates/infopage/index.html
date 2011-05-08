@@ -9,7 +9,9 @@
 {% endblock %}
 
 {% block content %} 
-	<span id = 'platform'> {{ platform }} </span>
+	<span id = 'platform'> {{ platform }} : </span>
+	<span id = 'game'> {{ name }} </span>
+
 	<ul>
 	{% for m in games %}
 		<li>

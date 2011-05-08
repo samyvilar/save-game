@@ -25,21 +25,23 @@
 
 .one 
 {
-    width: 24.7%;
+    width: 19%;
     float: left;
+    text-align: center;
 }
 
 .two
 {
 	font-size: 12px; 
-	width: 5%; 
-	float: left
+	width: 15%;
+	margin-left: 8%;
+	float: left;
 }
 
 .gray 
 {
     background: rgb(210,210,210);
-    font-size: 19px;
+    font-size: 14pt;
     margin: auto;
     width: 100%;
     float: left;
@@ -48,7 +50,7 @@
 
 .white 
 {
-    font-size: 19px;
+    font-size: 14pt;
     margin: auto;
     width: 100%;
     float: left;
@@ -57,7 +59,7 @@
 .t_c 
 {
      float: left; 
-     width: 24.7%;
+     width: 19%;
      text-align: center;
 }
 

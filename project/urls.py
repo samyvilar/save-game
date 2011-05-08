@@ -18,7 +18,9 @@ urlpatterns = patterns('',
                        url(r'results/', 'savegame.views.results'),
                        url(r'upload/', 'savegame.views.upload'),
                        url(r'infopage/', 'savegame.views.gameinfo'),
-
+                       url(r'^platform/', 'savegame.views.platform'),
+                       url(r'^genre/', 'savegame.views.genre'),
+                       
                        url(r'getvotedata/', 'savegame.views.getvotedata'),
                        url(r'getUploadedFileData/', 'savegame.views.getUploadedFileData'),
                        url(r'getCommentData/', 'savegame.views.getCommentData'),
