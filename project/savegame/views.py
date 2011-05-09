@@ -15,6 +15,7 @@ import os
 import json
 import datetime
 import os.path
+from django.utils import simplejson
 def mainpage(request):
     latest_ten = UploadedGame.objects.all().exclude(private=True).order_by('-datetime')[:10]
     loggedin = False
@@ -214,6 +215,46 @@ def profile(request, user_id=None):
         owner           = True
         
         if request.method == "POST":
+            if 'upload_id' in request.POST:
+                try:
+                    upload = UploadedGame.objects.get(id = int(request.POST['upload_id']))
+                    if (not 'saved-file.bin' in upload.file.name) and os.path.isfile(os.getcwd() + '/savegame/' + upload.file.name[1:]):
+                        os.remove(os.getcwd() + '/savegame/' + upload.file.name[1:])
+                    upload.delete()
+                    if request.is_ajax():
+                        return HttpResponse(simplejson.dumps({'upload_id':int(request.POST['upload_id'])}), mimetype='application/json')
+                    else:
+                        uploadsavegames = UploadedGame.objects.filter(user = user)        
+                        context = {'user_object':user, 'profile':profile,'uploadsavegames':uploadsavegames,'comments':comments,'owner':owner}                        
+                        return render_to_response('account/profile.html', context, context_instance=RequestContext(request))
+                except Exception as ex:
+                    if request.is_ajax():
+                        return HttpResponse(simplejson.dumps({'error':str(ex)}), mimetype='application/json')
+                    else:
+                        return HttpResponse("There was an exception deleting an upload with the id "  + request.POST['upload_id'] + " error: " + str(ex))
+            elif 'upload_private_id' in request.POST:
+                try:
+                    upload = UploadedGame.objects.get(id = int(request.POST['upload_private_id']))
+                    if request.POST['upload_private_value'] == 'true':
+                        upload.private = True
+                    elif request.POST['upload_private_value'] == 'false':
+                        upload.private = False
+                    else:
+                        return HttpResponse("I was expecting either true or false not " + str(request.POST['upload_private_value']))
+                    upload.save()
+                    if request.is_ajax():
+                        return HttpResponse(simplejson.dumps({'upload_private_id':int(request.POST['upload_private_id']),'upload_private':upload.private}), mimetype='application/json')
+                    else:
+                        uploadsavegames = UploadedGame.objects.filter(user = user)
+                        context = {'user_object':user, 'profile':profile,'uploadsavegames':uploadsavegames,'comments':comments,'owner':owner}
+                        return render_to_response('account/profile.html', context, context_instance=RequestContext(request))
+                except:
+                    if request.is_ajax():
+                        return HttpResponse(simplejson.dumps({'error':str(ex)}), mimetype='application/json')
+                    else:
+                        return HttpResponse("There was an exception updating an upload private field with the id "  + request.POST['upload_private_id'] + " error: " + str(ex))
+                    
+                
             user.first_name     = request.POST['first_name']
             user.last_name      = request.POST['last_name']
             user.username       = request.POST['username']
@@ -243,28 +284,19 @@ def profile(request, user_id=None):
             if request.is_ajax():
                 return HttpResponse(serializers.serialize('json', [user, profile]), mimetype='application/json')
 
-        context = {'user_object': user,
-                   'profile': profile,
-                   'uploadsavegames': uploadsavegames,                   
-                   'comments': comments,
-                   'owner': owner}
-
-        return render_to_response('account/profile.html',
-                                  context,
-                                  context_instance=RequestContext(request))
+        context = {'user_object':user,'profile':profile,'uploadsavegames':uploadsavegames,'comments':comments,'owner':owner}
+        return render_to_response('account/profile.html',context,context_instance=RequestContext(request))
+    
     elif User.objects.get(pk=user_id).get_profile().private: # if profile is private ..
-        return redirect('/')
+        return redirect('/?error=private_profile')
     else: # public profile viewed by anyone ...
         user            = User.objects.get(id = int(user_id))
         profile         = user.get_profile()
         uploadsavegames = UploadedGame.objects.filter(user=user, private=False)
         comments        = Comments.objects.filter(user=user)
 
-        context = {'user_object': user,'profile': profile, 'uploadsavegames': uploadsavegames, 'comments': comments}
-
-        return render_to_response('account/profile.html',
-                                  context,
-                                  context_instance=RequestContext(request))
+        context = {'user_object':user,'profile':profile,'uploadsavegames':uploadsavegames,'comments':comments}
+        return render_to_response('account/profile.html',context,context_instance=RequestContext(request))
 
 
 def getUploadedFileData(request):
