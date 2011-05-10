@@ -912,7 +912,6 @@ function newMenu()
 	}
 });
 
-
     var myMenu = new MenuMatic();
 }
 
