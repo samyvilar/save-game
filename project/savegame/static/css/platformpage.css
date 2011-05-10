@@ -1,3 +1,8 @@
+#platformwrap
+{
+	width: 95%;
+	margin: auto;
+}
 #platform
 {
 	font-size: 30px;
@@ -15,6 +20,5 @@
 
 #paginator
 {
-	margin: auto;
 	font-size: 20px;
 }

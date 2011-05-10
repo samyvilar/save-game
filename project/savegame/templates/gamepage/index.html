@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "v2/base.html" %}
 
 {% block title %} Game Save {% endblock %}
 
@@ -52,19 +52,14 @@ function getUploadedFileData(data){
             "' class='acomment'><br /><a href='#'>" + user + "</a> &nbsp; &nbsp; <span style='font-style:italic'>" +  date + " </span><p>" +
             comment
             + "</p><hr /><br /></div>";
-            $("#comment_section").append(div);
-            
-        }
-    
-    
+            $("#comment_section").append(div);   
+        }    
 }
 
 
 function getCommentData(data){
         
         data = eval('(' + data + ')');
-           
-     
 
         var comment_id = data['only']['id'];
         var date = data['only']['datetime'];
@@ -86,8 +81,7 @@ function getCommentData(data){
             $("#comment_section").append(div);
             $("#" + comment_id ).hide();
             $("#" + comment_id ).show('slow', function(){ });
-        }
-               
+        }               
 }
 
 function getvotedata(data){ 
@@ -110,12 +104,8 @@ $(document).ready(function(){
         success: getUploadedFileData
     });
 
-
     $("#sub").click(function(){
-       
-
-        var logged_in_user = "{{ user_id }}";
-
+        var logged_in_user = "{{ user.id }}";
 
         // We remove extra whitespace from the comment input
         var comment_data = $("#comment_area").val();
@@ -141,7 +131,7 @@ $(document).ready(function(){
     });
     
     $("#upv").click(function(){
-		var logged_in_user = "{{ user_id }}";
+		var logged_in_user = "{{ user.id }}";
 		if (logged_in_user != "None")
 			$.ajax({
 				async: false,		
@@ -156,7 +146,7 @@ $(document).ready(function(){
 	});
 	
 	$("#dnv").click(function(){
-		var logged_in_user = "{{ user_id }}";
+		var logged_in_user = "{{ user.id }}";
 		if (logged_in_user != "None")
 			$.ajax({
 				async: false,

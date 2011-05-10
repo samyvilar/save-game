@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "v2/base.html" %}
 
 {% block title %} {{ name }} {% endblock %}
 
@@ -9,6 +9,7 @@
 {% endblock %}
 
 {% block content %} 
+<div id='infowrap'>
 	<span id = 'platform'> {{ platform }} : </span>
 	<span id = 'game'> {{ name }} </span>
 
@@ -25,6 +26,7 @@
 		</li>
 	{% endfor %}
 	</ul>
+</div>
 {% endblock %}
 
 

@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "v2/base.html" %}
 
 {% block title %} {{ genre }} {% endblock %}
 
@@ -9,6 +9,7 @@
 {% endblock %}
 
 {% block content %} 
+<div id = 'genrewrap' >
 	<span id = 'genre'> Browse all games for {{ genre }} </span>
 	<br />	<br />
 	{% for m in games.object_list %}
@@ -45,6 +46,7 @@
 			{% endif %}
 		{% endif %}
 	</div>
+</div>
 {% endblock %}
 
 

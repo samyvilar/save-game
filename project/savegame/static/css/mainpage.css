@@ -4,12 +4,11 @@
 {
 	margin: auto;
 	width: 70%;
-	height: 350px;
-
+	height: 85%;
 }
 
+/*
 #search_bar
-
 {
 	width: 82%;
 	height: 15%;
@@ -31,6 +30,7 @@
 	margin-left: 5%;
 	float: left;
 }
+*/
 
 #latest_ten 
 {

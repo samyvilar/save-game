@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "v2/base.html" %}
 
 {% block title %} {{ platform }} {% endblock %}
 
@@ -9,6 +9,7 @@
 {% endblock %}
 
 {% block content %} 
+<div id='platformwrap'>
 	<span id = 'platform'> Browse all games for {{ platform }} </span>
 	<br />	<br />
 	{% for m in games.object_list %}
@@ -46,6 +47,7 @@
 			{% endif %}
 		{% endif %}
 	</div>
+</div>
 {% endblock %}
 
 
