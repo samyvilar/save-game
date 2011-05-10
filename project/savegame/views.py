@@ -96,7 +96,7 @@ def signOut(request):
 
 def gamepage(request):
     t = loader.get_template('gamepage/index.html')
-    c = RequestContext(request, {'user_id':request.user.id, 'uploaded_id':request.GET['uploaded_game_id']})
+    c = RequestContext(request, {'uploaded_id':request.GET['uploaded_game_id']})
     return HttpResponse(t.render(c))
 
 def gameinfo(request):
