@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "v2/base.html" %}
 
 {% block title %} Search Results {% endblock %}
 
@@ -51,13 +51,8 @@
 			</div>
 		{% endfor %}
 	{% endif %}	
-</div>
-
-{% endblock %}
-
-{% block h_footer %}
-    <div id = 'h_footer'>
-    	{% if search_res %}
+	<div id = 'h_footer'>
+		{% if search_res %}
 			{% if search_res.has_previous %}
 				<a href="/results/?search={{qry|escape}}&page={{ search_res.previous_page_number }}">Previous</a>
 			{% endif %}
@@ -74,7 +69,8 @@
 				<a href="/results/?search={{qry|escape}}&page={{ search_res.next_page_number }}">Next</a>
 			{% endif %}
 		{% endif %}
-    </div>
+	</div>
+</div>
 {% endblock %}
 
 

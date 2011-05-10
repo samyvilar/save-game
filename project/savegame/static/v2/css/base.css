@@ -39,6 +39,11 @@ body
     float: left;
 }
 
+#logo_title_link
+{
+	text-decoration: none;
+}
+
 #login
 {
     float: right;
@@ -111,6 +116,12 @@ body
     text-decoration: none;
 }
 
+#content
+{
+    width: 100%;
+    height: auto;
+}
+
 #footer
 {    
     width: 90%;
@@ -120,16 +131,9 @@ body
     padding-top: 10px;
     padding-bottom: 10px;
     margin-top: 100px;
-
      -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), to(rgba(1,1,1,0)));
      font-size: 13px;
      font-family: Lucida Sans;
-}
-
-#content
-{
-    width: 100%;
-    height: auto;
 }
 
 #footer_links

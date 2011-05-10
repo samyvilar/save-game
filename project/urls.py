@@ -11,7 +11,6 @@ urlpatterns = patterns('',
                        url(r'^registration/$', 'savegame.views.regpage'),
                        url(r'^registration/thanks/$', 'savegame.views.regthanks'),
 
-                       url(r'settings/', 'savegame.views.settings'),
                        url(r'sign[Ii]n/', 'savegame.views.signIn'),
                        url(r'sign[Oo]ut/', 'savegame.views.signOut'),
                        url(r'gamepage/', 'savegame.views.gamepage'),

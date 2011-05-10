@@ -15,17 +15,11 @@ import os
 import json
 import datetime
 import os.path
+
 def mainpage(request):
     latest_ten = UploadedGame.objects.all().exclude(private=True).order_by('-datetime')[:10]
-    loggedin = False
-    fullname = ""
     t = loader.get_template('account/mainpage.html')
-    if request.user.is_authenticated():
-        loggedin = True;
-        fullname = request.user.get_full_name()
-    c = RequestContext(request, {'logged_in': loggedin, 'fullname': string.capwords(fullname),
-                 'user_id': request.user.id, 'latest_ten': latest_ten})
-                 
+    c = RequestContext(request, {'latest_ten': latest_ten})                 
     return HttpResponse(t.render(c))
 
 
@@ -60,31 +54,12 @@ def regthanks(request):
     c = Context({})
     return HttpResponse(t.render(c))
 
-
-def settings(request):
-    loggedin = False
-    fullname = ""
-    if request.user.is_authenticated():
-        loggedin = True;
-        fullname = request.user.get_full_name()
-    t = loader.get_template('account/settings.html')
-    c = Context({'logged_in': loggedin, 'user_id': request.user.id,
-                 'fullname': string.capwords(fullname)})
-    return HttpResponse(t.render(c))
-
 @csrf_exempt
 def signIn(request):
-    loggedin = False
-    fullname = ""
     signInTemplate = loader.get_template('account/signIn.html')
-    id = request.user.id
     if request.user.is_authenticated():
         # Case: User is already logged in.
-        loggedin = True;
-        fullname = request.user.get_full_name()
-        signInContext = Context(
-                {'logged_in': loggedin, 'fullname': string.capwords(fullname), 'user_id': id,
-                 "logInMessage": "You are already signed in."})
+        signInContext = RequestContext(request, {"logInMessage": "You are already signed in."})
         return HttpResponse(signInTemplate.render(signInContext))
     else:
         # Case: User is NOT logged in yet.
@@ -100,69 +75,40 @@ def signIn(request):
                     return redirect('/')
                 else:
                     # Case: User account disabled.
-                    signInContext = Context(
-                            {'logged_in': loggedin, 'fullname': fullname, 'user_id': id,
-                             "logInMessage": "Your account has been disabled.",
-                             'notLoggedIn': 'TRUE'})
+                    signInContext = RequestContext(request, {"logInMessage": "Your account has been disabled.", 'notLoggedIn': 'TRUE'})
                     return HttpResponse(signInTemplate.render(signInContext))
             else:
                 # Case: Invalid credentials.
-                signInContext = Context({
+                signInContext = RequestContext(request, {
                     "logInMessage": "Invalid Username or Password: Please check your credentials.",
-                    'notLoggedIn': 'TRUE', 'logged_in': loggedin, 'user_id': id,
-                    'fullname': fullname})
+                    'notLoggedIn': 'TRUE'})
                 return HttpResponse(signInTemplate.render(signInContext))
         except:
             # Case: Default page with the sign-in form - user is NOT logged in yet.
-            signInContext = Context({'logged_in': loggedin, 'fullname': fullname, 'user_id': id,
-                                     "notLoggedIn": "TRUE"})
+            signInContext = RequestContext(request, {"notLoggedIn": "TRUE"})
             return HttpResponse(signInTemplate.render(signInContext))
-
 
 def signOut(request):
     logout(request)
-    loggedin = False
-    fullname = ""
     signOutTemplate = loader.get_template('account/signOut.html')
-    signOutContext = Context(
-            {'logged_in': loggedin, 'fullname': fullname, 'user_id': request.user.id})
+    signOutContext = RequestContext(request, {})
     return HttpResponse(signOutTemplate.render(signOutContext))
 
-
 def gamepage(request):
-    loggedin = False
-    fullname = ""
-    if request.user.is_authenticated():
-        loggedin = True;
-        fullname = request.user.get_full_name()
     t = loader.get_template('gamepage/index.html')
-
-    print "user_id: ", request.user.id
-    print "uploaded_id: ", request.GET['uploaded_game_id']
-
-    c = Context({'logged_in': loggedin, 'fullname': fullname, 'user_id': request.user.id, 'uploaded_id':request.GET['uploaded_game_id']})
+    c = RequestContext(request, {'user_id':request.user.id, 'uploaded_id':request.GET['uploaded_game_id']})
     return HttpResponse(t.render(c))
 
 def gameinfo(request):
-	fullname = ""
-	loggedin = False
-	if request.user.is_authenticated():
-		loggedin = True
-		fullname = request.user.get_full_name()
 	sgame = Game.objects.get(id=int(request.GET.get('game_id')))
 	plat = sgame.platform.name
 	gname = sgame.title
 	agames = UploadedGame.objects.filter(game__title=gname, platform__name=plat).exclude(private=True).order_by('-upvote')
 	t = loader.get_template('infopage/index.html')
-	c = Context({'logged_in': loggedin, 'fullname': fullname, 'user_id': request.user.id, 'name': gname, 'platform': plat, 'games': agames })
+	c = RequestContext(request, {'name': gname, 'platform': plat, 'games': agames })
 	return HttpResponse(t.render(c))
 
 def platform(request):
-	fullname = ""
-	loggedin = False
-	if request.user.is_authenticated():
-		loggedin = True
-		fullname = request.user.get_full_name()
 	pid = int(request.GET.get('p', '1'))
 	pgames = Game.objects.filter(platform__id=pid).order_by('title')
 	plat = Platform.objects.get(id=pid)
@@ -183,17 +129,10 @@ def platform(request):
     	pglst = [str(i) for i in range(fpg, lpg + 1)]
 	pgames = pgr.page(pg)
 	t = loader.get_template('infopage/platform.html')
-	c = Context({'logged_in': loggedin, 'fullname': fullname, 
-			'user_id': request.user.id, 'platform': plat.name, 'pid' : pid, 'games': pgames, 
-			'page_list': pglst, 'ellipses1': e1, 'ellipses2': e2})
+	c = RequestContext(request, {'platform': plat.name, 'pid' : pid, 'games': pgames, 'page_list': pglst, 'ellipses1': e1, 'ellipses2': e2})
 	return HttpResponse(t.render(c))
 
 def genre(request):
-	fullname = ""
-	loggedin = False
-	if request.user.is_authenticated():
-		loggedin = True
-		fullname = request.user.get_full_name()
 	gid = int(request.GET.get('g', '1'))
 	ggames = Game.objects.filter(genre__id=gid).order_by('title')
 	gen = Genre.objects.get(id=gid)
@@ -214,18 +153,12 @@ def genre(request):
     	pglst = [str(i) for i in range(fpg, lpg + 1)]
 	ggames = pgr.page(pg)
 	t = loader.get_template('infopage/genre.html')
-	c = Context({'logged_in': loggedin, 'fullname': fullname, 
-			'user_id': request.user.id, 'genre': gen.name, 'gid' : gid, 'games': ggames, 
-			'page_list': pglst, 'ellipses1': e1, 'ellipses2': e2})
+	c = Context({'genre': gen.name, 'gid' : gid, 'games': ggames,  'page_list': pglst, 'ellipses1': e1, 'ellipses2': e2})
 	return HttpResponse(t.render(c))
 
 def results(request):
-    fullname = ""
     pglst = []
-    e1, e2, loggedin = False, False, False
-    if request.user.is_authenticated():
-        loggedin = True;
-        fullname = request.user.get_full_name()
+    e1, e2 = False, False
     t = loader.get_template('results/index.html')
     search_res = {}
     qry = request.GET.get('search', '')
@@ -259,9 +192,7 @@ def results(request):
 
         pglst = [str(i) for i in range(fpg, lpg + 1)]
         search_res = pgr.page(pg)
-    c = Context({'logged_in': loggedin, 'fullname': string.capwords(fullname),
-                 'user_id': request.user.id, 'search_res': search_res, 'qry': qry,
-                 'page_list': pglst, 'ellipses1': e1, 'ellipses2': e2})
+    c = RequestContext(request, {'search_res': search_res, 'qry': qry, 'page_list': pglst, 'ellipses1': e1, 'ellipses2': e2})
     return HttpResponse(t.render(c))
 
 
@@ -331,25 +262,18 @@ def profile(request, user_id=None):
 
 def getUploadedFileData(request):
     info = {}
-
-    try:
-       
+    try:     
         uploaded_id = request.GET['uploaded_game_id']
-
     except:
         return HttpResponse("Error retrieving uploaded file data!");
 
-
     # This is the user associated with this save game
     user_id = UploadedGame.objects.filter(id=uploaded_id).values()[0]['user_id']  
-    print UploadedGame.objects.filter(id=uploaded_id).values()
 
     # Get stuff off the data base and pass it back to the client!
-
     game = UploadedGame.objects.get(id=uploaded_id)
     info['upvotes'] = str(game.upvote)
     info['downvotes'] = str(game.downvote)
-
     info['data_title'] = str(game.title)
     
     date = UploadedGame.objects.filter(id=uploaded_id).values()
@@ -362,21 +286,15 @@ def getUploadedFileData(request):
     uploader = User.objects.filter(id=user_id).values()
     if len(uploader) > 0:
         info['uploader'] = uploader[0].get('username')
-
     else:
         info['uploader'] = 'Empty'
         
     profile_path = UserProfile.objects.filter(user=user_id).values()
     
-    
     if len(profile_path) > 0 :
-        print "WTF! ", str(profile_path[0]['avatar'])
-        info['profile_path'] = '/' + str(profile_path[0]['avatar'])
-       
+        info['profile_path'] = '/' + str(profile_path[0]['avatar'])  
     else:
         info['profile_path'] = ''
-
-    print "ID: ", user_id, " Value? ", info['profile_path']
 
     download_link = UploadedGame.objects.filter(id=uploaded_id).values()
     if len(download_link)> 0:
@@ -384,7 +302,6 @@ def getUploadedFileData(request):
     else:
         info['download_link'] = 'Empty...'
  
-
     game_desc = UploadedGame.objects.filter(id=uploaded_id).values()
     if len(game_desc) > 0:
         info['game_desc'] = game_desc[0]['description']
@@ -408,14 +325,11 @@ def getCommentData(request):
         user_id = int(request.GET['user_id'])   # This should be the currently logged in user
         uploaded_id = request.GET['uploaded_game_id']
         comment_data = request.GET['comment_data']
-
     except:
         return HttpResponse("Error retrieving uploaded file data for comments!");
 
-
     # Put the comment in the database now
     now = datetime.datetime.now()
-    
 
     entry = Comments()
 
@@ -485,10 +399,6 @@ def uploadHandler(saveFile):
 def upload(request):
     # Only allow the user to upload data if he or she has already logged in.
     if request.user.is_authenticated():
-        loggedIn = True
-        fullName = request.user.get_full_name()
-        userID = request.user.id
-
         if request.method == 'POST':
             # Case: User is logged in and had just submitted a save file:
 
@@ -528,21 +438,15 @@ def upload(request):
 
             uploadTemplate = loader.get_template('account/upload.html')
             uploadContext = RequestContext(request, {
-                'accessDenied': "Your file has been successfully uploaded."
-                , 'logged_in': loggedIn, 'fullname': fullName,
-                'user_id': userID})
+                'accessDenied': "Your file has been successfully uploaded."})
             return HttpResponse(uploadTemplate.render(uploadContext))
         else:
             # Case: User logged in but had not submitted saved data for uploading:
             uploadForm = UploadGameForm()
             uploadTemplate = loader.get_template('account/upload.html')
-            uploadContext = RequestContext(request,
-                                           {'uploadForm': uploadForm, 'logged_in': loggedIn,
-                                            'fullname': fullName,
-                                            'user_id': userID})
+            uploadContext = RequestContext(request, {'uploadForm': uploadForm})
             return HttpResponse(uploadTemplate.render(uploadContext))
     else:
         uploadTemplate = loader.get_template('account/upload.html')
-        uploadContext = RequestContext(request,
-                                       {'accessDenied': "You must be logged in to see this page."})
+        uploadContext = RequestContext(request, {'accessDenied': "You must be logged in to see this page."})
         return HttpResponse(uploadTemplate.render(uploadContext))

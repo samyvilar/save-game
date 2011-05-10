@@ -45,8 +45,8 @@
       </script>
 
       <div id="header">
-          <img id="logo" src="{{ STATIC_PREFIX }}images/logo.png" />
-          <div id="logo_title">SAVED GAMES</div>
+          <a href='/'> <img id="logo" src="{{ STATIC_PREFIX }}images/logo.png" /> </a>
+          <a id='logo_title_link' href='/'> <div id="logo_title">SAVE-GAME</div> </a>
 
           <div id="search_div">
               <form id = 'search_form' method = "GET" action = "/results/">
@@ -77,26 +77,27 @@
           <ul id="nav">
 			<li><a href="#">GENRES</a>
 				<ul>					
-					<li><a href="#">ACTION</a></li>
-					<li><a href="#">ADVENTURE</a></li>
-                    <li><a href="#">PUZZLE</a></li>
-                    <li><a href="#">STRATEGY</a></li>
-                    <li><a href="#">ROLE-PLAYING</a></li>
-                    <li><a href="#">SHOOT-'EM-UP</a></li>
-                    <li><a href="#">2D PLATFORMER</a></li>
-                    <li><a href="#">RACING</a></li>
+					<li><a href="/genre/?g=3">ACTION</a></li>
+					<li><a href="/genre/?g=25">ADVENTURE</a></li>
+                    <li><a href="/genre/?g=1">PUZZLE</a></li>
+                    <li><a href="/genre/?g=59">STRATEGY</a></li>
+                    <li><a href="/genre/?g=114">SPORTS</a></li>
+                    <li><a href="/genre/?g=7">ROLE-PLAYING</a></li>
+                    <li><a href="/genre/?g=67">SHOOT-'EM-UP</a></li>
+                    <li><a href="/genre/?g=47">2D-PLATFORMERS</a></li>
+                    <li><a href="/genre/?g=12">RACING</a></li>
 				</ul>
 			</li>
 
 			<li><a href="#">PLATFORMS</a>
 				<ul>                    
-                    <li><a href="#">PC</a></li>
-                    <li><a href="#">XBOX 360</a></li>
-                    <li><a href="#">Wii</a></li>
-                    <li><a href="#">PS3</a></li>
-                    <li><a href="#">PSP</a></li>
-                    <li><a href="#">3DS</a></li>
-                    <li><a href="#">DS</a></li>
+                    <li><a href="/platform/?p=1">PC</a></li>
+                    <li><a href="/platform/?p=2">XBOX 360</a></li>
+                    <li><a href="/platform/?p=3">Wii</a></li>
+                    <li><a href="/platform/?p=4">PS3</a></li>
+                    <li><a href="/platform/?p=5">PSP</a></li>
+                    <li><a href="/platform/?p=6">3DS</a></li>
+                    <li><a href="/platform/?p=7">DS</a></li>
 				</ul>
 			</li>
 		</ul>        
