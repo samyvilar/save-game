@@ -6,8 +6,8 @@ from shutil import copy
 
 class TestASar(unittest.TestCase):
     def setUp(self):
-        #1 if dev, 0 if dep. Change this alone to test on the other page
-        self.cur = 1 
+        #True if dev, False if dep. Change this alone to test on the other page
+        self.cur = True 
         if (self.cur):
             self.pg = "http://localhost:8000"
             copy("../project/savegame.db", "../project/savegame.db.copy")
@@ -36,12 +36,14 @@ class TestASar(unittest.TestCase):
             fv (3, "repassword", p)
             fv (3, "email", em)
             submit()
+            sleep()
             reset_browser()
             self.b = get_browser()
             self.b.go(self.pg)
             fv (2, "username", ul[i])
             fv (2, "password", p)
             submit()
+            sleep()            
             html = self.b.result.get_page()
             assert(html.find("Invalid Username or Password: Please check your credentials.") == -1)
         
