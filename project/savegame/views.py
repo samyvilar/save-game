@@ -39,7 +39,7 @@ def regpage(request):
             
             msg = "Thank you for registering at Save-Game! \n Your username is: " + un
             sub = "Welcome to Save-Game!"
-            send_mail(sub, msg, 'noreplysavegame@gmail.com', [str(email)])
+            #send_mail(sub, msg, 'noreplysavegame@gmail.com', [str(email)])
 
             return HttpResponseRedirect('thanks/')
     else:
