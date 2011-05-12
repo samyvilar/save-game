@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals   import post_save
 import random
 
-max_length = 100
+max_length = 512
 class Company(models.Model):
     name = models.CharField(max_length=max_length)
 
@@ -91,7 +91,7 @@ class UploadedGame(models.Model):
     upvote = models.IntegerField()
     downvote = models.IntegerField()
     private = models.BooleanField()
-    original_file_name = models.CharField(max_length=512)
+    original_file_name = models.CharField(max_length=max_length)
 
     def __unicode__(self):
         return  u'%s' % self.game.title
@@ -100,6 +100,18 @@ class UploadedGame(models.Model):
         verbose_name = 'UploadedGames'
         verbose_name_plural = 'UploadedGames'
 
+VOTE_CHOICES = (('upvote', 'upvote'), ('downvote', 'downvote'))
+class UploadedGameVote(models.Model):
+    user = models.ForeignKey(User)
+    game = models.ForeignKey(Game)
+    vote = models.CharField(choices = VOTE_CHOICES, max_length = max_length)
+
+    def __unicode__(self):
+        return u'%s' % self.user
+
+    class Meta:
+        verbose_name = 'UploadedGameVote'
+        verbose_name_plural = 'UploadedGameVotes'
 
 class Comments(models.Model):
     uploadedgame = models.ForeignKey(UploadedGame)
