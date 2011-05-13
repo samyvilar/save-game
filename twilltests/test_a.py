@@ -7,6 +7,7 @@ from shutil import copy
 class TestASar(unittest.TestCase):
     def setUp(self):
         #True if dev, False if dep. Change this alone to test on the other page
+        #If on dep, need to go to django admin and delete test_reg_user1,2,3 after
         self.cur = True 
         if (self.cur):
             self.pg = "http://localhost:8000"
@@ -17,13 +18,11 @@ class TestASar(unittest.TestCase):
 
     def test_web_page_up(self):
         self.b.go(self.pg)
-        html = self.b.result.get_page()
-        assert(html.find('html')>0)    
+        assert(self.b.result.get_page().find('html')>0)    
 
     def test_form_on_page_up(self):
         self.b.go(self.pg)
-        html = self.b.result.get_page()
-        assert(html.find('form')>0)
+        assert(self.b.result.get_page().find('form')>0)
         
     def test_registration(self):
         ul = ["test_reg_user1", "test_reg_user2", "test_reg_user3"]
@@ -31,10 +30,10 @@ class TestASar(unittest.TestCase):
         em = "noreplysavegame@gmail.com"
         for i in range(len(ul)):
             self.b.go(self.pg+"/registration")
-            fv (3, "username", ul[i])
-            fv (3, "password", p)
-            fv (3, "repassword", p)
-            fv (3, "email", em)
+            fv ("registration_form", "username", ul[i])
+            fv ("registration_form", "password", p)
+            fv ("registration_form", "repassword", p)
+            fv ("registration_form", "email", em)
             submit()
             sleep()
             reset_browser()
@@ -44,8 +43,20 @@ class TestASar(unittest.TestCase):
             fv (2, "password", p)
             submit()
             sleep()            
-            html = self.b.result.get_page()
-            assert(html.find("Invalid Username or Password: Please check your credentials.") == -1)
+            assert(self.b.result.get_page().find("Invalid Username or Password: Please check your credentials.") == -1)
+    
+    def test_registration_fails(self):
+        self.b.go(self.pg+"/registration")
+        fv ("registration_form", "username", "akshai.sarma")
+        fv ("registration_form", "password", "pass")
+        fv ("registration_form", "repassword", "diffpass")
+        fv ("registration_form", "email", "pass.com") 
+        submit()
+        sleep()
+        res = self.b.result.get_page()
+        assert(res.find("That username already exists!") > 0)
+        assert(res.find("The passwords do not match!") > 0)
+        assert(res.find("Enter a valid e-mail address") > 0)
         
     def test_search(self):
         sl = ["portal", "port", "akshai", "cry"]
@@ -55,8 +66,7 @@ class TestASar(unittest.TestCase):
             fv("search_form", "search", sl[i])
             submit()
             sleep()
-            html = self.b.result.get_page()
-            assert(html.find(rl[i]) > 0)
+            assert(self.b.result.get_page().find(rl[i]) > 0)
 	
     def tearDown(self):
         if (self.cur):
