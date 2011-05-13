@@ -1,15 +1,13 @@
-#top {
-    width: 100%;
-    float: left;
-}
-
-#table {
+#top 
+{
+    width: 95%;
+    height: 90%;
     margin: auto;
-    width: 100%;
-    float: left;
+    margin-top: 5%;
 }
 
-#title {
+#title 
+{
     height: 30px;
     font-size:19px;
     padding-bottom: 1%;
@@ -19,29 +17,53 @@
     width: 100%;
     margin: auto;
 }
-.one {
-    width: 24.7%;
+
+.one 
+{
+    width: 19%;
     float: left;
+    text-align: center;
 }
 
-.gray {
+.two
+{
+	font-size: 12px; 
+	width: 15%;
+	margin-left: 8%;
+	float: left;
+}
+
+.gray 
+{
     background: rgb(210,210,210);
-    font-size: 19px;
+    font-size: 14pt;
     margin: auto;
     width: 100%;
     float: left;
     
 }
 
-.white {
-    font-size: 19px;
+.white 
+{
+    font-size: 14pt;
     margin: auto;
     width: 100%;
     float: left;
 }
 
-.t_c {
+.t_c 
+{
      float: left; 
-     width: 24.7%;
+     width: 19%;
      text-align: center;
+}
+
+#h_footer
+{
+	width: 100%; 
+	text-align:center; 
+	float: left; 
+	font-size: 22px;
+	margin-top: 2%;
+	margin-bottom: 5%;
 }

@@ -10,6 +10,7 @@ body
     background: -webkit-gradient(linear, left 160, left bottom, from(#FFFFFF), to(#CCCCCC));
 }
 
+
 #header
 {
     width: 100%;
@@ -38,12 +39,16 @@ body
     float: left;
 }
 
+#logo_title_link
+{
+	text-decoration: none;
+}
+
 #login
 {
     float: right;
     margin-top: 16px;
-    margin-right: 16px;
-    
+    margin-right: 16px;        
 }
 
 .login_textfield
@@ -64,20 +69,28 @@ body
     margin-left: 5px;
 }
 
-
-#menu
+#logged_in
 {
-    position: absolute;
-    margin-top: 102px;
-    margin-left: 15%;
-    float: left;
+    float: right;
+    margin-top: 16px;
+    margin-right: 16px;
+    color: white;
+    height: 100%;
+    width: 230px;
 }
+
+#user_panel
+{
+    height: 44px;
+}
+
+#menu{   float: right;    margin-top: 60px; padding-right: 20px;    }
 
 #menu .menu_item
 {
     width: 95px;
     height: 33px;    
-    float: left;
+    float: right;
     margin-left: 10px;
     background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#CCCCCC));
     background: -moz-linear-gradient(top, rgba(255,255,255,0), rgba(204,204,204,1));
@@ -103,24 +116,24 @@ body
     text-decoration: none;
 }
 
-#footer
+#content
 {
-    margin-top: 100px;
+    width: 100%;
+    height: auto;
+}
+
+#footer
+{    
     width: 90%;
     margin-left: 5%;
     border-top: 1px solid black;
     text-indent: 10px;
     padding-top: 10px;
     padding-bottom: 10px;
-
+    margin-top: 100px;
      -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), to(rgba(1,1,1,0)));
      font-size: 13px;
      font-family: Lucida Sans;
-}
-
-#content
-{
-    height: 100%;
 }
 
 #footer_links
@@ -134,3 +147,32 @@ body
     margin-left: 5px;
     color: black;    
 }
+
+
+#search_div
+{
+    float: right;
+    margin-top: 120px;
+    margin-left: 30%;
+    position: absolute;
+    
+}
+
+#search_text
+{
+    font-size: 18px;
+	height: 34px;
+    width: 450px;
+    border-radius: 8px;
+    text-indent: 10px;    
+}
+
+#search_button
+{
+    height: 35px;
+    
+    font-size: 18px;
+    background-color: #EDEDED;
+    border-radius: 10px;    
+}
+

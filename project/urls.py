@@ -11,13 +11,15 @@ urlpatterns = patterns('',
                        url(r'^registration/$', 'savegame.views.regpage'),
                        url(r'^registration/thanks/$', 'savegame.views.regthanks'),
 
-                       url(r'settings/', 'savegame.views.settings'),
                        url(r'sign[Ii]n/', 'savegame.views.signIn'),
                        url(r'sign[Oo]ut/', 'savegame.views.signOut'),
                        url(r'gamepage/', 'savegame.views.gamepage'),
                        url(r'results/', 'savegame.views.results'),
                        url(r'upload/', 'savegame.views.upload'),
-
+                       url(r'infopage/', 'savegame.views.gameinfo'),
+                       url(r'^platform/', 'savegame.views.platform'),
+                       url(r'^genre/', 'savegame.views.genre'),
+                       
                        url(r'getvotedata/', 'savegame.views.getvotedata'),
                        url(r'getUploadedFileData/', 'savegame.views.getUploadedFileData'),
                        url(r'getCommentData/', 'savegame.views.getCommentData'),

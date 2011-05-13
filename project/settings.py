@@ -173,3 +173,10 @@ EMAIL_HOST_USER = 'noreplysavegame@gmail.com'
 EMAIL_HOST_PASSWORD = 'ogcughhh'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+TEMPLATE_CONTEXT_PROCESSORS =   (
+"django.contrib.auth.context_processors.auth",
+"django.core.context_processors.csrf",
+"django.core.context_processors.debug",
+"django.core.context_processors.i18n",
+"django.core.context_processors.media")

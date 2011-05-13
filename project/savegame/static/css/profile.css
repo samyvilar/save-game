@@ -1,11 +1,9 @@
 .panel-grid-container
 {
     border: 1px solid black;
-    width: 850px;
-    float: left;
-    height: auto;
-
+    width: 900px;
     border-radius: 8px;
+    margin-top: 50px;
 }
 
 .panel-grid-container caption
@@ -44,7 +42,9 @@
 {
     float: left;
     height: 100%;
-    width: 190px;
+    width: 220px;
+    margin-left: 10%;
+    margin-top: 50px;
 }
 
 #settings-panel

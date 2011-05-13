@@ -1,0 +1,34 @@
+{% extends "v2/base.html" %}
+
+{% block title %} {{ name }} {% endblock %}
+
+{% block css %}
+    {% load static %}
+    {% get_static_prefix as STATIC_PREFIX %}
+    <link rel='stylesheet' href='{{ STATIC_PREFIX }}css/infopage.css' type='text/css' />
+{% endblock %}
+
+{% block content %} 
+<div id='infowrap'>
+	<span id = 'platform'> {{ platform }} : </span>
+	<span id = 'game'> {{ name }} </span>
+
+	<ul>
+	{% for m in games %}
+		<li>
+			<div class = 'savegame'>
+				<span class = 'title'> <a href ="/gamepage/?uploaded_game_id={{ m.id }}">{{ m.title}}</a></span>
+				<span class = 'votes'> Upvotes: {{ m.upvote }} </span>
+				<br />
+				<span class = 'votes'> Downvotes: {{ m.downvote }} </span>
+			</div>
+			<br /> <br />
+		</li>
+	{% endfor %}
+	</ul>
+</div>
+{% endblock %}
+
+
+
+

@@ -1,0 +1,54 @@
+{% extends "v2/base.html" %}
+
+{% block title %} {{ genre }} {% endblock %}
+
+{% block css %}
+    {% load static %}
+    {% get_static_prefix as STATIC_PREFIX %}
+    <link rel='stylesheet' href='{{ STATIC_PREFIX }}css/genrepage.css' type='text/css' />
+{% endblock %}
+
+{% block content %} 
+<div id = 'genrewrap' >
+	<span id = 'genre'> Browse all games for {{ genre }} </span>
+	<br />	<br />
+	{% for m in games.object_list %}
+		<div class = 'game'>
+			<div class = 'img'> 
+				<img src="{{ m.smallcover }}" alt = "{{ m.title }} pic"/> 
+			</div>
+			<div class = 'text'> 
+				<a href ="/infopage/?game_id={{ m.id }}">{{ m.title}}</a>
+				<br />
+				Released: {{ m.release_date }}
+			</div>
+			<br />
+		</div>
+		<br />
+	{% endfor %}
+	<br />	<br />
+	<div id = 'paginator'>
+		{% if games %}
+			{% if games.has_previous %}
+				<a href="/genre/?g={{ gid|escape }}&page={{ games.previous_page_number }}">Previous</a>
+			{% endif %}
+			{% if ellipses1 %}
+				 | <a href="/genre/?g={{ gid|escape }}&page=1">1</a> | ... 
+			{% endif %}
+			{% for p in page_list %}
+				 | <a href="/genre/?g={{ gid|escape }}&page={{ p }}">{{ p }}</a> |
+			{% endfor %}
+			{% if ellipses2 %}
+				... | <a href="/genre/?g={{ gid|escape }}&page={{ games.paginator.num_pages }}"> {{ games.paginator.num_pages }}</a> |
+			{% endif %}			
+			{% if games.has_next %}
+				<a href="/genre/?g={{ gid|escape }}&page={{ games.next_page_number }}">Next</a>
+			{% endif %}
+		{% endif %}
+	</div>
+</div>
+{% endblock %}
+
+
+
+

@@ -31,18 +31,22 @@ class UserProfileAdmin(UserAdmin):
 class UploadedGame_Admin(admin.ModelAdmin):
     list_display = ('id', 'title', 'game', 'platform', 'user', 'datetime', 'description', 'upvote', 'downvote', 'private')
     search_fields = ['title', 'game', 'platform', 'user', 'datetime', 'description', 'private']
-    
+
+class UploadedGameVote_Admin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'game', 'vote')
+    search_fields = ['user', 'game', 'vote']
 
 class Comments_Admin(admin.ModelAdmin):
     list_display = ('id', 'uploadedgame', 'user', 'comment', 'datetime')
     search_fields = ['uploadedgamed', 'user', 'datetime', 'comment']
     
-admin.site.register(Company,        Company_Admin)
-admin.site.register(Platform,       Platform_Admin)
-admin.site.register(User,           UserProfileAdmin)
-admin.site.register(Genre,          Genre_Admin)
-admin.site.register(Game,           Game_Admin)
-admin.site.register(UploadedGame,   UploadedGame_Admin)
-admin.site.register(Comments,       Comments_Admin)
+admin.site.register(Company,          Company_Admin)
+admin.site.register(Platform,         Platform_Admin)
+admin.site.register(User,             UserProfileAdmin)
+admin.site.register(Genre,            Genre_Admin)
+admin.site.register(Game,             Game_Admin)
+admin.site.register(UploadedGame,     UploadedGame_Admin)
+admin.site.register(UploadedGameVote, UploadedGameVote_Admin)
+admin.site.register(Comments,         Comments_Admin)
 
 

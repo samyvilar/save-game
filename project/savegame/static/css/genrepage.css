@@ -1,0 +1,24 @@
+#genrewrap
+{
+	width: 95%;
+	margin: auto;
+}
+#genre
+{
+	font-size: 30px;
+}
+
+.game
+{
+	margin: auto;
+}
+
+.text 
+{
+	font-size: 20px;
+}
+
+#paginator
+{
+	font-size: 20px;
+}
