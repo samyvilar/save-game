@@ -32,13 +32,15 @@ def regpage(request):
             un = reg.cleaned_data['username']
             pwd = reg.cleaned_data['password']
             email = reg.cleaned_data['email']
+
             newacc = User.objects.create_user(un, email, pwd)
             newacc.first_name = un
             newacc.save()
-            # Removing sending of mail as Deployed version does not work with it
-            #msg = "Thank you for registering at Save-Game! \n Your username is: " + un
-            #sub = "Welcome to Save-Game!"
+            
+            msg = "Thank you for registering at Save-Game! \n Your username is: " + un
+            sub = "Welcome to Save-Game!"
             #send_mail(sub, msg, 'noreplysavegame@gmail.com', [str(email)])
+
             return HttpResponseRedirect('thanks/')
     else:
         reg = RegForm()
