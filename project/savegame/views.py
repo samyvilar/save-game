@@ -304,7 +304,15 @@ def getUploadedFileData(request):
     game = UploadedGame.objects.get(id=uploaded_id)
     info['upvotes'] = str(game.upvote)
     info['downvotes'] = str(game.downvote)
-    info['data_title'] = str(game.title)
+    # Adding voting enforcing mechanism
+    cur_user = int(request.GET['cur_user'])
+    #try:
+    	#vote_info = UploadedGameVote.objects.get(user__id = cur_user, game__id=uploaded_id)
+    #except UploadedGameVote.DoesNotExist:
+    #	info['vote_status'] = 0
+    #else:
+    #	info['vote_status'] = 1 if (vote_info.vote == 'upvote') else -1
+    #info['data_title'] = str(game.title)
     
     date = UploadedGame.objects.filter(id=uploaded_id).values()
 
@@ -386,17 +394,24 @@ def getCommentData(request):
 
 
 def getvotedata(request):
-    uploaded_id = request.GET.get('uploaded_game_id')
-    upvoted = request.GET.get('upvote', '')
-    downvoted = request.GET.get('downvote', '')
+    uploaded_id = int(request.GET.get('uploaded_game_id'))
+    cur_user = int(request.GET.get('cur_user'))
+    vote_up = int (request.GET.get('vote'))
     info = {}
-    game = UploadedGame.objects.get(id=int(uploaded_id))
-    info['upvotes'] = game.upvote
-    info['downvotes'] = game.downvote
-    if upvoted:
+    game = UploadedGame.objects.get(id=int(uploaded_id))   
+	user = User.objects.get(id=cur_user)  
+    #try:
+    	#vote_info = UploadedGameVote.objects.get(user__id = cur_user, game__id=uploaded_id)
+    #except UploadedGameVote.DoesNotExist:
+    #	vote_info = UploadedGameVote()
+    #	vote_info.game = game
+    #	vote_info.user = user
+	#	vote_info.vote = "upvote" if vote_up else "downvote"
+	#	vote_info.save()
+    if vote_up:
         game.upvote = game.upvote + 1
         info['upvotes'] = game.upvote
-    if downvoted:
+    else:
         game.downvote = game.downvote + 1
         info['downvotes'] = game.downvote
     game.save()
