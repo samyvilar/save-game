@@ -305,15 +305,20 @@ def getUploadedFileData(request):
     info['upvotes'] = str(game.upvote)
     info['downvotes'] = str(game.downvote)
     # Adding voting enforcing mechanism
-    cur_user = int(request.GET['cur_user'])
-    #try:
-    	#vote_info = UploadedGameVote.objects.get(user__id = cur_user, game__id=uploaded_id)
-    #except UploadedGameVote.DoesNotExist:
-    #	info['vote_status'] = 0
-    #else:
-    #	info['vote_status'] = 1 if (vote_info.vote == 'upvote') else -1
-    #info['data_title'] = str(game.title)
-    
+    cur_user = request.GET['cur_user']
+    if cur_user != "None":
+        cur_user = int(cur_user)
+        try:
+            vote_info = UploadedGameVote.objects.get(user__id = cur_user, game__id = uploaded_id)
+        except UploadedGameVote.DoesNotExist:
+            info['vote_status'] = 0
+        else:
+            if vote_info.vote == "upvote":
+                info['vote_status'] = 1 
+            elif vote_info.vote == 'downvote':
+                info['vote_status'] = -1
+            else:
+                info['vote_status'] = 0
     date = UploadedGame.objects.filter(id=uploaded_id).values()
 
     if len(date):
@@ -399,38 +404,36 @@ def getvotedata(request):
     vote_up = int (request.GET.get('vote'))
     info = {}
     game = UploadedGame.objects.get(id=int(uploaded_id))   
-	user = User.objects.get(id=cur_user)  
-    """
+    user = User.objects.get(id=cur_user)  
     try:
     	vote_info = UploadedGameVote.objects.get(user__id = cur_user, game__id=uploaded_id)
     except UploadedGameVote.DoesNotExist:
     	vote_info = UploadedGameVote()
     	vote_info.game = game
     	vote_info.user = user
-		if vote_up:
-			game.upvote = game.upvote + 1
-			info['upvotes'] = game.upvote
-			info['downvotes'] = game.downvote
-			info['arrow'] = "UP"
-			vote_info.vote = "upvote"			
-		else:
-			game.downvote = game.downvote + 1
-			info['upvotes'] = game.upvote			
-			info['downvotes'] = game.downvote
-			info['arrow'] = "DWN"			
-			vote_info.vote = "downvote"			
-		game.save()
-		vote_info.save()				
-	else:
-		game.upvote = game.upvote - 1 if (vote_info.vote == "upvote")
-		game.downvote = game.downvote - 1 if (vote_info.vote == "downvote")
-		game.save()
-		vote_info.delete()		
-		info['upvotes'] = game.upvote			
-		info['downvotes'] = game.downvote
-		info['arrow'] = "CLR"	
-   """
-   return HttpResponse(json.dumps(info))
+    	vote_info.vote = "none"
+    	
+    if vote_info.vote == "none":
+        if (vote_up):
+            game.upvote = game.upvote + 1
+            info['arrow'] = "UP"		
+            vote_info.vote = "upvote"
+        else:
+            game.downvote = game.downvote + 1
+            info['arrow'] = "DWN"
+            vote_info.vote = "downvote"                
+    else:
+        if (vote_info.vote == "upvote"):
+            game.upvote = game.upvote - 1 
+        else:
+            game.downvote = game.downvote -1 
+        vote_info.vote = "none"
+        info['arrow'] = "CLR"
+    info['upvotes'] = game.upvote
+    info['downvotes'] = game.downvote
+    game.save()
+    vote_info.save()		
+    return HttpResponse(json.dumps(info))
 
 
 def uploadHandler(saveFile):

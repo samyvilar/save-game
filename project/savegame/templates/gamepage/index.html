@@ -14,7 +14,6 @@
 function getUploadedFileData(data){
     data = eval( '(' + data + ')' );  // Interpret string as json object.  Very unsafe, but does the job :)
     
-    $("#data_title").html(data['data_title']);
     $("#download_link").attr("href", data['download_link']); /* Set the attribute dynamically */
     $("#uploader").html(data['uploader']);
     $("#date").html(data['date']);
@@ -22,13 +21,18 @@ function getUploadedFileData(data){
     $("#game_desc").html(data['game_desc']);
     $("#upvotes").html(data['upvotes']);
     $("#downvotes").html(data['downvotes']);
-    if (data['vote_status'] == 0) 
-		;
-    else if (data['vote_status'] == 1) 
+    if (data['vote_status'] == -1) {
+		$("#dnv").attr("src", "{{ STATIC_PREFIX }}images/dnv.png");
+		$("#upv").attr("src", "{{ STATIC_PREFIX }}images/upv-in.png");	
+	}
+    else if (data['vote_status'] == 1) {
     	$("#upv").attr("src", "{{ STATIC_PREFIX }}images/upv.png");
-    else 
-    	$("#dnv").attr("src", "{{ STATIC_PREFIX }}images/dnv.png");
-    
+		$("#dnv").attr("src", "{{ STATIC_PREFIX }}images/dnv-in.png");    	
+    }
+    else { 
+		$("#upv").attr("src", "{{ STATIC_PREFIX }}images/upv-in.png");
+		$("#dnv").attr("src", "{{ STATIC_PREFIX }}images/dnv-in.png");
+	}     
     /* Load the comment section */
 
      /* Get all the date properly formattted */
@@ -107,20 +111,18 @@ function getvotedata(data){
 $(document).ready(function(){
     var uploaded_game_id = {{ uploaded_id }}; 
 	/* Adding this next line for voting */
-	var cur_user = {{ user.id }}
+	var cur_user = "{{ user.id }}"
     /* This part uses ajax to get the necessary
        data from the db, given the user_id and uploaded_game_id */    
     $.ajax({
         type: "GET",
         url: "/getUploadedFileData/",
-        data: {'uploaded_game_id' : uploaded_game_id, 'cur_user':cur_user },
+        data: {'uploaded_game_id' : uploaded_game_id, 'cur_user' : cur_user },
         async: false,
         success: getUploadedFileData
     });
 
     $("#sub").click(function(){
-        var logged_in_user = "{{ user.id }}";
-
         // We remove extra whitespace from the comment input
         var comment_data = $("#comment_area").val();
         
@@ -131,12 +133,12 @@ $(document).ready(function(){
             return;
         }
         
-		if (logged_in_user != "None")
+		if (cur_user != "None")
 			$.ajax({
 				async: false,
 				success: getCommentData,
 				url: "/getCommentData/",
-				data: { 'user_id' : logged_in_user, 'uploaded_game_id' : uploaded_game_id, 'comment_data': comment_data  } 
+				data: { 'user_id' : cur_user, 'uploaded_game_id' : uploaded_game_id, 'comment_data': comment_data  } 
 	
 			});
 		else
@@ -150,7 +152,7 @@ $(document).ready(function(){
 				async: false,		
 				success: getvotedata,
 				url: "/getvotedata/",
-				data: { 'uploaded_game_id' : uploaded_game_id, 'vote': 1, 'cur_user':cur_user }
+				data: { 'uploaded_game_id' : uploaded_game_id, 'vote': 1, 'cur_user' : cur_user }
 			});
 		else
 			alert("Please log-in to vote!");
@@ -163,7 +165,7 @@ $(document).ready(function(){
 				async: false,
 				success: getvotedata,
 				url: "/getvotedata/",
-				data: { 'uploaded_game_id' : uploaded_game_id, 'vote': 0, 'cur_user':cur_user }
+				data: { 'uploaded_game_id' : uploaded_game_id, 'vote': 0, 'cur_user' : cur_user }
 			});
 		else
 			alert("Please log-in to vote!");
