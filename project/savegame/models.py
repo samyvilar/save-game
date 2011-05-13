@@ -100,7 +100,7 @@ class UploadedGame(models.Model):
         verbose_name = 'UploadedGames'
         verbose_name_plural = 'UploadedGames'
 
-VOTE_CHOICES = (('upvote', 'upvote'), ('downvote', 'downvote'))
+VOTE_CHOICES = (('upvote', 'upvote'), ('downvote', 'downvote'), ('none', 'none'))
 class UploadedGameVote(models.Model):
     user = models.ForeignKey(User)
     game = models.ForeignKey(UploadedGame)
