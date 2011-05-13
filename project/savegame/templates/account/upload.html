@@ -6,10 +6,14 @@
 {% get_static_prefix as STATIC_PREFIX %}
 {% block css %}
     <link rel='stylesheet' href="{{ STATIC_PREFIX }}css/upload.css" type='text/css'/>
+    <link rel='stylesheet' href ="{{ STATIC_PREFIX }}css/jquery.autocomplete.css" type='text/css'/>
+    <link rel='stylesheet' href="{{ STATIC_PREFIX }}css/iconic.css" type='text/css'/>
 {% endblock %}
 
 {% block js %}
     <script src="{{ STATIC_PREFIX }}js/upload.js"></script>
+    <script src="{{ STATIC_PREFIX }}js/ajax_select.js"></script>
+    <script src="{{ STATIC_PREFIX }}js/iconic.js"></script>
 {% endblock %}
 
 {% block content %}
