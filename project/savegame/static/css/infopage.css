@@ -9,14 +9,19 @@ li
 	list-style-type: none;
 }
 
-#platform
+a
+{
+	text-decoration: none;
+}
+
+#platform, #genre, #game
 {
 	font-size: 30px;
 }
 
-#game	
+#tag
 {
-	font-size: 30px;
+	font-size: 20px	;	
 }
 
 .savegame
@@ -24,10 +29,11 @@ li
 	margin: auto;
 	width: 50%;
 }
+
 .title
 {
 	float: left;
-	font-size: 20px;
+	font-size: 18px;
 }
 
 .votes

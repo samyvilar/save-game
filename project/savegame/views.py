@@ -99,12 +99,10 @@ def gamepage(request):
     return HttpResponse(t.render(c))
 
 def gameinfo(request):
-	sgame = Game.objects.get(id=int(request.GET.get('game_id')))
-	plat = sgame.platform.name
-	gname = sgame.title
-	agames = UploadedGame.objects.filter(game__title=gname, platform__name=plat).exclude(private=True).order_by('-upvote')
+	fgame = Game.objects.get(id=int(request.GET.get('game_id')))
+	sgames = UploadedGame.objects.filter(game__title=fgame.title, platform__name=fgame.platform.name).exclude(private=True).order_by('-upvote')
 	t = loader.get_template('infopage/index.html')
-	c = RequestContext(request, {'name': gname, 'platform': plat, 'games': agames })
+	c = RequestContext(request, {'game': fgame, 'sgames': sgames })
 	return HttpResponse(t.render(c))
 
 def platform(request):
