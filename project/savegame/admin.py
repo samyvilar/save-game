@@ -2,6 +2,7 @@ from savegame.models import *
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
+from ajax_select import make_ajax_form
 
 
 class Company_Admin(admin.ModelAdmin):
@@ -23,14 +24,15 @@ class Game_Admin(admin.ModelAdmin):
 
 admin.site.unregister(User)
 class UserProfileInline(admin.StackedInline):
-	model = UserProfile    
+    model = UserProfile
 
-class UserProfileAdmin(UserAdmin):    
-	inlines = [UserProfileInline]    
+class UserProfileAdmin(UserAdmin):
+    inlines = [UserProfileInline]
 
 class UploadedGame_Admin(admin.ModelAdmin):
     list_display = ('id', 'title', 'game', 'platform', 'user', 'datetime', 'description', 'upvote', 'downvote', 'private')
     search_fields = ['title', 'game', 'platform', 'user', 'datetime', 'description', 'private']
+    form = make_ajax_form(UploadedGame, {'game': 'game'})
 
 class UploadedGameVote_Admin(admin.ModelAdmin):
     list_display = ('id', 'user', 'game', 'vote')
@@ -39,7 +41,7 @@ class UploadedGameVote_Admin(admin.ModelAdmin):
 class Comments_Admin(admin.ModelAdmin):
     list_display = ('id', 'uploadedgame', 'user', 'comment', 'datetime')
     search_fields = ['uploadedgamed', 'user', 'datetime', 'comment']
-    
+
 admin.site.register(Company,          Company_Admin)
 admin.site.register(Platform,         Platform_Admin)
 admin.site.register(User,             UserProfileAdmin)

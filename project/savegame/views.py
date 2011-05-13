@@ -2,6 +2,7 @@ from django.template import Context, RequestContext, loader
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.mail import send_mail
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
 # Additional imports
@@ -20,7 +21,7 @@ from django.utils import simplejson
 def mainpage(request):
     latest_ten = UploadedGame.objects.all().exclude(private=True).order_by('-datetime')[:10]
     t = loader.get_template('account/mainpage.html')
-    c = RequestContext(request, {'latest_ten': latest_ten})                 
+    c = RequestContext(request, {'latest_ten': latest_ten})
     return HttpResponse(t.render(c))
 
 
@@ -36,7 +37,7 @@ def regpage(request):
             newacc = User.objects.create_user(un, email, pwd)
             newacc.first_name = un
             newacc.save()
-            
+
             msg = "Thank you for registering at Save-Game! \n Your username is: " + un
             sub = "Welcome to Save-Game!"
             #send_mail(sub, msg, 'noreplysavegame@gmail.com', [str(email)])
@@ -203,10 +204,10 @@ def profile(request, user_id=None):
     elif request.user.is_authenticated() and request.user.id == int(user_id): # users profile ...
         user            = User.objects.get(id = int(user_id))
         profile         = user.get_profile()
-        uploadsavegames = UploadedGame.objects.filter(user = user)        
+        uploadsavegames = UploadedGame.objects.filter(user = user)
         comments        = Comments.objects.filter(user = user)
         owner           = True
-        
+
         if request.method == "POST":
             if 'upload_id' in request.POST:
                 try:
@@ -217,8 +218,8 @@ def profile(request, user_id=None):
                     if request.is_ajax():
                         return HttpResponse(simplejson.dumps({'upload_id':int(request.POST['upload_id'])}), mimetype='application/json')
                     else:
-                        uploadsavegames = UploadedGame.objects.filter(user = user)        
-                        context = {'user_object':user, 'profile':profile,'uploadsavegames':uploadsavegames,'comments':comments,'owner':owner}                        
+                        uploadsavegames = UploadedGame.objects.filter(user = user)
+                        context = {'user_object':user, 'profile':profile,'uploadsavegames':uploadsavegames,'comments':comments,'owner':owner}
                         return render_to_response('account/profile.html', context, context_instance=RequestContext(request))
                 except Exception as ex:
                     if request.is_ajax():
@@ -246,15 +247,15 @@ def profile(request, user_id=None):
                         return HttpResponse(simplejson.dumps({'error':str(ex)}), mimetype='application/json')
                     else:
                         return HttpResponse("There was an exception updating an upload private field with the id "  + request.POST['upload_private_id'] + " error: " + str(ex))
-                    
-                
+
+
             user.first_name     = request.POST['first_name']
             user.last_name      = request.POST['last_name']
             user.username       = request.POST['username']
             user.set_password(request.POST['password'])
             user.email          = request.POST['email']
 
-            user.save()            
+            user.save()
 
             if 'avatar' in request.FILES:
                 file = request.FILES['avatar']
@@ -279,7 +280,7 @@ def profile(request, user_id=None):
 
         context = {'user_object':user,'profile':profile,'uploadsavegames':uploadsavegames,'comments':comments,'owner':owner}
         return render_to_response('account/profile.html',context,context_instance=RequestContext(request))
-    
+
     elif User.objects.get(pk=user_id).get_profile().private: # if profile is private ..
         return redirect('/?error=private_profile')
     else: # public profile viewed by anyone ...
@@ -294,20 +295,20 @@ def profile(request, user_id=None):
 
 def getUploadedFileData(request):
     info = {}
-    try:     
+    try:
         uploaded_id = request.GET['uploaded_game_id']
     except:
         return HttpResponse("Error retrieving uploaded file data!");
 
     # This is the user associated with this save game
-    user_id = UploadedGame.objects.filter(id=uploaded_id).values()[0]['user_id']  
+    user_id = UploadedGame.objects.filter(id=uploaded_id).values()[0]['user_id']
 
     # Get stuff off the data base and pass it back to the client!
     game = UploadedGame.objects.get(id=uploaded_id)
     info['upvotes'] = str(game.upvote)
     info['downvotes'] = str(game.downvote)
     info['data_title'] = str(game.title)
-    
+
     date = UploadedGame.objects.filter(id=uploaded_id).values()
 
     if len(date):
@@ -320,11 +321,11 @@ def getUploadedFileData(request):
         info['uploader'] = uploader[0].get('username')
     else:
         info['uploader'] = 'Empty'
-        
+
     profile_path = UserProfile.objects.filter(user=user_id).values()
-    
+
     if len(profile_path) > 0 :
-        info['profile_path'] = '/' + str(profile_path[0]['avatar'])  
+        info['profile_path'] = '/' + str(profile_path[0]['avatar'])
     else:
         info['profile_path'] = ''
 
@@ -333,7 +334,7 @@ def getUploadedFileData(request):
         info['download_link'] = download_link[0]['file']
     else:
         info['download_link'] = 'Empty...'
- 
+
     game_desc = UploadedGame.objects.filter(id=uploaded_id).values()
     if len(game_desc) > 0:
         info['game_desc'] = game_desc[0]['description']
@@ -346,7 +347,7 @@ def getUploadedFileData(request):
         i['datetime'] = str(i['datetime'])
         info2[i['id']] = i
         info2[i['id']]['username'] = User.objects.filter(id=i['user_id']).values()[0]['username']
-        
+
     info['info2'] = info2;
 
     return HttpResponse(json.dumps(info))
@@ -431,6 +432,10 @@ def uploadHandler(saveFile):
 def upload(request):
     # Only allow the user to upload data if he or she has already logged in.
     if request.user.is_authenticated():
+        loggedIn = True
+        fullName = request.user.get_full_name()
+        userID = request.user.id
+
         if request.method == 'POST':
             # Case: User is logged in and had just submitted a save file:
 
