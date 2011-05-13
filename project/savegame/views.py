@@ -400,23 +400,37 @@ def getvotedata(request):
     info = {}
     game = UploadedGame.objects.get(id=int(uploaded_id))   
 	user = User.objects.get(id=cur_user)  
-    #try:
-    	#vote_info = UploadedGameVote.objects.get(user__id = cur_user, game__id=uploaded_id)
-    #except UploadedGameVote.DoesNotExist:
-    #	vote_info = UploadedGameVote()
-    #	vote_info.game = game
-    #	vote_info.user = user
-	#	vote_info.vote = "upvote" if vote_up else "downvote"
-	#	vote_info.save()
-    if vote_up:
-        game.upvote = game.upvote + 1
-        info['upvotes'] = game.upvote
-    else:
-        game.downvote = game.downvote + 1
-        info['downvotes'] = game.downvote
-    game.save()
-
-    return HttpResponse(json.dumps(info))
+    """
+    try:
+    	vote_info = UploadedGameVote.objects.get(user__id = cur_user, game__id=uploaded_id)
+    except UploadedGameVote.DoesNotExist:
+    	vote_info = UploadedGameVote()
+    	vote_info.game = game
+    	vote_info.user = user
+		if vote_up:
+			game.upvote = game.upvote + 1
+			info['upvotes'] = game.upvote
+			info['downvotes'] = game.downvote
+			info['arrow'] = "UP"
+			vote_info.vote = "upvote"			
+		else:
+			game.downvote = game.downvote + 1
+			info['upvotes'] = game.upvote			
+			info['downvotes'] = game.downvote
+			info['arrow'] = "DWN"			
+			vote_info.vote = "downvote"			
+		game.save()
+		vote_info.save()				
+	else:
+		game.upvote = game.upvote - 1 if (vote_info.vote == "upvote")
+		game.downvote = game.downvote - 1 if (vote_info.vote == "downvote")
+		game.save()
+		vote_info.delete()		
+		info['upvotes'] = game.upvote			
+		info['downvotes'] = game.downvote
+		info['arrow'] = "CLR"	
+   """
+   return HttpResponse(json.dumps(info))
 
 
 def uploadHandler(saveFile):
