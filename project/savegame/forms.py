@@ -2,6 +2,7 @@ from django.forms import ModelForm
 from savegame.models import UploadedGame
 from django.contrib.auth.models import User
 from django import forms
+from ajax_select.fields import AutoCompleteSelectField
 
 class RegForm(forms.Form):
     username = forms.CharField(max_length=30)
@@ -15,13 +16,12 @@ class RegForm(forms.Form):
             User.objects.get(username=entry) #using get because username should be unique
         except User.DoesNotExist:
             if entry == "None":
-            	raise forms.ValidationError("You cannot use that reserved username!")
+                raise forms.ValidationError("You cannot use that reserved username!")
             else:
-            	pass
+                pass
         else:
             raise forms.ValidationError("That username already exists!")
-            
-        
+
         return entry
 
     def clean_repassword(self):
@@ -33,6 +33,7 @@ class RegForm(forms.Form):
 
 
 class UploadGameForm(ModelForm):
+    game = AutoCompleteSelectField('game', required=True)
     class Meta:
         model = UploadedGame
         exclude = ('user', 'datetime', 'upvote', 'downvote')

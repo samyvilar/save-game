@@ -1,4 +1,6 @@
 #logInMessage {
+    font: 18px Georgia, "Times New Roman", Times, serif;
+    padding-top: 5%;
     text-align: center;
     color: red;
     font-weight: bold;
@@ -6,8 +8,9 @@
 }
 
 #signInBlock {
+    font: 18px Georgia, "Times New Roman", Times, serif;
     margin-top: 10%;
-    margin-left: 28%;
+    margin-left: 40%;
 }
 
 form#signInForm {
@@ -30,14 +33,14 @@ form#signInForm fieldset:last-of-type {
 }
 
 form#signInForm legend {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: bold;
     padding-bottom: 10px;
 }
 
 form#signInForm label {
+    font: 18px Georgia, "Times New Roman", Times, serif;
     float: left;
-    font-size: 13px;
     width: 110px;
 }
 
@@ -48,7 +51,6 @@ form#signInForm input {
     -webkit-border-radius: 3px;
     -khtml-border-radius: 3px;
     border-radius: 3px;
-    font: italic 13px Georgia, "Times New Roman", Times, serif;
     outline: none;
     padding: 5px;
     width: 250px;
@@ -59,7 +61,7 @@ form#signInForm input:focus {
 }
 
 form#signInForm button {
-    background: rgb(230, 230, 230);
+    background: rgb(210, 210, 210);
     border: none;
     -moz-border-radius: 20px;
     -webkit-border-radius: 20px;
@@ -69,12 +71,12 @@ form#signInForm button {
     display: block;
     font: 18px Georgia, "Times New Roman", Times, serif;
     letter-spacing: 1px;
-    margin: auto;
-    padding: 7px 25px;
+    margin-left: 40%;
     text-shadow: 0 1px 1px #000000;
     text-transform: uppercase;
 }
 
 form#signInForm button:hover {
-    background: rgb(210, 210, 210);
+    background: rgb(230, 230, 230);
     cursor: pointer;
+}

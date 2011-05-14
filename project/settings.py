@@ -142,8 +142,13 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-    'savegame'
+    'savegame',
+    'ajax_select',
 )
+
+AJAX_LOOKUP_CHANNELS = {
+    'game' : {'model': 'savegame.Game', 'search_field': 'title'},
+}
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

@@ -19,7 +19,7 @@ urlpatterns = patterns('',
                        url(r'infopage/', 'savegame.views.gameinfo'),
                        url(r'^platform/', 'savegame.views.platform'),
                        url(r'^genre/', 'savegame.views.genre'),
-                       
+
                        url(r'getvotedata/', 'savegame.views.getvotedata'),
                        url(r'getUploadedFileData/', 'savegame.views.getUploadedFileData'),
                        url(r'getCommentData/', 'savegame.views.getCommentData'),
@@ -30,6 +30,7 @@ urlpatterns = patterns('',
                        # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
                        # Uncomment the next line to enable the admin:
                        url(r'^admin/', include(admin.site.urls)),
+                       (r'^ajax_select/', include('ajax_select.urls')),
                        )
 
 #urlpatterns += staticfiles_urlpatterns()

@@ -6,3 +6,4 @@ syntax: glob
 project/*.pyc
 project/savegame/*.pyc
 glob:.idea/
+glob:Django Dependencies/django-ajax-selects-1.1.4/*

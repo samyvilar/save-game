@@ -1,10 +1,9 @@
 /* CSS file for main page */
 
-#mainpage_container 
-{
-	margin: auto;
-	width: 70%;
-	height: 85%;
+#mainpage_container {
+    margin: auto;
+    width: 70%;
+    height: 85%;
 }
 
 /*
@@ -32,24 +31,28 @@
 }
 */
 
-#latest_ten 
-{
-	clear: both;
-	margin: auto;
-	
-	margin-top: 7%; 
-	padding: 0px 10px;
-	width: 60%;
-	height: auto;
-    border: 1px solid rgb(120,120,120);
+#latestTitle {
+    text-align: center;
+}
+
+#latest_ten_cont {
+    clear: both;
+    margin: auto;
+    margin-top: 2%;
+    padding: 0px 10px;
+    width: 60%;
+    height: auto;
+    background: rgb(210, 210, 210);
+    border: 1px solid rgb(120, 120, 120);
     -moz-border-radius: 10px;
-	-webkit-border-radius: 10px;
-	border-radius: 10px;
-    
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
 }
 
-.gtitles
-{
-	float: right;
+#latest_ten {
+    font: 18px Georgia, "Times New Roman", Times, serif;
 }
 
+.gtitles {
+    float: right;
+}
