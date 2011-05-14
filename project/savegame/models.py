@@ -104,7 +104,7 @@ VOTE_CHOICES = (('upvote', 'upvote'), ('downvote', 'downvote'))
 class UploadedGameVote(models.Model):
     user = models.ForeignKey(User)
     game = models.ForeignKey(Game)
-    vote = models.CharField(choices = VOTE_CHOICES, max_length = max_length)
+    vote = models.CharField(choices=VOTE_CHOICES, max_length=max_length)
 
     def __unicode__(self):
         return u'%s' % self.user
@@ -112,6 +112,7 @@ class UploadedGameVote(models.Model):
     class Meta:
         verbose_name = 'UploadedGameVote'
         verbose_name_plural = 'UploadedGameVotes'
+
 
 class Comments(models.Model):
     uploadedgame = models.ForeignKey(UploadedGame)

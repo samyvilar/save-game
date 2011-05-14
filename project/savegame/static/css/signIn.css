@@ -1,4 +1,5 @@
 #logInMessage {
+    padding-top: 5%;
     text-align: center;
     color: red;
     font-weight: bold;
@@ -78,3 +79,4 @@ form#signInForm button {
 form#signInForm button:hover {
     background: rgb(210, 210, 210);
     cursor: pointer;
+}

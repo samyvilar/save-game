@@ -6,7 +6,7 @@
 {% get_static_prefix as STATIC_PREFIX %}
 {% block css %}
     <link rel='stylesheet' href="{{ STATIC_PREFIX }}css/upload.css" type='text/css'/>
-    <link rel='stylesheet' href ="{{ STATIC_PREFIX }}ajax_select/css/ajax-selects.css" type='text/css' media="all"/>
+    <link rel='stylesheet' href="{{ STATIC_PREFIX }}ajax_select/css/ajax-selects.css" type='text/css' media="all"/>
     <link rel='stylesheet' href="{{ STATIC_PREFIX }}ajax_select/css/autocomplete.css" type='text/css' media="all"/>
 {% endblock %}
 
@@ -37,7 +37,7 @@
                         {{ uploadForm.non_field_errors }}
                     </div>
                     <div id='game'>
-                        <label for='id_game'><span
+                        <label id = "gameLabel" for='id_game'><span
                                 class='fieldnames'>Associated Game: </span></label>
                         {{ uploadForm.game }} {{ uploadForm.game.errors }}
                     </div>
@@ -46,25 +46,30 @@
                                 class='fieldnames'>Associated Platform: </span></label>
                         {{ uploadForm.platform }} {{ uploadForm.platform.errors }}
                     </div>
+                    <br/>
                     <div id='file'>
-                        <label for='id_file'><span
+                        <label id="fileLabel" for='id_file'><span
                                 class='fieldnames'>Saved Game File: </span></label>
                         {{ uploadForm.file }} {{ uploadForm.file.errors }}
                     </div>
+                    <br/>
                     <div id='title'>
-                        <label for='id_title'><span class='fieldnames'>Title for this save: </span></label>
+                        <label id="titleLabel" for='id_title'><span class='fieldnames'>Title for this save: </span></label>
                         {{ uploadForm.title }} {{ uploadForm.title.errors }}
                     </div>
+                    <br/>
                     <div id='description'>
-                        <label for='id_description'><span class='fieldnames'>Description for this save: </span></label>
+                        <label id="descriptionLabel" for='id_description'><span class='fieldnames'>Description for this save: </span></label>
                         {{ uploadForm.description }} {{ uploadForm.description.errors }}
                     </div>
+                    <br/>
                     <div id='private'>
                         <label for='id_private'><span
                                 class='fieldnames'>Make this save private? </span></label>
                         {{ uploadForm.private }} {{ uploadForm.private.errors }}
                     </div>
                 </div>
+                <br/>
                 <input id='upload_submit' type='submit' value='Upload'/>
             </form>
         </div>

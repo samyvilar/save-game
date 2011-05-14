@@ -16,12 +16,11 @@ class RegForm(forms.Form):
             User.objects.get(username=entry) #using get because username should be unique
         except User.DoesNotExist:
             if entry == "None":
-            	raise forms.ValidationError("You cannot use that reserved username!")
+                raise forms.ValidationError("You cannot use that reserved username!")
             else:
-            	pass
+                pass
         else:
             raise forms.ValidationError("That username already exists!")
-
 
         return entry
 

@@ -1,4 +1,62 @@
+#formwrapper {
+    padding-top: 5%;
+    padding-left: 35%;
+}
+
+form#upload_page {
+    background: gray;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    padding-left: 8%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    width: 470px;
+}
+
+label {
+    font: 18px Georgia, "Times New Roman", Times, serif;
+}
+
+#gameLabel {
+    padding-right: 5%;
+}
+
+#fileLabel {
+    padding-right: 6%;
+}
+
+#titleLabel {
+    padding-right: 5.5%;
+}
+
+#descriptionLabel {
+    vertical-align: middle;
+}
+
+#upload_submit {
+    background: rgb(210, 210, 210);
+    border: none;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -khtml-border-radius: 20px;
+    border-radius: 20px;
+    color: black;
+    display: block;
+    font: 18px Georgia, "Times New Roman", Times, serif;
+    letter-spacing: 1px;
+    margin-left: 25%;
+    text-shadow: 0 1px 1px #000000;
+    text-transform: uppercase;
+}
+
+#upload_submit:hover {
+    background: rgb(230, 230, 230);
+    cursor: pointer;
+}
+
 #accessDenied {
+    padding-top: 5%;
     text-align: center;
     color: red;
     font-weight: bold;
