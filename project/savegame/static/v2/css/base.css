@@ -124,8 +124,9 @@ body
 
 #footer
 {    
-    width: 100%;
+    width: 80%;
     margin-left: 5%;
+    float: left;
     border-top: 1px solid black;
     text-indent: 10px;
     padding-top: 10px;
@@ -135,6 +136,7 @@ body
      font-size: 13px;
      font-family: Lucida Sans;
     
+
 }
 
 #footer_links
