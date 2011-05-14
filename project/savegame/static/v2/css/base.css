@@ -124,9 +124,9 @@ body
 
 #footer
 {    
-    width: 80%;
+    width: 90%;
     margin-left: 5%;
-    float: left;
+    margin-right: 5%;
     border-top: 1px solid black;
     text-indent: 10px;
     padding-top: 10px;
