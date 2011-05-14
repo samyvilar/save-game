@@ -112,7 +112,7 @@ def platform(request):
 	pid = int(request.GET.get('p', '1'))
 	pgames = Game.objects.filter(platform__id=pid).order_by('title')
 	plat = Platform.objects.get(id=pid)
-	pgr = Paginator(pgames, 25)
+	pgr = Paginator(pgames, 24)
 	tpages = pgr.num_pages
 	try:
 		pg = int(request.GET.get('page', '1'))
@@ -136,7 +136,7 @@ def genre(request):
 	gid = int(request.GET.get('g', '1'))
 	ggames = Game.objects.filter(genre__id=gid).order_by('title')
 	gen = Genre.objects.get(id=gid)
-	pgr = Paginator(ggames, 25)
+	pgr = Paginator(ggames, 24)
 	tpages = pgr.num_pages
 	try:
 		pg = int(request.GET.get('page', '1'))
