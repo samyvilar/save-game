@@ -8,11 +8,14 @@
     <link rel='stylesheet' href='{{ STATIC_PREFIX }}css/infopage.css' type='text/css' />
 {% endblock %}
 
-{% block content %} 
+{% block content %}
 <div id='infowrap'>
-	<span id = 'platform'> {{ platform }} : </span>
-	<span id = 'game'> {{ name }} </span>
-
+    <div id="infoTitle">
+        Saved games for
+        <span id = 'game'>{{ name }}</span>
+        on the
+        <span id = 'platform'> {{ platform }}:</span>
+    </div>
 	<ul>
 	{% for m in games %}
 		<li>
