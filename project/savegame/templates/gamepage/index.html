@@ -14,6 +14,7 @@
 function getUploadedFileData(data){
     data = eval( '(' + data + ')' );  // Interpret string as json object.  Very unsafe, but does the job :)
     
+    $("#data_title").html(data['data_title']);    
     $("#download_link").attr("href", data['download_link']); /* Set the attribute dynamically */
     $("#uploader").html(data['uploader']);
     $("#date").html(data['date']);

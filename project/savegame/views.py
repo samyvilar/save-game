@@ -305,6 +305,7 @@ def getUploadedFileData(request):
     game = UploadedGame.objects.get(id=uploaded_id)
     info['upvotes'] = str(game.upvote)
     info['downvotes'] = str(game.downvote)
+    info['data_title'] = str(game.title)    
     # Adding voting enforcing mechanism
     cur_user = request.GET['cur_user']
     if cur_user != "None":
