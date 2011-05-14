@@ -7,28 +7,30 @@
 {% block css %} <link rel='stylesheet' href="{{ STATIC_PREFIX }}css/mainpage.css" type='text/css' /> {% endblock %}
 {% block js %} <script src="{{ STATIC_PREFIX }}js/mainpage.js"></script> {% endblock %}
 
-{% block content %} 
+{% block content %}
 
     <div id='mainpage_container'>
 
         <!--
         <form id = 'search_form' method = "GET" action = "/results/">
-        	<input id = 'search_bar' name = 'search' type = 'text' value = 'Search' onFocus = 'value=""' 
+        	<input id = 'search_bar' name = 'search' type = 'text' value = 'Search' onFocus = 'value=""'
 				onBlur= "if (value == ''){value='Search'}"/>
             <input id = 'search' type = 'submit' value = 'Go!'/>
         </form>
         -->
     	<br/>
     	<div id='latest_ten'>
-    		<div id = 'latest_ten_cont'>
+            <div id="latestTitle">
                 <h2>Latest Uploads</h2>
+            </div>
+            <div id = 'latest_ten_cont'>
 				{% if latest_ten %}
 					<ol>
 					{% for upload in latest_ten %}
 						<li>
 							<a href = '/gamepage/?uploaded_game_id={{ upload.id }}'>{{upload.title}}</a>
 							<span class = 'gtitles'> {{upload.game.title}} </span>
-						</li> 
+						</li>
 						<br />
 					{% endfor %}
 					</ol>
