@@ -1,24 +1,46 @@
-#genrewrap
-{
-	width: 95%;
-	margin: auto;
-}
-#genre
-{
-	font-size: 30px;
+#page-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
-.game
-{
-	margin: auto;
+#genrewrap {
+    padding-top: 2%;
+    width: 95%;
+    margin: auto;
+    font: 15px Georgia, "Times New Roman", Times, serif;
 }
 
-.text 
-{
-	font-size: 20px;
+#genre {
+    font-size: 30px;
 }
 
-#paginator
-{
-	font-size: 20px;
+.game {
+    float: left;
+    height: 30%;
+    width: 21%;
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
+.text {
+    font-size: 20px;
+}
+
+#paginator {
+    text-align: center;
+    float: left;
+    width: 100%;
+    font-size: 20px;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    background: rgb(210, 210, 210);
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+}
+
+#footer {
+    float: left;
 }
