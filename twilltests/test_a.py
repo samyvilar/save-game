@@ -4,7 +4,7 @@ from twill.commands import *
 import os
 from shutil import copy
 
-class TestASar(unittest.TestCase):
+class Test_AS(unittest.TestCase):
     def setUp(self):
         #True if dev, False if dep. Change this alone to test on the other page
         #If on dep, need to go to django admin and delete test_reg_user1,2,3 after
@@ -23,6 +23,10 @@ class TestASar(unittest.TestCase):
     def test_form_on_page_up(self):
         self.b.go(self.pg)
         assert(self.b.result.get_page().find('form')>0)
+        
+    def test_latest_uploads(self):
+        self.b.go(self.pg)
+        assert(self.b.result.get_page().find('Nothing was uploaded so far') == -1   )
         
     def test_registration(self):
         ul = ["test_reg_user1", "test_reg_user2", "test_reg_user3"]
@@ -66,7 +70,7 @@ class TestASar(unittest.TestCase):
             fv("search_form", "search", sl[i])
             submit()
             sleep()
-            assert(self.b.result.get_page().find(rl[i]) > 0)
+            assert(self.b.result.get_page().find(rl[i]) > 0)    
 	
     def tearDown(self):
         if (self.cur):
