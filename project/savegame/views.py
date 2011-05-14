@@ -153,7 +153,7 @@ def genre(request):
     	pglst = [str(i) for i in range(fpg, lpg + 1)]
 	ggames = pgr.page(pg)
 	t = loader.get_template('infopage/genre.html')
-	c = Context({'genre': gen.name, 'gid' : gid, 'games': ggames,  'page_list': pglst, 'ellipses1': e1, 'ellipses2': e2})
+	c = RequestContext(request, {'genre': gen.name, 'gid' : gid, 'games': ggames,  'page_list': pglst, 'ellipses1': e1, 'ellipses2': e2})
 	return HttpResponse(t.render(c))
 
 def results(request):
