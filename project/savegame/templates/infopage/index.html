@@ -8,46 +8,45 @@
     <link rel='stylesheet' href='{{ STATIC_PREFIX }}css/infopage.css' type='text/css' />
 {% endblock %}
 
-{% block content %} 
+{% block content %}
 <div id='infowrap'>
-	<span id = 'platform'> 
-		<a href="/platform/?p={{ game.platform.id }}">{{ game.platform.name }}</a> : 
+	<span id = 'platform'>
+		<a href="/platform/?p={{ game.platform.id }}">{{ game.platform.name }}</a> :
 	</span>
-	<span id = 'genre'> 
+	<span id = 'genre'>
 		<a href="/genre/?g={{ game.genre.id }}">{{ game.genre.name }}</a> :
 	</span>
-	<span id = 'game'> 
-		{{ game.title }} 
+	<span id = 'game'>
+		{{ game.title }}
 	</span>
 	<br /> <br />
-	<span id = 'scover'> 
-		<img src = "{{ game.smallcover }}" /> 
+	<span id = 'scover'>
+		<img src = "{{ game.smallcover }}" />
 	</span>
-	<br /> <br /> 
-	<span id = 'description'> 
-		{{ game.description }} 
+	<br />
+	<span id = 'description'>
+		{{ game.description }}
 	</span>
 	<br /> <br />
-	<div class = 'savegame'>	
-		<span id = 'tag'> 
-			All Save Files uploaded for {{ game.title }}:  
-		</span>
+	<span id = 'tag'>
+		Saved games for the {{ game.platform }} version of {{ game.title }}:
+	</span>
 		<br /> <br />
+    <div class = 'savegame'>
 		<ul>
 		{% for m in sgames %}
 			<li>
-				<span class = 'title'> <a href ="/gamepage/?uploaded_game_id={{ m.id }}">{{ m.title}}</a></span>
-				<span class = 'votes'> Upvotes: {{ m.upvote }} </span>
-				<br />
-				<span class = 'votes'> Downvotes: {{ m.downvote }} </span>
+                <div class = "eachGame">
+                    <span class = 'title'> <a href ="/gamepage/?uploaded_game_id={{ m.id }}">{{ m.title}}</a></span>
+                    <span class = 'votes'> Upvotes: {{ m.upvote }} </span>
+                    <br />
+                    <span class = 'votes'> Downvotes: {{ m.downvote }} </span>
+                </div>
 				<br /> <br />
 			</li>
 		{% endfor %}
+
 		</ul>
 	</div>
 </div>
 {% endblock %}
-
-
-
-

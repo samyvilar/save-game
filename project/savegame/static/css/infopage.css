@@ -5,15 +5,28 @@
     font: 15px Georgia, "Times New Roman", Times, serif;
 }
 
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 li {
     list-style-type: none;
 }
 
-#platform
+#description {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+#tag {
     font-size: 30px;
 }
 
-.savegame {
+.eachGame {
     margin: auto;
     width: 70%;
     font-size: 20px;
