@@ -8,27 +8,43 @@
     <link rel='stylesheet' href='{{ STATIC_PREFIX }}css/infopage.css' type='text/css' />
 {% endblock %}
 
-{% block content %}
+{% block content %} 
 <div id='infowrap'>
-    <div id="infoTitle">
-        Saved games for
-        <span id = 'game'>{{ name }}</span>
-        on the
-        <span id = 'platform'> {{ platform }}:</span>
-    </div>
-	<ul>
-	{% for m in games %}
-		<li>
-			<div class = 'savegame'>
+	<span id = 'platform'> 
+		<a href="/platform/?p={{ game.platform.id }}">{{ game.platform.name }}</a> : 
+	</span>
+	<span id = 'genre'> 
+		<a href="/genre/?g={{ game.genre.id }}">{{ game.genre.name }}</a> :
+	</span>
+	<span id = 'game'> 
+		{{ game.title }} 
+	</span>
+	<br /> <br />
+	<span id = 'scover'> 
+		<img src = "{{ game.smallcover }}" /> 
+	</span>
+	<br /> <br /> 
+	<span id = 'description'> 
+		{{ game.description }} 
+	</span>
+	<br /> <br />
+	<div class = 'savegame'>	
+		<span id = 'tag'> 
+			All Save Files uploaded for {{ game.title }}:  
+		</span>
+		<br /> <br />
+		<ul>
+		{% for m in sgames %}
+			<li>
 				<span class = 'title'> <a href ="/gamepage/?uploaded_game_id={{ m.id }}">{{ m.title}}</a></span>
 				<span class = 'votes'> Upvotes: {{ m.upvote }} </span>
 				<br />
 				<span class = 'votes'> Downvotes: {{ m.downvote }} </span>
-			</div>
-			<br /> <br />
-		</li>
-	{% endfor %}
-	</ul>
+				<br /> <br />
+			</li>
+		{% endfor %}
+		</ul>
+	</div>
 </div>
 {% endblock %}
 

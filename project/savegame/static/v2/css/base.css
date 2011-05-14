@@ -112,9 +112,11 @@ body {
     height: auto;
 }
 
-#footer {
-    width: 90%;
+#footer
+{    
+    width: 80%;
     margin-left: 5%;
+    float: left;
     border-top: 1px solid black;
     text-indent: 10px;
     padding-top: 10px;

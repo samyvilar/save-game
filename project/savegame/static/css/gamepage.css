@@ -3,8 +3,6 @@
 
 #gameinfo{
     width: 80%;
-    float: center;
-    
     margin: auto;
 }
 
@@ -28,6 +26,21 @@
 
 .acomment {
 width: 100%; float: left;
+}
+
+#download_link {
+    width:60%; 
+    text-align: center; 
+    font-family: 'Sans Serif';
+    text-decoration: none;
+}
+
+#download_link:link {
+    color: rgb(100,100,150);
+} 
+
+#download_link:hover {
+    font-size: 37px;
 }
 
 #comment_area {
