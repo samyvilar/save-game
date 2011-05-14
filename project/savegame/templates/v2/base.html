@@ -100,6 +100,10 @@
                     <li><a href="/platform/?p=7">DS</a></li>
 				</ul>
 			</li>
+
+            {% if user.is_authenticated %}
+                <li><a href="">UPLOAD</a></li>
+            {% endif %}
 		</ul>        
         
          <script src="{{ STATIC_PREFIX }}js/mootools-core-1.3.2-full-compat.js" type="text/javascript" />
