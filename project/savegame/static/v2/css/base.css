@@ -3,8 +3,10 @@ root {
 }
 
 body {
-    margin: 0px; /*background: -webkit-gradient(linear, left 160, left bottom, from(#FFFFFF), to(#CCCCCC));*/
-    background-image: url('http://i.imgur.com/iKCTu.jpg');
+    margin: 0px;
+    background: -webkit-gradient(linear, left 160, left bottom, from(#FFFFFF), to(#CCCCCC));
+    background: -moz-linear-gradient(top, rgba(255, 255, 255, 0), rgba(204, 204, 204, 1));
+    /*background-image: url('http://i.imgur.com/iKCTu.jpg');*/
     background-repeat: no-repeat;
     background-size: 100%;
     background-attachment: fixed;
