@@ -8,16 +8,16 @@
     <link rel='stylesheet' href='{{ STATIC_PREFIX }}css/platformpage.css' type='text/css' />
 {% endblock %}
 
-{% block content %} 
+{% block content %}
 <div id='platformwrap'>
-	<span id = 'platform'> Browse all games for {{ platform }} </span>
+	<span id = 'platform'> Browse all games for the {{ platform }}:</span>
 	<br />	<br />
 	{% for m in games.object_list %}
 		<div class = 'game'>
-			<div class = 'img'> 
-				<img src="{{ m.smallcover }}" alt = "{{ m.title }} pic"/> 
+			<div class = 'img'>
+				<img src="{{ m.smallcover }}" alt = "{{ m.title }} pic"/>
 			</div>
-			<div class = 'text'> 
+			<div class = 'text'>
 				<a href ="/infopage/?game_id={{ m.id }}">{{ m.title}}</a>
 				<br />
 				Released: {{ m.release_date }}
@@ -34,14 +34,14 @@
 				<a href="/platform/?p={{ pid|escape }}&page={{ games.previous_page_number }}">Previous</a>
 			{% endif %}
 			{% if ellipses1 %}
-				 | <a href="/platform/?p={{ pid|escape }}&page=1">1</a> | ... 
+				 | <a href="/platform/?p={{ pid|escape }}&page=1">1</a> | ...
 			{% endif %}
 			{% for p in page_list %}
 				 | <a href="/platform/?p={{ pid|escape }}&page={{ p }}">{{ p }}</a> |
 			{% endfor %}
 			{% if ellipses2 %}
 				... | <a href="/platform/?p={{ pid|escape }}&page={{ games.paginator.num_pages }}"> {{ games.paginator.num_pages }}</a> |
-			{% endif %}			
+			{% endif %}
 			{% if games.has_next %}
 				<a href="/platform/?p={{ pid|escape }}&page={{ games.next_page_number }}">Next</a>
 			{% endif %}
