@@ -4,10 +4,11 @@ root {
 
 body {
     margin: 0px; /*background: -webkit-gradient(linear, left 160, left bottom, from(#FFFFFF), to(#CCCCCC));*/
-    background-image: url('http://i.imgur.com/iKCTu.jpg');
-    background-repeat: no-repeat;
-    background-size: 100%;
-    background-attachment: fixed;
+    background: url('http://i.imgur.com/iKCTu.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 
 #header {
@@ -89,7 +90,6 @@ body {
     background: -moz-linear-gradient(top, rgba(255, 255, 255, 0), rgba(204, 204, 204, 1));
     text-align: center;
     border-radius: 8px;
-
     padding-top: 7px;
 }
 
@@ -113,7 +113,7 @@ body {
 }
 
 #footer
-{    
+{
     width: 90%;
     margin-left: 5%;
     margin-right: 5%;
