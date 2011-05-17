@@ -197,14 +197,16 @@ def results(request):
 
 
 def is_production():
-    return os.path.isdir('/home5/bluemedi/public_html/save-game/static')
-
+    return os.path.isdir('/home5/bluemedi/public_html/save-game/static')                
 
 def delete_upload(request, user, profile, uploadsavegames, comments, owner):
     try:
-        upload = UploadedGame.objects.get(id = int(request.POST['upload_id']))        
-        if ('saved-file.bin' not in upload.file.name) and os.path.isfile(get_complete_path(upload.file.name[1:])):
-            os.remove(get_complete_path(upload.file.name[1:]))
+        upload = UploadedGame.objects.get(id = int(request.POST['upload_id']))
+        if is_production(): filepath = '/home5/bluemedi/public_html/save-game' + upload.file.name[1:]
+        else:               filepath = os.path.join(os.getcwd(), 'savegame' + upload.file.name[1:])
+        
+        if ('saved-file.bin' not in upload.file.name) and os.path.isfile(filepath):
+            os.remove(filepath)
         upload.delete()
         if request.is_ajax():
             return HttpResponse(simplejson.dumps({'upload_id':int(request.POST['upload_id'])}), mimetype='application/json')
