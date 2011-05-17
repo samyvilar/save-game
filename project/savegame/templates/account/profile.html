@@ -151,9 +151,9 @@
 
                 {% for upload in uploadsavegames %}
                 <tr id="{{upload.id}}">
-                    <td>{{ upload.title }}</td>
-                    <td><a href="">{{ upload.game }}</a></td>
-                    <td>{{ upload.platform }}</td>
+                    <td><a href="/gamepage/?uploaded_game_id={{upload.id}}">{{ upload.title }}</a></td>
+                    <td><a href="/infopage/?game_id={{upload.game.id}}">{{ upload.game }}</a></td>
+                    <td><a href="/platform/?p={{upload.platform.id}}">{{ upload.platform }}</a></td>
                     <td>{{ upload.datetime }}</td>
                     <td>{{ upload.description }}</td>
                     {% if owner %}
@@ -187,8 +187,8 @@
 
                     {% for comment in comments %}
                     <tr>
-                        <td>{{ comment.uploadedgame.title }}</td>
-                        <td><a href="">{{ comment.uploadedgame.game }}</a></td>
+                        <td><a href="/gamepage/?uploaded_game_id={{comment.uploadedgame.id}}">{{ comment.uploadedgame.title }}</a></td>
+                        <td><a href="/infopage/?game_id={{comment.uploadedgame.game.id}}">{{ comment.uploadedgame.game }}</a></td>
                         <td>{{ comment.datetime }}</td>
                         <td>{{ comment.comment }}</td>
                     </tr>
