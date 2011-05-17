@@ -112,7 +112,7 @@ def platform(request):
 	pid = int(request.GET.get('p', '1'))
 	pgames = Game.objects.filter(platform__id=pid).order_by('title')
 	plat = Platform.objects.get(id=pid)
-	pgr = Paginator(pgames, 25)
+	pgr = Paginator(pgames, 24)
 	tpages = pgr.num_pages
 	try:
 		pg = int(request.GET.get('page', '1'))
@@ -136,7 +136,7 @@ def genre(request):
 	gid = int(request.GET.get('g', '1'))
 	ggames = Game.objects.filter(genre__id=gid).order_by('title')
 	gen = Genre.objects.get(id=gid)
-	pgr = Paginator(ggames, 25)
+	pgr = Paginator(ggames, 24)
 	tpages = pgr.num_pages
 	try:
 		pg = int(request.GET.get('page', '1'))
@@ -196,6 +196,57 @@ def results(request):
     return HttpResponse(t.render(c))
 
 
+def is_production():
+    return os.path.isdir('/home5/bluemedi/public_html/save-game/static')
+
+
+def delete_upload(request, user, profile, uploadsavegames, comments, owner):
+    try:
+        upload = UploadedGame.objects.get(id = int(request.POST['upload_id']))        
+        if ('saved-file.bin' not in upload.file.name) and os.path.isfile(get_complete_path(upload.file.name[1:])):
+            os.remove(get_complete_path(upload.file.name[1:]))
+        upload.delete()
+        if request.is_ajax():
+            return HttpResponse(simplejson.dumps({'upload_id':int(request.POST['upload_id'])}), mimetype='application/json')
+        else:
+            uploadsavegames = UploadedGame.objects.filter(user = user)
+            context = {'user_object':user, 'profile':profile,'uploadsavegames':uploadsavegames,'comments':comments,'owner':owner}
+            return render_to_response('account/profile.html', context, context_instance=RequestContext(request))
+    except Exception as ex:
+        if request.is_ajax():
+            return HttpResponse(simplejson.dumps({'error':str(ex)}), mimetype='application/json')
+        else:
+            return HttpResponse("There was an exception deleting an upload with the id "  + request.POST['upload_id'] + " error: " + str(ex))
+
+
+def update_upload_private(request):
+    try:
+        upload = UploadedGame.objects.get(id = int(request.POST['upload_private_id']))
+        if request.POST['upload_private_value'] == 'true':
+            upload.private = True
+        elif request.POST['upload_private_value'] == 'false':
+            upload.private = False
+        else:
+            return HttpResponse("I was expecting either true or false not " + str(request.POST['upload_private_value']))
+        upload.save()
+        if request.is_ajax():
+            return HttpResponse(simplejson.dumps({'upload_private_id':int(request.POST['upload_private_id']),'upload_private':upload.private}), mimetype='application/json')
+        else:
+            uploadsavegames = UploadedGame.objects.filter(user = user)
+            context = {'user_object':user, 'profile':profile,'uploadsavegames':uploadsavegames,'comments':comments,'owner':owner}
+            return render_to_response('account/profile.html', context, context_instance=RequestContext(request))
+    except:
+        if request.is_ajax():
+            return HttpResponse(simplejson.dumps({'error':str(ex)}), mimetype='application/json')
+        else:
+            return HttpResponse("There was an exception updating an upload private field with the id "  + request.POST['upload_private_id'] + " error: " + str(ex))
+
+
+def get_complete_path(filename):    
+    if is_production(): return os.path.join('/home5/bluemedi/public_html/save-game', filename)
+    else:               return os.path.join(os.getcwd(), 'savegame/' + filename)
+
+
 def profile(request, user_id=None):
     if user_id == None or User.objects.filter(pk=user_id).count() == 0:
         return redirect('/invalid_user_id/') # if supplied an invalid user id
@@ -207,45 +258,8 @@ def profile(request, user_id=None):
         owner           = True
 
         if request.method == "POST":
-            if 'upload_id' in request.POST:
-                try:
-                    upload = UploadedGame.objects.get(id = int(request.POST['upload_id']))
-                    if (not 'saved-file.bin' in upload.file.name) and os.path.isfile(os.getcwd() + '/savegame/' + upload.file.name[1:]):
-                        os.remove(os.getcwd() + '/savegame/' + upload.file.name[1:])
-                    upload.delete()
-                    if request.is_ajax():
-                        return HttpResponse(simplejson.dumps({'upload_id':int(request.POST['upload_id'])}), mimetype='application/json')
-                    else:
-                        uploadsavegames = UploadedGame.objects.filter(user = user)
-                        context = {'user_object':user, 'profile':profile,'uploadsavegames':uploadsavegames,'comments':comments,'owner':owner}
-                        return render_to_response('account/profile.html', context, context_instance=RequestContext(request))
-                except Exception as ex:
-                    if request.is_ajax():
-                        return HttpResponse(simplejson.dumps({'error':str(ex)}), mimetype='application/json')
-                    else:
-                        return HttpResponse("There was an exception deleting an upload with the id "  + request.POST['upload_id'] + " error: " + str(ex))
-            elif 'upload_private_id' in request.POST:
-                try:
-                    upload = UploadedGame.objects.get(id = int(request.POST['upload_private_id']))
-                    if request.POST['upload_private_value'] == 'true':
-                        upload.private = True
-                    elif request.POST['upload_private_value'] == 'false':
-                        upload.private = False
-                    else:
-                        return HttpResponse("I was expecting either true or false not " + str(request.POST['upload_private_value']))
-                    upload.save()
-                    if request.is_ajax():
-                        return HttpResponse(simplejson.dumps({'upload_private_id':int(request.POST['upload_private_id']),'upload_private':upload.private}), mimetype='application/json')
-                    else:
-                        uploadsavegames = UploadedGame.objects.filter(user = user)
-                        context = {'user_object':user, 'profile':profile,'uploadsavegames':uploadsavegames,'comments':comments,'owner':owner}
-                        return render_to_response('account/profile.html', context, context_instance=RequestContext(request))
-                except:
-                    if request.is_ajax():
-                        return HttpResponse(simplejson.dumps({'error':str(ex)}), mimetype='application/json')
-                    else:
-                        return HttpResponse("There was an exception updating an upload private field with the id "  + request.POST['upload_private_id'] + " error: " + str(ex))
-
+            if 'upload_id' in request.POST:           return delete_upload(request, user, profile, uploadsavegames, comments, owner)
+            elif 'upload_private_id' in request.POST: return update_upload_private(request)                
 
             user.first_name     = request.POST['first_name']
             user.last_name      = request.POST['last_name']
@@ -259,11 +273,12 @@ def profile(request, user_id=None):
                 file = request.FILES['avatar']
                 try:
                     if os.path.basename(profile.avatar.name) != 'facebook_non_male.gif' and os.path.basename(profile.avatar.name) != 'facebook_non_female.gif':
-                        os.remove(os.getcwd() + '/savegame/' + profile.avatar.name)
+                        os.remove(get_complete_path(profile.avatar.name))
                 except Exception:
                     pass
                 filename = 'static/images/' + getRandomString() + '.' + file.name.split('.')[-1:][0]
-                destination = open('savegame/' + filename, 'wb')
+                print get_complete_path(filename)
+                destination = open(get_complete_path(filename), 'wb')
                 for chunk in file.chunks():
                     destination.write(chunk)
                 destination.close()
@@ -305,6 +320,7 @@ def getUploadedFileData(request):
     game = UploadedGame.objects.get(id=uploaded_id)
     info['upvotes'] = str(game.upvote)
     info['downvotes'] = str(game.downvote)
+    info['data_title'] = str(game.title)    
     # Adding voting enforcing mechanism
     cur_user = request.GET['cur_user']
     if cur_user != "None":

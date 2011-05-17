@@ -7,9 +7,7 @@
     {% get_static_prefix as STATIC_PREFIX %}
 
     <link rel='stylesheet' href="{{ STATIC_PREFIX }}v2/css/base.css" type='text/css' />
-
-    <link rel="stylesheet" href="{{ STATIC_PREFIX }}css/MenuMatic.css" type="text/css">
-    <!--link rel="stylesheet" href="http://greengeckodesign.com/projects/MenuMatic/examples/horizontal/css/MenuMatic.css" media="screen" charset="utf-8" /-->
+    <link rel="stylesheet" href="{{ STATIC_PREFIX }}css/MenuMatic.css" type="text/css">    
 
     <script src="{{ STATIC_PREFIX }}js/jquery-1.5.1.min.js"></script>
     <script src="{{ STATIC_PREFIX }}js/jquery-ui-1.8.11.custom.min.js"></script>
@@ -47,19 +45,50 @@
       <div id="header">
           <a href='/'> <img id="logo" src="{{ STATIC_PREFIX }}images/logo.png" border="0px"/> </a>
           <a id='logo_title_link' href='/'> <div id="logo_title">SAVE-GAME</div> </a>
-
+                        
           <div id="search_div">
               <form id = 'search_form' method = "GET" action = "/results/">
-                <input id="search_text" name="search" type = 'text' value = 'Search' onFocus = 'value=""' onBlur= "if (value == ''){value='Search'}"/>
-                <input id="search_button" type = 'submit' value='Search'/>
-              </form>
-          </div>
+                <input id="search_text" name="search" type = 'text' value = 'Search' onFocus = 'value=""' onBlur= "if (value == ''){value='Search'}" style="float: left"/>
+                <input id="search_button" type = 'submit' value='Search' style="float: left"/>
+
+                <div style="width: 20px; float: left">&nbsp;</div>
+                <ul id="nav">
+                    <li><a href="#">GENRES</a>
+                        <ul>
+                            <li><a href="/genre/?g=3">ACTION</a></li>
+                            <li><a href="/genre/?g=25">ADVENTURE</a></li>
+                            <li><a href="/genre/?g=1">PUZZLE</a></li>
+                            <li><a href="/genre/?g=59">STRATEGY</a></li>
+                            <li><a href="/genre/?g=114">SPORTS</a></li>
+                            <li><a href="/genre/?g=7">ROLE-PLAYING</a></li>
+                            <li><a href="/genre/?g=67">SHOOT-'EM-UP</a></li>
+                            <li><a href="/genre/?g=47">2D-PLATFORMERS</a></li>
+                            <li><a href="/genre/?g=12">RACING</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a href="#">PLATFORMS</a>
+                        <ul>
+                            <li><a href="/platform/?p=1">PC</a></li>
+                            <li><a href="/platform/?p=2">XBOX 360</a></li>
+                            <li><a href="/platform/?p=3">Wii</a></li>
+                            <li><a href="/platform/?p=4">PS3</a></li>
+                            <li><a href="/platform/?p=5">PSP</a></li>
+                            <li><a href="/platform/?p=6">3DS</a></li>
+                            <li><a href="/platform/?p=7">DS</a></li>
+                        </ul>
+                    </li>
+
+                    {% if user.is_authenticated %} <li><a href="/upload/">UPLOAD</a></li> {% endif %}
+                </ul>
+              </form>                            
+          </div>                                                 
 
           {% if user.is_authenticated %}
             <div id="logged_in">
                 <div id="user_panel">
-                    Welcome, <a href="/profile/{{ user.id }}" style="color: white;">{{ user.get_full_name }}</a>
-                    <input type="button" value="Sign Out" onclick="window.location='/signOut/'" class="login_button" style="width: 70px;"/>                    
+                    Welcome, <a href="/profile/{{ user.id }}" style="color: white;">{{ user.get_full_name }}</a>                    
+                    <input type="button" value="Sign Out" onclick="window.location='/signOut/'" class="login_button" style="width: 70px;"/>                                       
                 </div>
          {% else %}
           <div id="login">
@@ -73,39 +102,7 @@
               </div>
          {% endif %}
           </div>
-
-          <ul id="nav">
-			<li><a href="#">GENRES</a>
-				<ul>
-					<li><a href="/genre/?g=3">ACTION</a></li>
-					<li><a href="/genre/?g=25">ADVENTURE</a></li>
-                    <li><a href="/genre/?g=1">PUZZLE</a></li>
-                    <li><a href="/genre/?g=59">STRATEGY</a></li>
-                    <li><a href="/genre/?g=114">SPORTS</a></li>
-                    <li><a href="/genre/?g=7">ROLE-PLAYING</a></li>
-                    <li><a href="/genre/?g=67">SHOOT-'EM-UP</a></li>
-                    <li><a href="/genre/?g=47">2D-PLATFORMERS</a></li>
-                    <li><a href="/genre/?g=12">RACING</a></li>
-				</ul>
-			</li>
-
-			<li><a href="#">PLATFORMS</a>
-				<ul>
-                    <li><a href="/platform/?p=1">PC</a></li>
-                    <li><a href="/platform/?p=2">XBOX 360</a></li>
-                    <li><a href="/platform/?p=3">Wii</a></li>
-                    <li><a href="/platform/?p=4">PS3</a></li>
-                    <li><a href="/platform/?p=5">PSP</a></li>
-                    <li><a href="/platform/?p=6">3DS</a></li>
-                    <li><a href="/platform/?p=7">DS</a></li>
-				</ul>
-			</li>
-            
-            {% if user.is_authenticated %}
-                <li><a href="/upload/">UPLOAD</a></li>
-            {% endif %}
-		</ul>        
-                         
+         
 	<!-- Load the MenuMatic Class -->
 	<script src="{{ STATIC_PREFIX }}js/MenuMatic_0.68.3-source.js" type="text/javascript" />
 
