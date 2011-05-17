@@ -539,3 +539,6 @@ def upload(request):
         uploadTemplate = loader.get_template('account/upload.html')
         uploadContext = RequestContext(request, {'accessDenied': "You must be logged in to see this page."})
         return HttpResponse(uploadTemplate.render(uploadContext))
+
+def contactus(request):
+    return render_to_response('contactus.html', {} ,context_instance = RequestContext(request))

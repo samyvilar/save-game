@@ -4,6 +4,7 @@
     width: 900px;
     border-radius: 8px;
     margin-top: 50px;
+    position: static;
 }
 
 .panel-grid-container caption

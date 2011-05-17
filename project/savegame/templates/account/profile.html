@@ -136,6 +136,7 @@
             Numb Comments: {{ comments|length }}<br />
         </div>
 
+    <table><tr><td>
         <table id="upload_tbl" class="panel-grid-container" cellspacing="0">
             <caption>My Uploads</caption>
             <thead><th>Title</th><th>Game</th><th>Platform</th><th>Date</th><th>Comment</th>
@@ -175,7 +176,7 @@
                 {% endfor %}
             {% endif %}
             </tbody>
-        </table>
+        </table></td></tr><tr><td>
 
         <table class="panel-grid-container" cellspacing="0">
             <caption>My Comments</caption>
@@ -196,6 +197,5 @@
 
                 {% endif %}
             </tbody>
-        </table>
-
+        </table></td></td></table>    
 {% endblock %}

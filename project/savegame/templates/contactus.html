@@ -1,0 +1,25 @@
+{% extends "v2/base.html" %}
+
+{% block title %} Profile {% endblock %}
+
+{% block css %}
+    {% load static %}
+    {% get_static_prefix as STATIC_PREFIX %}
+{% endblock %}
+
+{% block content %}
+<center>
+    <div style="margin-top: 30px">
+        Thank you for trying to contact us, please keep the message small and simple,
+        we will try to respond as soon as possible.
+        <form action="" method="">
+            <table>
+                <tr><td>Name</td><td><input type="text" name="name" /></td></tr>
+                <tr><td>Email</td><td><input type="text" name="email" /></td></tr>
+                <tr><td>Message</td><td><textarea name="message" cols="40" rows="12"></textarea></td></tr>
+                <tr><td></td><td><input type="submit" value="Send" /></td>
+            </table>
+        </form>
+    </div>
+</center>
+{% endblock %}

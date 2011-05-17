@@ -25,7 +25,7 @@
               if (field.value == '')
               {
                   if (fieldname == 'username')
-                      field.value = "Username (email)";
+                      field.value = "Username";
                   else if (fieldname == 'password')
                       field.value = 'Password';
               }
@@ -34,7 +34,7 @@
 
           function clearField(field, fieldname)
           {
-              if (fieldname == 'username' && field.value == "Username (email)")
+              if (fieldname == 'username' && field.value == "Username")
                   field.value = ""
               else if (fieldname == 'password' && field.value == "Password")
                   field.value = ""
@@ -94,7 +94,7 @@
           <div id="login">
               <div id="login_panel">
                   <form action="/signIn/" method="post">
-                      <input onclick="clearField(this, 'username')" onblur="checkTextField(this, 'username')" type="text"    value="Username (email)" name="username" class="login_textfield" />
+                      <input onclick="clearField(this, 'username')" onblur="checkTextField(this, 'username')" type="text"    value="Username" name="username" class="login_textfield" />
                       <input onclick="clearField(this, 'password')" onblur="checkTextField(this, 'password')" type="password" value="Password" name="password" class="login_textfield" />
                       <input type="submit" value="Login" class="login_button"/>
                       <input type="button" value="Register" class="login_button" onclick="window.location='/registration/'"/>
